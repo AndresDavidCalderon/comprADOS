@@ -1,0 +1,245 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #7a2d4f 0%, #5a1f3d 100%);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Logo */
+.logo-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.logo-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.logo-icon {
+  font-size: 1.5rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.logo-text {
+  color: #ffd700;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Categories */
+.categories {
+  display: flex;
+  gap: 3rem;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.categories a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  padding: 0.5rem 1rem;
+}
+
+.categories a::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+  transform: translateX(-50%);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+.categories a:hover {
+  color: #ffd700;
+  transform: translateY(-2px);
+}
+
+.categories a:hover::before {
+  width: 80%;
+}
+
+/* Nav Icons */
+.nav-icons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.icon-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 215, 0, 0.3);
+  cursor: pointer;
+  color: #ffffff;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 40px;
+  height: 40px;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #ffd700;
+  color: #ffd700;
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+.icon-btn svg {
+  width: 24px;
+  height: 24px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Cart Badge */
+.icon-btn.cart {
+  position: relative;
+}
+
+.icon-btn.cart::after {
+  content: '0';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #7a2d4f;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+  border: 2px solid #5a1f3d;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .navbar-container {
+    gap: 1rem;
+  }
+
+  .categories {
+    gap: 1.5rem;
+  }
+
+  .categories a {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .nav-icons {
+    gap: 1rem;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0.5rem;
+  }
+
+  .icon-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.75rem;
+  }
+
+  .navbar-container {
+    gap: 0.5rem;
+    justify-content: space-between;
+  }
+
+  .categories {
+    gap: 1rem;
+    flex: 0;
+  }
+
+  .categories a {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .categories a::before {
+    bottom: -3px;
+  }
+
+  .nav-icons {
+    gap: 0.5rem;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-width: 1px;
+  }
+
+  .icon-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
