@@ -19,7 +19,7 @@ export default function AdvertsManager() {
                 style={{
                     height: "80%",
                 }}
-                src="/images/square_placeholder.jpeg"
+                src="@src/assets/square_placeholder.jpeg"
                 alt="Collar para hombre" />
         </div>
     </div>

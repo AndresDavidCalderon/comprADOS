@@ -19,6 +19,7 @@ export default function Navbar({ onLoginClick, onNavigate }) {
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('collares') }}>Collares</a>
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('manillas') }}>Manillas</a>
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('aretes') }}>Aretes</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('adverts') }}>Anuncios</a>
         </div>
 
         <div className="nav-icons">
