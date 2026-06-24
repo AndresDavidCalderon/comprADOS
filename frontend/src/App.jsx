@@ -5,7 +5,7 @@ import Manillas from './components/manillas/Manillas'
 import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
-import AdvertsManager from './AdvertsManager'
+import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
 
 function App() {

@@ -1,27 +1,36 @@
+import { useState } from "react"
+import square_placeholder from "../../assets/square_placeholder.jpeg"
+import "./AdvertsManager.css"
+import CreateAdvert from "./CreateAdvert";
 export default function AdvertsManager() {
-    return(
-    <div>
-        <h1>Anuncios</h1>
-        <h2>Visibles</h2>
-        <div className="advert-internal-card"
-            style={{
-                display: 'flex',
-                flexDirection:'column',
-                justifyContent: 'left',
-                position: 'relative',
-                width: "100%",
-                height: "20vh",
-                border: "1px solid var(--accent-border)",
-            }}
-        >
-            <h3 style={{ margin: 10, textAlign: 'left' }}>Collar para hombre</h3>
-            <img 
-                style={{
-                    height: "80%",
-                }}
-                src="@src/assets/square_placeholder.jpeg"
-                alt="Collar para hombre" />
-        </div>
-    </div>
-    )
+    const [currentPage, setCurrentPage] = useState('list')
+    switch (currentPage) {
+        case 'list':
+            return (
+                <div>
+                    <h1>Anuncios</h1>
+                    <button onClick={() => setCurrentPage('create')}>Publicar nuevo anuncio</button>
+                    <h2>Visibles</h2>
+                    <div className="advert-list">
+                        <div className="advert-internal-card">
+                            <h3 className="advert-title">Collar para hombre</h3>
+                            <img
+                                className="advert-image"
+                                src={square_placeholder}
+                                alt="Collar para hombre" />
+                        </div>
+                    </div>
+                    <h2>Ocultos</h2>
+                </div>
+                )
+        case 'create':
+            return (
+                <div>
+                    <button onClick={() => setCurrentPage('list')}>Volver a la lista</button>
+                    <CreateAdvert />
+                </div>
+            )
+        default:
+            return null
+    }
 }
