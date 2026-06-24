@@ -5,6 +5,8 @@ import Manillas from './components/manillas/Manillas'
 import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
+import TopBar from './TopBar'
+import AdvertsManager from './AdvertsManager'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
