@@ -5,8 +5,8 @@ import Manillas from './components/manillas/Manillas'
 import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
-import TopBar from './TopBar'
-import AdvertsManager from './AdvertsManager'
+import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
+import AuthContext from './context/AuthContext'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -20,6 +20,8 @@ function App() {
         return <Manillas />
       case 'aretes':
         return <Aretes />
+      case 'adverts':
+        return <AdvertsManager />
       default:
         return (
           <section className="home">
@@ -36,14 +38,14 @@ function App() {
   }
 
   return (
-    <>
-      <Navbar 
-        onLoginClick={() => setShowLogin(true)}
-        onNavigate={setCurrentPage}
-      />
-      {renderPage()}
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
-    </>
+    <AuthContext.Provider value={{ isAuthenticated: false, login: () => {} }}>
+        <Navbar 
+          onLoginClick={() => setShowLogin(true)}
+          onNavigate={setCurrentPage}
+        />
+        {renderPage()}
+        {showLogin && <Login onClose={() => setShowLogin(false)} />}
+    </AuthContext.Provider>
   )
 }
 
