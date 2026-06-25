@@ -5,6 +5,14 @@ import { useState } from "react";
 
 export default function CreateAdvert() {
   const  [selectingTags, setSelectingTags] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [photoURLs, setPhotoURLs] = useState([]); // first is reference photo, rest are additional photos
+
+  const confirmTags = (tags) => {
+    setSelectingTags(false);
+    setSelectedTags(tags);
+  }
+
   return (
     <div className="create-advert-container">
       <div className="create-left-card">
@@ -12,6 +20,9 @@ export default function CreateAdvert() {
           <img src={square_placeholder} alt="Referencia" className="reference-img" />
         </div>
         <h3 className="reference-caption">Foto de Referencia</h3>
+        <input type="file" accept="image/*" className="upload-input" />
+        <h2>Otras fotos</h2>
+        <button className="upload-button">Subir imagen</button>
       </div>
 
       <div className="create-right-card">
@@ -40,7 +51,8 @@ export default function CreateAdvert() {
           <button onClick={() => setSelectingTags(true)}>
             Seleccionar
           </button>
-          {selectingTags && <TagDialogue />}
+          {selectingTags && <TagDialogue onConfirm={confirmTags} />}
+          <button>Publicar</button>
       </div>
     </div>
   );
