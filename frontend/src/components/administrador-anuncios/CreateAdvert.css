@@ -76,7 +76,7 @@
 }
 
 .keywords .label-title{
-  margin-bottom: 6px;
+  margin-top: 6px;
 }
 
 .keywords-list{
@@ -85,12 +85,23 @@
   gap: 8px;
 }
 
-.keyword{
-  text-align: left;
+.keyword-row{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #7b273f;
+}
+
+.keyword-row-label{
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.keyword-input{
   padding: 10px 12px;
   border-radius: 6px;
-  background: rgba(123,39,63,0.08);
-  border: none;
+  border: 1px solid rgba(123,39,63,0.3);
+  background: #fff6f1;
   color: #7b273f;
 }
 

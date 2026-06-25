@@ -1,8 +1,10 @@
-import React from "react";
 import square_placeholder from "../../assets/square_placeholder.jpeg";
+import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
+import { useState } from "react";
 
 export default function CreateAdvert() {
+  const  [selectingTags, setSelectingTags] = useState(false);
   return (
     <div className="create-advert-container">
       <div className="create-left-card">
@@ -14,7 +16,6 @@ export default function CreateAdvert() {
 
       <div className="create-right-card">
         <h2 className="create-title">Nueva Pieza</h2>
-        <form className="create-form">
           <label className="form-label">
             Nombre
             <input className="text-input" type="text" name="name" />
@@ -29,20 +30,17 @@ export default function CreateAdvert() {
             Cantidad Disponible
             <input className="text-input" type="number" name="quantity" />
           </label>
-
-          <div className="form-label keywords">
-            <div className="label-title">Palabras Clave</div>
-            <div className="keywords-list">
-              <button type="button" className="keyword">Color</button>
-              <button type="button" className="keyword">Material</button>
-              <button type="button" className="keyword">Género</button>
-              <button type="button" className="keyword">Talla</button>
-              <button type="button" className="keyword">Categoría</button>
-            </div>
-          </div>
-
-          <button type="submit" className="publish-btn">Publicar</button>
-          </form>
+          <label className="form-label">
+            Precio
+            <input className="text-input" type="number" name="price" />
+          </label>
+          <label className="form-label">
+            Palabras Clave
+          </label>
+          <button onClick={() => setSelectingTags(true)}>
+            Seleccionar
+          </button>
+          {selectingTags && <TagDialogue />}
       </div>
     </div>
   );
