@@ -28,7 +28,7 @@ def get_productos():
     return read_db()["productos"]
 
 # Las imagenes son primero subidas "temporalmente", huerfanas, y luego se asocian a un producto cuando este es creado.
-@router.post("/images/temporary")
+@router.post("/imagenes/temporales")
 def upload_temporary_image(file :UploadFile):
     """Endpoint para subir una imagen temporal a Cloudinary"""
     result = cloudinary.uploader.upload(file.file, folder="productos/temporal")
