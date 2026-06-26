@@ -7,35 +7,78 @@ export default function CreateAdvert() {
   const  [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [photoURLs, setPhotoURLs] = useState([square_placeholder]); // first is reference photo, rest are additional photos
+  const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
 
   const confirmTags = (tags) => {
     setSelectingTags(false);
     setSelectedTags(tags);
   }
 
-  const uploadReferencePhoto = (event) => {
-    const file = event.target.files[0];
-    console.log("Selected file:", file);
-    if (file) {
+  const uploadPhotos = async (files) => {
+    const readPromises = []
+    for (const file of files) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        const form= new FormData();
-        form.append("file", file,"file");
-        fetch("http://127.0.0.1:8000/productos/imagenes/temporales", {
-          method: "POST",
-          body: form,
-        }).then(response => response.json())
-          .then(data => {
-            const imageUrl = data.url; // Assuming the backend returns the URL of the uploaded image
-            setPhotoURLs([imageUrl, ...photoURLs.slice(1)]); // Update the reference photo URL
-            console.log("Reference photo uploaded:", imageUrl);
-          })
-          .catch(error => {
-            console.error("Error uploading image:", error);
-          });
-      };
-      reader.readAsDataURL(file);
+      readPromises.push(new Promise((resolve) => {
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      }));
     }
+    const urls = await Promise.all(readPromises);
+    const form = new FormData();
+    for (const file of files) {
+      form.append("files", file);
+    }
+    const response = await fetch("http://localhost:8000/productos/imagenes/temporales", {
+      method: "POST",
+      body: form
+    });
+    return (await response.json())["urls"]
+  }
+
+  const uploadReferencePhoto = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const urls = await uploadPhotos([file]);
+    setPhotoURLs((currentURLs) => [urls[0], ...currentURLs.slice(1)]);
+  }
+
+  const uploadAdditionalPhotos = async (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    const urls = await uploadPhotos(files);
+    setPhotoURLs((currentURLs) => [...currentURLs, ...urls]);
+  }
+
+  const moveAdditionalPhoto = (fromIndex, toIndex) => {
+    if (fromIndex === toIndex) return;
+
+    setPhotoURLs((currentURLs) => {
+      const updatedURLs = [...currentURLs];
+      const [movedPhoto] = updatedURLs.splice(fromIndex, 1);
+      updatedURLs.splice(toIndex, 0, movedPhoto);
+      return updatedURLs;
+    });
+  }
+
+  const handlePhotoDragStart = (index) => {
+    setDraggedPhotoIndex(index + 1);
+  }
+
+  const handlePhotoDragOver = (event) => {
+    event.preventDefault();
+  }
+
+  const handlePhotoDrop = (index) => {
+    if (draggedPhotoIndex === null) return;
+
+    const fromIndex = draggedPhotoIndex;
+    const toIndex = fromIndex < index + 1 ? index : index + 1;
+    setDraggedPhotoIndex(null);
+    moveAdditionalPhoto(fromIndex, toIndex);
+  }
+
+  const handlePhotoDragEnd = () => {
+    setDraggedPhotoIndex(null);
   }
 
   return (
@@ -47,7 +90,23 @@ export default function CreateAdvert() {
         <h3 className="reference-caption">Foto de Referencia</h3>
         <input type="file" accept="image/*" className="upload-input" onChange={uploadReferencePhoto} />
         <h2>Otras fotos</h2>
-        <button className="upload-button">Subir imagen</button>
+        <input type="file" accept="image/*" multiple className="upload-input" onChange={uploadAdditionalPhotos} />
+        <div className="additional-photos">
+          {photoURLs.slice(1).map((url, index) => (
+            <button
+              key={url}
+              type="button"
+              className="additional-photo-btn"
+              draggable
+              onDragStart={() => handlePhotoDragStart(index)}
+              onDragOver={handlePhotoDragOver}
+              onDrop={() => handlePhotoDrop(index)}
+              onDragEnd={handlePhotoDragEnd}
+            >
+              <img src={url} alt={`Foto adicional ${index + 1}`} className="additional-img" />
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="create-right-card">

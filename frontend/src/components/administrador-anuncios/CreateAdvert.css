@@ -114,3 +114,35 @@
   border: none;
   cursor: pointer;
 }
+
+.additional-photos{
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.additional-photo-btn{
+  padding: 0;
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: 10px;
+  cursor: grab;
+}
+
+.additional-photo-btn:active{
+  cursor: grabbing;
+}
+
+.additional-photo-btn:focus-visible{
+  outline: none;
+  border-color: rgba(128,0,64,0.9);
+}
+
+.additional-img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}

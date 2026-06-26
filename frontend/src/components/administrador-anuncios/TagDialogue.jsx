@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import "./TagDialogue.css";
 
 const existingTags = ["Perlado", "Pendiente"];
@@ -7,6 +7,8 @@ export default function TagDialogue({
   title = "Nueva Pieza • Palabras Clave",
   onConfirm,
 }) {
+
+
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
 
