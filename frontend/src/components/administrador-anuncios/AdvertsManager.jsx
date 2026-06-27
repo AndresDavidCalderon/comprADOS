@@ -12,6 +12,9 @@ export default function AdvertsManager() {
         .then(response => response.json())
         .then(data => setAdvertList(data))
     }, [])
+
+    const VisibleAdverts = advertList.filter(advert => advert.quantity > 0)
+    const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0)
     switch (currentPage) {
         case 'list':
             return (
@@ -20,11 +23,18 @@ export default function AdvertsManager() {
                     <button onClick={() => setCurrentPage('create')}>Publicar nuevo anuncio</button>
                     <h2>Visibles</h2>
                     <div className="advert-list">
-                        {advertList.filter(advert => advert.quantity > 0).map(advert => (
+                        {VisibleAdverts.map(advert => (
                             <AdvertCard key={advert.id} advert={advert} />
                         ))}
+                        {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
                     </div>
                     <h2>Ocultos</h2>
+                    <div className="advert-list">
+                        {nonVisibleAdverts.map(advert => (
+                            <AdvertCard key={advert.id} advert={advert} />
+                        ))}
+                        {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}
+                    </div>
                 </div>
                 )
         case 'create':
