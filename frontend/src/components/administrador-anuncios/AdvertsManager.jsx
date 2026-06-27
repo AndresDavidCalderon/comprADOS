@@ -27,7 +27,7 @@ export default function AdvertsManager() {
             return (
                 <div>
                     <button onClick={() => setCurrentPage('list')}>Volver a la lista</button>
-                    <CreateAdvert />
+                    <CreateAdvert onPublish={() => setCurrentPage('list')} />
                 </div>
             )
         default:
