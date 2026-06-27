@@ -86,6 +86,11 @@ export default function CreateAdvert({onPublish}) {
   }
 
   const publish=async () => {
+    if (!name || !description  || price <= 0 || photoURLs.length === 0) {
+      alert("Por favor, complete todos los campos requeridos.");
+      return;
+    }
+
     const producto = {
       name,
       description,
@@ -158,11 +163,13 @@ export default function CreateAdvert({onPublish}) {
           <label className="form-label">
             Palabras Clave
           </label>
-          <button onClick={() => setSelectingTags(true)}>
+          <button onClick={() => setSelectingTags(true)} className="select-tags-btn">
             Seleccionar
           </button>
           {selectingTags && <TagDialogue onConfirm={confirmTags} />}
-          <button onClick={publish}>Publicar</button>
+          <button onClick={publish} className="publish-btn">
+            Publicar
+          </button>
       </div>
     </div>
   );

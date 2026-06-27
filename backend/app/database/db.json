@@ -1,17 +1,21 @@
 {
     "productos": [
         {
-            "name": "Collar",
-            "description": "lorem ipsum",
-            "quantity": 15,
-            "price": 15000,
+            "name": "Manilla verde de piedra natural",
+            "description": "Manilla unisex, con piedra natural de tama\u00f1o mediano.",
+            "quantity": 5,
+            "price": 50000,
             "tags": [
-                "Perlado",
-                "Pendiente"
+                "hombre",
+                "piedra natural",
+                "verde",
+                "brazalete",
+                "negro"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782521509/productos/temporal/idu8wv04ty77xo7z0lsx.png"
-            ]
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782523662/productos/temporal/stuqvimr0qn9emvszdkl.jpg"
+            ],
+            "id": 1
         }
     ]
 }

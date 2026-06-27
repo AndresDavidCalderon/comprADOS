@@ -4,27 +4,3 @@
     justify-content: center;
     flex-direction: row;
 }
-
-.advert-internal-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    position: relative;
-    width: 100%;
-    height: 30vh;
-    min-width: 50%;
-    border: 1px solid var(--accent-border);
-    box-sizing: border-box;
-}
-
-.advert-internal-card .advert-title{
-    margin: 10px;
-    text-align: left;
-}
-
-.advert-image{
-    position: absolute;
-    height: 80%;
-    width: auto;
-    right: 10vw;
-}
