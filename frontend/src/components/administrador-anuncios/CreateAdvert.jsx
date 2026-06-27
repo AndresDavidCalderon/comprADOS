@@ -3,11 +3,15 @@ import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
 import { useState } from "react";
 
-export default function CreateAdvert() {
+export default function CreateAdvert({onPublish}) {
   const  [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [photoURLs, setPhotoURLs] = useState([square_placeholder]); // first is reference photo, rest are additional photos
   const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
 
   const confirmTags = (tags) => {
     setSelectingTags(false);
@@ -72,13 +76,35 @@ export default function CreateAdvert() {
     if (draggedPhotoIndex === null) return;
 
     const fromIndex = draggedPhotoIndex;
-    const toIndex = fromIndex < index + 1 ? index : index + 1;
+    const toIndex = index + 1;
     setDraggedPhotoIndex(null);
     moveAdditionalPhoto(fromIndex, toIndex);
   }
 
   const handlePhotoDragEnd = () => {
     setDraggedPhotoIndex(null);
+  }
+
+  const publish=async () => {
+    const producto = {
+      name,
+      description,
+      quantity,
+      price,
+      tags: selectedTags,
+      photos: photoURLs
+    }
+    const response = await fetch("http://localhost:8000/productos/",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(producto)
+    });
+    if (response.ok) {
+      alert("Producto publicado exitosamente");
+      onPublish();
+    }
   }
 
   return (
@@ -113,21 +139,21 @@ export default function CreateAdvert() {
         <h2 className="create-title">Nueva Pieza</h2>
           <label className="form-label">
             Nombre
-            <input className="text-input" type="text" name="name" />
+            <input className="text-input" type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
           </label>
 
           <label className="form-label">
             Descripción del producto
-            <textarea className="textarea-input" name="description" rows="4" />
+            <textarea className="textarea-input" name="description" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
           </label>
 
           <label className="form-label">
             Cantidad Disponible
-            <input className="text-input" type="number" name="quantity" />
+            <input className="text-input" type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
           <label className="form-label">
             Precio
-            <input className="text-input" type="number" name="price" />
+            <input className="text-input" type="number" name="price" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
           </label>
           <label className="form-label">
             Palabras Clave
@@ -136,7 +162,7 @@ export default function CreateAdvert() {
             Seleccionar
           </button>
           {selectingTags && <TagDialogue onConfirm={confirmTags} />}
-          <button>Publicar</button>
+          <button onClick={publish}>Publicar</button>
       </div>
     </div>
   );

@@ -36,3 +36,11 @@ def upload_temporary_image(files :list[UploadFile]):
         result = cloudinary.uploader.upload(file.file, folder="productos/temporal")
         urls.append(result["secure_url"])
     return {"urls": urls}
+
+@router.post("/")
+def create_producto(producto: dict):
+    """Endpoint para crear un nuevo producto"""
+    db = read_db()
+    db["productos"].append(producto)
+    save_to_db(db)
+    return {"message": "Producto creado exitosamente"}
