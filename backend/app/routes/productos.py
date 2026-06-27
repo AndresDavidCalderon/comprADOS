@@ -40,6 +40,8 @@ def upload_temporary_image(files :list[UploadFile]):
 @router.post("/")
 def create_producto(producto: dict):
     """Endpoint para crear un nuevo producto"""
+    if "id" not in producto:
+        producto["id"] = len(read_db()["productos"]) + 1  # Asignar un ID único
     db = read_db()
     db["productos"].append(producto)
     save_to_db(db)

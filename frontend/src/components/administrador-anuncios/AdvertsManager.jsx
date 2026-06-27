@@ -1,9 +1,17 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./AdvertsManager.css"
 import CreateAdvert from "./CreateAdvert";
+import AdvertCard from "./AdvertCard";
+
 export default function AdvertsManager() {
     const [currentPage, setCurrentPage] = useState('list')
+    const [advertList, setAdvertList] = useState([])
+    useEffect(() => {
+        fetch("http://localhost:8000/productos")
+        .then(response => response.json())
+        .then(data => setAdvertList(data))
+    }, [])
     switch (currentPage) {
         case 'list':
             return (
@@ -12,13 +20,9 @@ export default function AdvertsManager() {
                     <button onClick={() => setCurrentPage('create')}>Publicar nuevo anuncio</button>
                     <h2>Visibles</h2>
                     <div className="advert-list">
-                        <div className="advert-internal-card">
-                            <h3 className="advert-title">Collar para hombre</h3>
-                            <img
-                                className="advert-image"
-                                src={square_placeholder}
-                                alt="Collar para hombre" />
-                        </div>
+                        {advertList.filter(advert => advert.quantity > 0).map(advert => (
+                            <AdvertCard key={advert.id} advert={advert} />
+                        ))}
                     </div>
                     <h2>Ocultos</h2>
                 </div>
