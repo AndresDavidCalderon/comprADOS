@@ -7,19 +7,94 @@ import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
+import CartDrawer from './components/cart/CartDrawer'
+import { productCatalog } from './data/products'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [cartItems, setCartItems] = useState([])
+
+  const addToCart = (product) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((item) => item.id === product.id)
+
+      if (existingItem) {
+        return prevItems.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        )
+      }
+
+      return [...prevItems, { ...product, quantity: 1 }]
+    })
+    setIsCartOpen(true)
+  }
+
+  const incrementQuantity = (id) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item,
+      ),
+    )
+  }
+
+  const decrementQuantity = (id) => {
+    setCartItems((prevItems) =>
+      prevItems
+        .map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantity: Math.max(0, item.quantity - 1),
+              }
+            : item,
+        )
+        .filter((item) => item.quantity > 0),
+    )
+  }
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
 
   const renderPage = () => {
     switch(currentPage) {
       case 'collares':
-        return <Collares />
+        return (
+          <Collares
+            products={productCatalog.collares.products}
+            onAddToCart={addToCart}
+            title={productCatalog.collares.title}
+            subtitle={productCatalog.collares.subtitle}
+          />
+        )
       case 'manillas':
-        return <Manillas />
+        return (
+          <Manillas
+            products={productCatalog.manillas.products}
+            onAddToCart={addToCart}
+            title={productCatalog.manillas.title}
+            subtitle={productCatalog.manillas.subtitle}
+          />
+        )
       case 'aretes':
-        return <Aretes />
+        return (
+          <Aretes
+            products={productCatalog.aretes.products}
+            onAddToCart={addToCart}
+            title={productCatalog.aretes.title}
+            subtitle={productCatalog.aretes.subtitle}
+          />
+        )
       case 'adverts':
         return <AdvertsManager />
       default:
@@ -42,8 +117,17 @@ function App() {
         <Navbar 
           onLoginClick={() => setShowLogin(true)}
           onNavigate={setCurrentPage}
+          onCartClick={() => setIsCartOpen((prev) => !prev)}
+          cartCount={cartCount}
         />
         {renderPage()}
+        <CartDrawer
+          isOpen={isCartOpen}
+          items={cartItems}
+          onClose={() => setIsCartOpen(false)}
+          onIncrement={incrementQuantity}
+          onDecrement={decrementQuantity}
+        />
         {showLogin && <Login onClose={() => setShowLogin(false)} />}
     </AuthContext.Provider>
   )
