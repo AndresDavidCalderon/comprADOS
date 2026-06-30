@@ -2,6 +2,7 @@ import square_placeholder from "../../assets/square_placeholder.jpeg";
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
 import { useState } from "react";
+import "../../buttons.css"
 
 export default function CreateAdvert({onPublish}) {
   const  [selectingTags, setSelectingTags] = useState(false);
@@ -167,7 +168,7 @@ export default function CreateAdvert({onPublish}) {
             Seleccionar
           </button>
           {selectingTags && <TagDialogue onConfirm={confirmTags} />}
-          <button onClick={publish} className="publish-btn">
+          <button onClick={publish} className={"btn btn-primary publish-btn"}>
             Publicar
           </button>
       </div>

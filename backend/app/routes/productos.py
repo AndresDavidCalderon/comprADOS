@@ -44,5 +44,11 @@ def create_producto(producto: dict):
         producto["id"] = len(read_db()["productos"]) + 1  # Asignar un ID único
     db = read_db()
     db["productos"].append(producto)
+    
     save_to_db(db)
     return {"message": "Producto creado exitosamente"}
+
+@router.get("/etiquetas")
+def get_etiquetas():
+    """Endpoint para obtener todas las etiquetas existentes"""
+    return read_db()["etiquetas-existentes"]

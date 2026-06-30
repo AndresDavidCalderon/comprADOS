@@ -1,0 +1,9 @@
+.btn-primary {
+  margin-top: 6px;
+  background: #f2a9a2;
+  color: #7b273f;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}

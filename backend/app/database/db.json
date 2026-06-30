@@ -17,5 +17,13 @@
             ],
             "id": 1
         }
-    ]
+    ],
+    "etiquetas-existentes":
+        [
+            "hombre",
+            "piedra natural",
+            "verde",
+            "brazalete",
+            "negro"
+        ]
 }
