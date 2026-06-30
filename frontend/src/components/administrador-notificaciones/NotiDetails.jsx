@@ -37,6 +37,10 @@ export default function NotiDetails() {
                 <h2 className="noti-text">$100.00</h2>
             </div>
             <div className="noti-info">
+                <h2 className="noti-subtitle">Modo de Pago:</h2>
+                <h2 className="noti-text">Contraentrega</h2>
+            </div>
+            <div className="noti-info">
                 <h2 className="noti-subtitle">Estado:</h2>
                 <h2 className="noti-text">En proceso</h2>
             </div>
