@@ -10,20 +10,24 @@ export default function NotiManager() {
                     <>
                         <div className="contenedor-notificacion">
                             <div className="tarjeta-notificacion">
-                                <h1>Collar</h1>
-                                <h2>Fecha</h2>
-                                <h2>Rosa Lía</h2>
-                                <button onClick={() => setCurrentPage('more')}>Ver más</button>
+                                <h1 className="noti-type">Collar</h1>
+                                <h2 className="noti-resume">Fecha</h2>
+                                <h2 className="noti-resume">Rosa Lía</h2>
+                                <button className="botonPequeño" onClick={() => setCurrentPage('more')}>Ver más</button>
                             </div>  
                         </div>
                     </>
                     )
             case 'more':
                 return (
-                    <div>
-                        <button onClick={() => setCurrentPage('list')}>Ver otros anuncios</button>
-                        <NotiDetails />
-                    </div>
+                        <div className="info-notificacion">
+                            <div className="detalles">
+                                <NotiDetails />
+                            </div>
+                            <div className="ver-mas">
+                                <button className="cta-btn"onClick={() => setCurrentPage('list')}>Ver otros anuncios</button>
+                            </div>
+                        </div>
                 )
             default:
                 return null
