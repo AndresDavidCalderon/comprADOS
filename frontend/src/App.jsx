@@ -6,7 +6,7 @@ import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
-import AuthContext from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -38,15 +38,15 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: false, login: () => {} }}>
-        <Navbar 
-          onLoginClick={() => setShowLogin(true)}
-          onNavigate={setCurrentPage}
-        />
-        {renderPage()}
-        {showLogin && <Login onClose={() => setShowLogin(false)} />}
-    </AuthContext.Provider>
-  )
+  <AuthProvider>
+    <Navbar
+      onLoginClick={() => setShowLogin(true)}
+      onNavigate={setCurrentPage}
+    />
+    {renderPage()}
+    {showLogin && <Login onClose={() => setShowLogin(false)} />}
+  </AuthProvider>
+)
 }
 
 export default App
