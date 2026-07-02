@@ -5,21 +5,26 @@ export default function Login({ onClose }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
 
-  const handleSubmit = () => {
-    console.log('Entrando con:', { usuario, contrasena })
-    // aquí luego pones tu lógica real
-    onClose()
-  }
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, contrasena })
+      })
 
-  useEffect(() => {
-          fetch("http://localhost:8000/productos")
-          .then(response => response.json())
-          .then(data => setUsuario(data))
-          .then(data => setContrasena(data))
-      }, [])
-  
-  const user = usuario.filter()
-  const password = contrasena.filter()
+      if (response.ok) {
+        const data = await response.json()
+        console.log(data)
+        onClose()
+      } else {
+        alert("Usuario o contraseña incorrectos")
+      }
+    } catch (error) {
+      console.error(error)
+      alert("No se pudo conectar con el servidor. ¿Está corriendo el backend?")
+    }
+}
   
   return (
     <div className="login-modal">
