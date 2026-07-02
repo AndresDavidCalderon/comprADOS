@@ -1,6 +1,7 @@
 .login-modal{
     position: absolute;
     z-index: 10;
+    background-color: white;
     left: 0vw;
     width: 30vw;
     height: 307px;
