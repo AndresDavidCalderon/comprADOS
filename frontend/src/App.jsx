@@ -7,6 +7,7 @@ import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import { AuthProvider } from './context/AuthContext'
+import NotiManager from './components/administrador-notificaciones/NotiManager'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -22,6 +23,8 @@ function App() {
         return <Aretes />
       case 'adverts':
         return <AdvertsManager />
+      case 'notice':
+        return <NotiManager />
       default:
         return (
           <section className="home">

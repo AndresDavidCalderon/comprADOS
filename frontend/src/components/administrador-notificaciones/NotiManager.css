@@ -1,0 +1,79 @@
+.contenedor-notificacion{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-content: center;
+    gap: 10px;
+}
+.tarjeta-notificacion {
+    border: 2px solid rgba(128,0,64,0.9);
+    padding: 5px;
+    width: min(80%, 190px);
+    height: 30%;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: rgba(123,39,63,0.08);
+    position: relative;
+}
+.info-notificacion {
+    display: flex;
+    flex-direction: column;   
+    align-items: stretch;   
+    width: 90%;
+    height: 90%;
+    padding: 10px;
+    margin: 10px auto 0;
+    border-radius: 5px;
+    gap: 20px;
+}
+
+.detalles {
+    display: flex;
+    flex-direction: row; 
+    gap: 20px;
+}
+
+.ver-mas {
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;      
+    gap: 20px;
+}
+
+.noti-type{
+  color: #7b273f;
+  font-size: 25px;
+}
+
+.noti-resume{
+  color: #7b273f;
+  font-size: 15px;
+}
+
+.botonPequeño {
+  margin-left: 25%;
+  margin-top: 5%;
+  background: linear-gradient(135deg, #7a2d4f, #5a1f3d);
+  color: white;
+  border: none;
+  padding: 0.4rem 1.5rem;
+  font-size: 0.7rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 20px rgba(122, 45, 79, 0.2);
+}
+
+.botonPequeño:hover {
+  background: linear-gradient(135deg, #5a1f3d, #3a0f1d);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(122, 45, 79, 0.3);
+}
+
+.botonPequeño:active {
+  transform: translateY(-2px);
+}
