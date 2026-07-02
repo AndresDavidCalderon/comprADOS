@@ -1,6 +1,7 @@
 .login-modal{
     position: absolute;
-    left:35vw;
+    z-index: 10;
+    left: 0vw;
     width: 30vw;
     height: 307px;
     top: calc((100vh - 307px) / 2);
