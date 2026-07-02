@@ -17,5 +17,14 @@
             ],
             "id": 1
         }
+    ],
+
+    "credenciales": [
+        {
+            "usuario": ["ADOS", "SCRUM_2.2"],
+
+            "password": "12345678"
+        }
     ]
 }
+
