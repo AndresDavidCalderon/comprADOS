@@ -11,6 +11,9 @@ export default function CreateAdvert({onPublish}) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [size, setSize] = useState("");
+  const [materialInput, setMaterialInput] = useState("");
+  const [materials, setMaterials] = useState([]);
   const [price, setPrice] = useState(0);
   const [priceInput, setPriceInput] = useState("");
   const [category, setCategory] = useState("");
@@ -108,6 +111,25 @@ export default function CreateAdvert({onPublish}) {
     setSelectedTags((currentTags) => currentTags.filter((tag) => tag !== tagToRemove));
   }
 
+  const addMaterial = () => {
+    const nextMaterial = materialInput.trim();
+    if (!nextMaterial || materials.includes(nextMaterial)) return;
+
+    setMaterials((currentMaterials) => [...currentMaterials, nextMaterial]);
+    setMaterialInput("");
+  }
+
+  const removeMaterial = (materialToRemove) => {
+    setMaterials((currentMaterials) => currentMaterials.filter((material) => material !== materialToRemove));
+  }
+
+  const handleMaterialKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addMaterial();
+    }
+  }
+
   const publish=async () => {
     if (!name || !description || !category || price <= 0 || photoURLs.length === 0) {
       alert("Por favor, complete todos los campos requeridos.");
@@ -118,6 +140,8 @@ export default function CreateAdvert({onPublish}) {
       name,
       description,
       quantity,
+      size,
+      materials,
       price,
       category,
       tags: selectedTags,
@@ -184,6 +208,42 @@ export default function CreateAdvert({onPublish}) {
             Cantidad Disponible
             <input className="text-input" type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
+          <label className="form-label">
+            Tamaño
+            <input className="text-input" type="text" name="size" value={size} onChange={(e) => setSize(e.target.value)} />
+          </label>
+          <label className="form-label">
+            Materiales
+            <div className="materials-input-row">
+              <input
+                className="text-input materials-input"
+                type="text"
+                name="materials"
+                value={materialInput}
+                onChange={(e) => setMaterialInput(e.target.value)}
+                onKeyDown={handleMaterialKeyDown}
+                placeholder="Escribe un material y agrégalo"
+              />
+              <button type="button" className="materials-add-btn" onClick={addMaterial}>
+                Agregar
+              </button>
+            </div>
+          </label>
+          <div className="materials-list">
+            {materials.map((material) => (
+              <span className="selected-tag-chip" key={material}>
+                <span>{material}</span>
+                <button
+                  type="button"
+                  className="selected-tag-remove"
+                  aria-label={`Quitar ${material}`}
+                  onClick={() => removeMaterial(material)}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
           <label className="form-label">
             Precio
             <input
