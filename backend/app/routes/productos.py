@@ -63,3 +63,10 @@ def get_producto(ids: list[int]):
             if producto["id"] == id:
                 resultados.append(producto)
     return resultados
+
+@router.get("/categorias/{categoria}")
+def get_productos_por_categoria(categoria: str):
+    """Endpoint para obtener productos por categoría"""
+    productos = read_db()["productos"]
+    resultados = [producto for producto in productos if producto["category"] == categoria]
+    return resultados
