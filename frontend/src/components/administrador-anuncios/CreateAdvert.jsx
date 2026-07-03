@@ -145,7 +145,7 @@ export default function CreateAdvert({onPublish}) {
           }
         </div>
         <h3 className="reference-caption">Foto de Referencia</h3>
-        <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn">Subir foto de referencia</label>
+        <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn"> {photoURLs.length > 0 ? "Cambiar foto de referencia" : "Subir foto de referencia"}</label>
         <h2>Otras fotos</h2>
         <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
         <div className="additional-photos">

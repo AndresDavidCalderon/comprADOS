@@ -16,26 +16,41 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782523662/productos/temporal/stuqvimr0qn9emvszdkl.jpg"
             ],
             "id": 1
+        },
+        {
+            "name": "Gargantilla para hombre",
+            "description": "En materiales duraderos",
+            "quantity": 10,
+            "price": 50000,
+            "tags": [
+                "gargantilla",
+                "ajustado",
+                "hombre",
+                "collar"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
+            ],
+            "id": 2
         }
     ],
-    "etiquetas-existentes":
-        [
-            "hombre",
-            "piedra natural",
-            "verde",
-            "brazalete",
-            "negro"
-        ],
-
-
+    "etiquetas-existentes": [
+        "hombre",
+        "piedra natural",
+        "verde",
+        "brazalete",
+        "negro"
+    ],
     "credenciales": [
         {
-            "usuario": ["ADOS", "SCRUM_2.2"],
-
+            "usuario": [
+                "ADOS",
+                "SCRUM_2.2"
+            ],
             "password": "12345678"
         }
     ],
-    "ordenes":[
+    "ordenes": [
         {
             "fecha": "2024-06-10",
             "id": 1,
@@ -57,4 +72,3 @@
         }
     ]
 }
-

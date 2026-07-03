@@ -44,7 +44,7 @@ export default function Login({ onClose }) {
         auth.isAuthenticated ?
         <>
         <h1 className = "start">¿Deseas Cerrar Sesión?</h1>
-        <button className="close-session btn" onClick={handleSubmit}>Cerrar Sesión</button>
+        <button className="close-session btn-contrast" onClick={handleSubmit}>Cerrar Sesión</button>
         </>:
         <>
         <h1 className="start">Iniciar Sesión</h1>
@@ -69,7 +69,7 @@ export default function Login({ onClose }) {
           />
         </label>
 
-        <button className="enter btn" onClick={handleSubmit}>Entrar</button>
+        <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
       </>
       }
 

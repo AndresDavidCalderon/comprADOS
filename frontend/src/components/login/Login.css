@@ -26,21 +26,6 @@
   left: 30%;
 }
 
-.btn {
-  position:relative;
-  background: linear-gradient(135deg, #7a2d4f, #5a1f3d);
-  color: white;
-  border: none;
-  padding: 0.8rem 2.3rem;
-  font-size: 1rem;
-  border-radius: 50px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 20px rgba(122, 45, 79, 0.2);
-  margin-top: 16px;
-}
-
 .closeS-btn {
   background: linear-gradient(135deg, #7a2d4f, #5a1f3d);
   color: white;

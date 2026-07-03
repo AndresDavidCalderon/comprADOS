@@ -42,7 +42,7 @@ export default function AdvertsManager() {
             case 'create':
                 return (
                     <div>
-                        <button onClick={() => setCurrentPage('list')}>Volver a la lista</button>
+                        <button className="btn-contrast" onClick={() => setCurrentPage('list')}>Volver a la lista</button>
                         <CreateAdvert onPublish={() => setCurrentPage('list')} />
                     </div>
                 )
