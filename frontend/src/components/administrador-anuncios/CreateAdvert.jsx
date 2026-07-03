@@ -13,6 +13,7 @@ export default function CreateAdvert({onPublish}) {
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
   const [priceInput, setPriceInput] = useState("");
+  const [category, setCategory] = useState("");
 
   const formatThousands = (digits) => {
     if (!digits) return "";
@@ -108,7 +109,7 @@ export default function CreateAdvert({onPublish}) {
   }
 
   const publish=async () => {
-    if (!name || !description  || price <= 0 || photoURLs.length === 0) {
+    if (!name || !description || !category || price <= 0 || photoURLs.length === 0) {
       alert("Por favor, complete todos los campos requeridos.");
       return;
     }
@@ -118,6 +119,7 @@ export default function CreateAdvert({onPublish}) {
       description,
       quantity,
       price,
+      category,
       tags: selectedTags,
       photos: photoURLs
     }
@@ -192,6 +194,15 @@ export default function CreateAdvert({onPublish}) {
               value={priceInput}
               onChange={handlePriceChange}
             />
+          </label>
+          <label className="form-label">
+            Categoría
+            <select className="text-input category-select" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">Selecciona una categoría</option>
+              <option value="collares">Collares</option>
+              <option value="manillas">Manillas</option>
+              <option value="aretes">Aretes</option>
+            </select>
           </label>
           <label className="form-label">
             Palabras Clave

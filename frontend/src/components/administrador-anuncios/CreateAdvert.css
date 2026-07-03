@@ -82,6 +82,10 @@
   background: #fff6f1;
 }
 
+.category-select{
+  appearance: auto;
+}
+
 .textarea-input{
   resize: vertical;
 }

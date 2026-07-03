@@ -14,22 +14,34 @@ function App() {
   const [showLogin, setShowLogin] = useState(false)
   const auth = useContext(AuthContext)
 
-  if (!auth.isAuthenticated && (currentPage === 'adverts' || currentPage === 'notice')) {
+  if ((!auth.isAuthenticated) && (currentPage === 'adverts' || currentPage === 'notice')) {
     setCurrentPage('home')
   }
 
   const renderPage = () => {
     switch(currentPage) {
       case 'collares':
-        return <Collares />
+        return (
+          <Collares
+            title="Collares"
+          />
+        )
       case 'manillas':
-        return <Manillas />
+        return (
+          <Manillas
+            title="Manillas"
+          />
+        )
       case 'aretes':
-        return <Aretes />
-      case 'adverts':
-        return <AdvertsManager />
+        return (
+          <Aretes
+            title="Aretes"
+          />
+        )
       case 'notice':
         return <NotiManager />
+      case 'adverts':
+        return <AdvertsManager />
       default:
         return (
           <section className="home">
