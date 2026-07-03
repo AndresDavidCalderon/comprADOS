@@ -52,3 +52,14 @@ def create_producto(producto: dict):
 def get_etiquetas():
     """Endpoint para obtener todas las etiquetas existentes"""
     return read_db()["etiquetas-existentes"]
+
+@router.get("/listaProductos")
+def get_producto(ids: list[int]):
+    """Endpoint para obtener un producto por su ID"""
+    productos = read_db()["productos"]
+    resultados=[]
+    for id in ids:
+        for producto in productos:
+            if producto["id"] == id:
+                resultados.append(producto)
+    return resultados
