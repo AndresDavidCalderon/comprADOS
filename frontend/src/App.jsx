@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useContext } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -6,12 +6,17 @@ import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
-import { AuthProvider } from './context/AuthContext'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
+import  AuthContext from './context/AuthContext'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
+  const auth = useContext(AuthContext)
+
+  if (!auth.isAuthenticated && (currentPage === 'adverts' || currentPage === 'notice')) {
+    setCurrentPage('home')
+  }
 
   const renderPage = () => {
     switch(currentPage) {
@@ -41,15 +46,15 @@ function App() {
   }
 
   return (
-  <AuthProvider>
+  <>
     <Navbar
       onLoginClick={() => setShowLogin(true)}
       onNavigate={setCurrentPage}
     />
     {renderPage()}
     {showLogin && <Login onClose={() => setShowLogin(false)} />}
-  </AuthProvider>
-)
+    
+  </>)
 }
 
 export default App

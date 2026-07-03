@@ -1,8 +1,9 @@
-import { useState,useContext,useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./TagDialogue.css";
 
 export default function TagDialogue({
   title = "Nueva Pieza • Palabras Clave",
+  initialSelectedTags = [],
   onConfirm,
 }) {
 
@@ -16,6 +17,10 @@ export default function TagDialogue({
       .then((response) => response.json())
       .then((data) => setExistingTags(data));
   }, []);
+
+  useEffect(() => {
+    setSelectedTags(initialSelectedTags);
+  }, [initialSelectedTags]);
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleTags = existingTags.filter((tag) =>

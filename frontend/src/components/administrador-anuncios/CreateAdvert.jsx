@@ -1,4 +1,3 @@
-import square_placeholder from "../../assets/square_placeholder.jpeg";
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
 import { useState } from "react";
@@ -7,12 +6,30 @@ import "../../buttons.css"
 export default function CreateAdvert({onPublish}) {
   const  [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-  const [photoURLs, setPhotoURLs] = useState([square_placeholder]); // first is reference photo, rest are additional photos
+  const [photoURLs, setPhotoURLs] = useState([]); // first is reference photo, rest are additional photos
   const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState(0);
+  const [priceInput, setPriceInput] = useState("");
+
+  const formatThousands = (digits) => {
+    if (!digits) return "";
+    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  const handlePriceChange = (event) => {
+    const rawValue = event.target.value.replace(/[^\d]/g, "");
+    if (rawValue === "") {
+      setPriceInput("");
+      setPrice(0);
+      return;
+    }
+
+    setPriceInput(formatThousands(rawValue));
+    setPrice(Number(rawValue));
+  }
 
   const confirmTags = (tags) => {
     setSelectingTags(false);
@@ -86,6 +103,10 @@ export default function CreateAdvert({onPublish}) {
     setDraggedPhotoIndex(null);
   }
 
+  const removeTag = (tagToRemove) => {
+    setSelectedTags((currentTags) => currentTags.filter((tag) => tag !== tagToRemove));
+  }
+
   const publish=async () => {
     if (!name || !description  || price <= 0 || photoURLs.length === 0) {
       alert("Por favor, complete todos los campos requeridos.");
@@ -116,13 +137,17 @@ export default function CreateAdvert({onPublish}) {
   return (
     <div className="create-advert-container">
       <div className="create-left-card">
+        <input id="reference-photo-input" type="file" accept="image/*" className="upload-input" onChange={uploadReferencePhoto} />
+        <input id="additional-photos-input" type="file" accept="image/*" multiple className="upload-input" onChange={uploadAdditionalPhotos} />
         <div className="image-window">
-          <img src={photoURLs[0]} alt="Referencia" className="reference-img" />
+          {
+            photoURLs.length > 0 ? <img src={photoURLs[0]} alt="Referencia" className="reference-img"/> : <p>Sube una foto de referencia y aparecerá aquí</p>
+          }
         </div>
         <h3 className="reference-caption">Foto de Referencia</h3>
-        <input type="file" accept="image/*" className="upload-input" onChange={uploadReferencePhoto} />
+        <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn">Subir foto de referencia</label>
         <h2>Otras fotos</h2>
-        <input type="file" accept="image/*" multiple className="upload-input" onChange={uploadAdditionalPhotos} />
+        <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
         <div className="additional-photos">
           {photoURLs.slice(1).map((url, index) => (
             <button
@@ -159,15 +184,37 @@ export default function CreateAdvert({onPublish}) {
           </label>
           <label className="form-label">
             Precio
-            <input className="text-input" type="number" name="price" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+            <input
+              className="text-input"
+              type="text"
+              inputMode="decimal"
+              name="price"
+              value={priceInput}
+              onChange={handlePriceChange}
+            />
           </label>
           <label className="form-label">
             Palabras Clave
           </label>
+          <div className="selected-tags-list">
+            {selectedTags.map((tag) => (
+              <span className="selected-tag-chip" key={tag}>
+                <span>{tag}</span>
+                <button
+                  type="button"
+                  className="selected-tag-remove"
+                  aria-label={`Quitar ${tag}`}
+                  onClick={() => removeTag(tag)}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
           <button onClick={() => setSelectingTags(true)} className="select-tags-btn">
-            Seleccionar
+            Agregar palabras clave
           </button>
-          {selectingTags && <TagDialogue onConfirm={confirmTags} />}
+          {selectingTags && <TagDialogue initialSelectedTags={selectedTags} onConfirm={confirmTags} />}
           <button onClick={publish} className={"btn btn-primary publish-btn"}>
             Publicar
           </button>
