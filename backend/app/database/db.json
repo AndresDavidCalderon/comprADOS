@@ -16,7 +16,7 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782523662/productos/temporal/stuqvimr0qn9emvszdkl.jpg"
             ],
             "id": 1,
-            "category":"manillas"
+            "category": "manillas"
         },
         {
             "name": "Gargantilla para hombre",
@@ -33,7 +33,23 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
             ],
             "id": 2,
-            "category":"collares"
+            "category": "collares"
+        },
+        {
+            "name": "Collar de perlas para hombre",
+            "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
+            "quantity": 10,
+            "price": 50000,
+            "category": "collares",
+            "tags": [
+                "hombre",
+                "collar",
+                "perla"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
+            ],
+            "id": 3
         }
     ],
     "etiquetas-existentes": [
