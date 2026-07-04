@@ -4,9 +4,11 @@ import square_placeholder from "../../assets/square_placeholder.jpeg"
 export default function AdvertCard({ advert,  onEdit, onHide,onShow }) {
     return (
         <div className="advert-card">
-            <h3 className="advert-title">{advert.name}</h3>
-            <h4>${advert.price.toLocaleString('es-CO')}</h4>
-            <h4>{advert.quantity} disponibles</h4>
+            <div>
+                <h3 className="advert-title">{advert.name}</h3>
+                <h4>${advert.price.toLocaleString('es-CO')}</h4>
+                <h4>{advert.quantity} disponibles</h4>
+            </div>
             <img
                 className="advert-image"
                 src={advert.photos[0] ? advert.photos[0] : ""}

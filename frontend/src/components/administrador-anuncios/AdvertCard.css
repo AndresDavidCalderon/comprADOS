@@ -1,4 +1,6 @@
 .advert-card{
+    display: flex;
+    flex-direction: row;
     position: relative;
     width: 80vw;
     height: 200px;
@@ -8,6 +10,7 @@
     margin-top: 12px;
 }
 
+
 .advert-image{
     position:absolute;
     right:10px;
@@ -15,6 +18,17 @@
     object-fit: cover;
     border-radius: 12px;
     top:5%;
+}
+@media (max-aspect-ratio: 1/1.3) {
+    .advert-card{
+        flex-direction: column;
+        height: auto;
+    }
+    .advert-image{
+        position:static;
+        width:100%;
+        height: auto;
+    }
 }
 
 .advert-actions{
