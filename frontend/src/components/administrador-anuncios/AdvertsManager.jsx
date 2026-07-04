@@ -8,11 +8,33 @@ import "../../buttons.css"
 export default function AdvertsManager() {
     const [currentPage, setCurrentPage] = useState('list')
     const [advertList, setAdvertList] = useState([])
-    useEffect(() => {
+    const [editingProduct, setEditingProduct] = useState(null)
+
+    const fetchAdverts = () => {
         fetch("http://localhost:8000/productos")
         .then(response => response.json())
         .then(data => setAdvertList(data))
+    }
+
+    useEffect(() => {
+        fetchAdverts()
     }, [])
+
+
+    const deleteAdvert = (advertId) => {
+        fetch(`http://localhost:8000/productos/${advertId}`, {
+            method: "DELETE"
+        })
+        .then(response => {
+            fetchAdverts()
+        }
+        )
+    }
+
+    const startEdit = (advert) => {
+        setEditingProduct(advert)
+        setCurrentPage('create')
+    }
 
     const VisibleAdverts = advertList.filter(advert => advert.quantity > 0)
     const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0)
@@ -22,18 +44,18 @@ export default function AdvertsManager() {
                 return (
                     <div>
                         <h1>Anuncios</h1>
-                        <button onClick={() => setCurrentPage('create')} className="btn btn-primary">Publicar nuevo anuncio</button>
+                        <button onClick={() => {setCurrentPage('create'); setEditingProduct(null)}} className="btn btn-primary">Publicar nuevo anuncio</button>
                         <h2>Visibles</h2>
                         <div className="advert-list">
                             {VisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} />
+                                <AdvertCard key={advert.id} advert={advert} onDelete={() => deleteAdvert(advert.id)} onEdit={() => startEdit(advert)} />
                             ))}
                             {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
                         </div>
                         <h2>Ocultos</h2>
                         <div className="advert-list">
                             {nonVisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} />
+                                <AdvertCard key={advert.id} advert={advert} onDelete={() => deleteAdvert(advert.id)} onEdit={() => startEdit(advert)} />
                             ))}
                             {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}
                         </div>
@@ -43,7 +65,7 @@ export default function AdvertsManager() {
                 return (
                     <div>
                         <button className="btn-contrast" onClick={() => setCurrentPage('list')}>Volver a la lista</button>
-                        <CreateAdvert onPublish={() => setCurrentPage('list')} />
+                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} />
                     </div>
                 )
             default:

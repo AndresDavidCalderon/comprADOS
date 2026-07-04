@@ -42,11 +42,43 @@ def create_producto(producto: dict):
     """Endpoint para crear un nuevo producto"""
     if "id" not in producto:
         producto["id"] = len(read_db()["productos"]) + 1  # Asignar un ID único
+    else:
+        # Verificar si el ID ya existe
+        existing_productos = read_db()["productos"]
+        if any(p["id"] == producto["id"] for p in existing_productos):
+            return {"error": "El ID del producto ya existe. Por favor, elija un ID único o no lo incluya."}
+    
     db = read_db()
     db["productos"].append(producto)
     
     save_to_db(db)
     return {"message": "Producto creado exitosamente"}
+
+@router.patch("/{producto_id}")
+def update_producto(producto_id: int, producto_actualizado: dict):
+    """Endpoint para actualizar un producto por su ID"""
+    db = read_db()
+    productos = db["productos"]
+    for i, p in enumerate(productos):
+        if p["id"] == producto_id:
+            productos[i] = {**p, **producto_actualizado}
+            save_to_db(db)
+            return {"message": "Producto actualizado exitosamente"}
+    return {"error": "Producto no encontrado"}
+
+@router.delete("/{producto_id}")
+def delete_producto(producto_id: int):
+    """Endpoint para eliminar un producto por su ID"""
+    db = read_db()
+    productos = db["productos"]
+    producto_a_eliminar = next((p for p in productos if p["id"] == producto_id), None)
+    
+    if producto_a_eliminar:
+        productos.remove(producto_a_eliminar)
+        save_to_db(db)
+        return {"message": "Producto eliminado exitosamente"}
+    else:
+        return {"error": "Producto no encontrado"}
 
 @router.get("/etiquetas")
 def get_etiquetas():

@@ -1,24 +1,6 @@
 {
     "productos": [
         {
-            "name": "Manilla verde de piedra natural",
-            "description": "Manilla unisex, con piedra natural de tama\u00f1o mediano.",
-            "quantity": 5,
-            "price": 50000,
-            "tags": [
-                "hombre",
-                "piedra natural",
-                "verde",
-                "brazalete",
-                "negro"
-            ],
-            "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782523662/productos/temporal/stuqvimr0qn9emvszdkl.jpg"
-            ],
-            "id": 1,
-            "category": "manillas"
-        },
-        {
             "name": "Gargantilla para hombre",
             "description": "En materiales duraderos",
             "quantity": 10,
@@ -33,7 +15,11 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
             ],
             "id": 2,
-            "category": "collares"
+            "category": "collares",
+            "size": "40cm de diametro",
+            "materials": [
+                "Perlas"
+            ]
         },
         {
             "name": "Collar de perlas para hombre",

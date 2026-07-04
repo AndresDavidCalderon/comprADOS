@@ -3,25 +3,30 @@ import "./CreateAdvert.css";
 import { useState } from "react";
 import "../../buttons.css"
 
-export default function CreateAdvert({onPublish}) {
-  const  [selectingTags, setSelectingTags] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [photoURLs, setPhotoURLs] = useState([]); // first is reference photo, rest are additional photos
-  const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [size, setSize] = useState("");
-  const [materialInput, setMaterialInput] = useState("");
-  const [materials, setMaterials] = useState([]);
-  const [price, setPrice] = useState(0);
-  const [priceInput, setPriceInput] = useState("");
-  const [category, setCategory] = useState("");
+const formatThousands = (digits) => {
+  if (!digits) return "";
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
-  const formatThousands = (digits) => {
-    if (!digits) return "";
-    return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
+
+export default function CreateAdvert({onPublish,editingProduct}) {
+  const  [selectingTags, setSelectingTags] = useState(false);
+  const [selectedTags, setSelectedTags] = useState(editingProduct ? editingProduct.tags : []);
+  const [photoURLs, setPhotoURLs] = useState(editingProduct ? editingProduct.photos : []); // first is reference photo, rest are additional photos
+  const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
+  const [name, setName] = useState(editingProduct ? editingProduct.name : "");
+  const [description, setDescription] = useState(editingProduct ? editingProduct.description : "");
+  const [quantity, setQuantity] = useState(editingProduct ? editingProduct.quantity : 0);
+  const [size, setSize] = useState(editingProduct ? editingProduct.size : "");
+  const [materialInput, setMaterialInput] = useState("");
+  const [materials, setMaterials] = useState(
+    editingProduct ? (editingProduct.materials ? 
+      editingProduct.materials : []) :
+     []
+  );
+  const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
+  const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
+  const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
 
   const handlePriceChange = (event) => {
     const rawValue = event.target.value.replace(/[^\d]/g, "");
@@ -136,27 +141,53 @@ export default function CreateAdvert({onPublish}) {
       return;
     }
 
-    const producto = {
-      name,
-      description,
-      quantity,
-      size,
-      materials,
-      price,
-      category,
-      tags: selectedTags,
-      photos: photoURLs
+    if (editingProduct) {
+      const producto = editingProduct;
+      producto.name = name;
+      producto.description = description;
+      producto.quantity = quantity;
+      producto.size = size;
+      producto.materials = materials;
+      producto.price = price;
+      producto.category = category;
+      producto.tags = selectedTags;
+      producto.photos = photoURLs;
+      
+      const response = await fetch(`http://localhost:8000/productos/${producto.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(producto)
+      });
+      if (response.ok) {
+        alert("Producto actualizado exitosamente");
+        onPublish();
+      }
     }
-    const response = await fetch("http://localhost:8000/productos/",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(producto)
-    });
-    if (response.ok) {
-      alert("Producto publicado exitosamente");
-      onPublish();
+    else{
+      const producto = {
+            name,
+            description,
+            quantity,
+            size,
+            materials,
+            price,
+            category,
+            tags: selectedTags,
+            photos: photoURLs,
+          }
+          const response = await fetch("http://localhost:8000/productos/",{
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(producto)
+          });
+          if (response.ok) {
+            alert("Producto publicado exitosamente");
+            onPublish();
+          }
     }
   }
 
@@ -287,7 +318,7 @@ export default function CreateAdvert({onPublish}) {
           </button>
           {selectingTags && <TagDialogue initialSelectedTags={selectedTags} onConfirm={confirmTags} />}
           <button onClick={publish} className={"btn btn-primary publish-btn"}>
-            Publicar
+            {editingProduct ? "Guardar Cambios" : "Publicar Pieza"}
           </button>
       </div>
     </div>

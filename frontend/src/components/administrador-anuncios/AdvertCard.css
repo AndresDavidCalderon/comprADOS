@@ -16,3 +16,22 @@
     border-radius: 12px;
     top:5%;
 }
+
+.advert-actions{
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.advert-edit-btn{
+    margin-top: 0;
+}
+
+.advert-delete-btn{
+    margin-top: 0;
+    background: #c9c9c9;
+    color: #424242;
+}
