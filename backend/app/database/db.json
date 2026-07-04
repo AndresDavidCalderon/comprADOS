@@ -17,5 +17,28 @@
             ],
             "id": 1
         }
+    ],
+    "pedidos": [
+        {
+            "id": 1,
+            "cliente": {
+                "identificacion": "12345678",
+                "telefono": "3001234567",
+                "nombre": "Ana P\u00e9rez",
+                "departamento": "Cundinamarca",
+                "municipio": "Bogot\u00e1",
+                "carrera": "Carrera 10",
+                "calle": "Calle 50",
+                "detalles_extra": "Apto 203, Edificio Los Robles"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 2
+                }
+            ],
+            "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
+            "created_at": "2026-07-04T20:02:51.580833"
+        }
     ]
 }
