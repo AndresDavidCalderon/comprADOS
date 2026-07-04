@@ -5,6 +5,12 @@
   align-items: flex-start;
 }
 
+@media (max-aspect-ratio: 1/1) {
+  .create-advert-container{
+    flex-direction: column;
+  }
+}
+
 .create-left-card{
   flex: 0 0 44%;
 }
@@ -34,6 +40,17 @@
   color: #7b273f;
   font-weight: 700;
   letter-spacing: 0.6px;
+}
+
+.upload-input{
+  display: none;
+}
+
+.upload-btn{
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .create-right-card{
@@ -71,6 +88,39 @@
   background: #fff6f1;
 }
 
+.materials-input-row{
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin-top: 6px;
+}
+
+.materials-input{
+  flex: 1;
+  margin-top: 0;
+}
+
+.materials-add-btn{
+  border: 0;
+  border-radius: 6px;
+  background: #f2e2d4;
+  color: #7b273f;
+  font-weight: 700;
+  padding: 0 14px;
+  cursor: pointer;
+}
+
+.materials-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 10px;
+}
+
+.category-select{
+  appearance: auto;
+}
+
 .textarea-input{
   resize: vertical;
 }
@@ -83,14 +133,36 @@
   border: 0;
 }
 
-.publish-btn{
-  margin-top: 6px;
-  background: #f2a9a2;
-  color: #7b273f;
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: none;
+.selected-tags-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 10px;
+}
+
+.selected-tag-chip{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid #1a1a1a;
+  border-radius: 999px;
+  background: #f3dfb9;
+  color: #111;
+  font-size: 15px;
+}
+
+.selected-tag-remove{
+  border: 0;
+  background: transparent;
+  color: #f25b5b;
+  font-size: 20px;
+  line-height: 1;
   cursor: pointer;
+  padding: 0;
+}
+
+.publish-btn{
   width: 100%;
 }
 
