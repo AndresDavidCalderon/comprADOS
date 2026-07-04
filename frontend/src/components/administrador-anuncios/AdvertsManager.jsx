@@ -36,8 +36,21 @@ export default function AdvertsManager() {
         setCurrentPage('create')
     }
 
-    const VisibleAdverts = advertList.filter(advert => advert.quantity > 0)
-    const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0)
+    const switchShow = (advertId,show) => {
+        fetch(`http://localhost:8000/productos/${advertId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ oculto: !show })
+        })
+        .then(response => {
+            fetchAdverts()
+        })
+    }
+
+    const VisibleAdverts = advertList.filter(advert => advert.quantity > 0 && !advert.oculto)
+    const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0 || advert.oculto)
     const page = () => {
         switch (currentPage) {
             case 'list':
@@ -48,14 +61,14 @@ export default function AdvertsManager() {
                         <h2>Visibles</h2>
                         <div className="advert-list">
                             {VisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onDelete={() => deleteAdvert(advert.id)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard key={advert.id} advert={advert} onHide={()=> switchShow(advert.id, false)} onEdit={() => startEdit(advert)} />
                             ))}
                             {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
                         </div>
                         <h2>Ocultos</h2>
                         <div className="advert-list">
                             {nonVisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onDelete={() => deleteAdvert(advert.id)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard key={advert.id} advert={advert} onShow={() => switchShow(advert.id, true)} onEdit={() => startEdit(advert)} />
                             ))}
                             {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}
                         </div>

@@ -5,6 +5,12 @@
   align-items: flex-start;
 }
 
+@media (max-aspect-ratio: 1/1) {
+  .create-advert-container{
+    flex-direction: column;
+  }
+}
+
 .create-left-card{
   flex: 0 0 44%;
 }

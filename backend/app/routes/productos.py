@@ -41,7 +41,8 @@ def upload_temporary_image(files :list[UploadFile]):
 def create_producto(producto: dict):
     """Endpoint para crear un nuevo producto"""
     if "id" not in producto:
-        producto["id"] = len(read_db()["productos"]) + 1  # Asignar un ID único
+        producto["id"] = read_db()["ultimoProductoId"] + 1  # Asignar un ID único
+        save_to_db({**read_db(), "ultimoProductoId": producto["id"]})
     else:
         # Verificar si el ID ya existe
         existing_productos = read_db()["productos"]

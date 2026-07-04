@@ -35,7 +35,7 @@ export default function CatalogPage({ title, subtitle, category}) {
           throw new Error("No se pudieron cargar los productos")
         }
         const data = await response.json()
-        setProducts(data)
+        setProducts(data.filter((product) => !product.oculto))
       } catch (fetchError) {
         setError(fetchError.message)
         setProducts([])

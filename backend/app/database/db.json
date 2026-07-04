@@ -1,4 +1,5 @@
 {
+    "ultimoProductoId": 3,
     "productos": [
         {
             "name": "Gargantilla para hombre",
@@ -14,12 +15,13 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
             ],
-            "id": 2,
+            "id": 1,
             "category": "collares",
             "size": "40cm de diametro",
             "materials": [
                 "Perlas"
-            ]
+            ],
+            "oculto": false
         },
         {
             "name": "Collar de perlas para hombre",
@@ -35,7 +37,8 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
             ],
-            "id": 3
+            "id": 3,
+            "oculto": false
         }
     ],
     "etiquetas-existentes": [
