@@ -65,9 +65,6 @@
             "nombre": "Juan Perez",
             "telefono": "123456789",
             "direccion": "Calle 123, Ciudad",
-            "monto": 50000,
-            "modo de pago": "Tarjeta de credito",
-            "estado": "En proceso",
             "detalles": "Texto",
             "productos": [
                 {
@@ -98,7 +95,9 @@
                 }
             ],
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833"
+            "created_at": "2026-07-04T20:02:51.580833",
+            "modo de pago": "Tarjeta de credito",
+            "estado": "En proceso"
         }
     ]
 }
