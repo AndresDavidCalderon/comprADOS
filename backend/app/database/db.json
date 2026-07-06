@@ -1,0 +1,21 @@
+{
+    "productos": [
+        {
+            "name": "Manilla verde de piedra natural",
+            "description": "Manilla unisex, con piedra natural de tama\u00f1o mediano.",
+            "quantity": 5,
+            "price": 50000,
+            "tags": [
+                "hombre",
+                "piedra natural",
+                "verde",
+                "brazalete",
+                "negro"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1782523662/productos/temporal/stuqvimr0qn9emvszdkl.jpg"
+            ],
+            "id": 1
+        }
+    ]
+}
