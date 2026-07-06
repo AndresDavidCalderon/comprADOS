@@ -1,16 +1,26 @@
-import { useState,useContext } from "react";
+import { useEffect, useState } from "react";
 import "./TagDialogue.css";
-
-const existingTags = ["Perlado", "Pendiente"];
 
 export default function TagDialogue({
   title = "Nueva Pieza • Palabras Clave",
+  initialSelectedTags = [],
   onConfirm,
 }) {
 
 
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
+  const [existingTags, setExistingTags] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/productos/etiquetas")
+      .then((response) => response.json())
+      .then((data) => setExistingTags(data));
+  }, []);
+
+  useEffect(() => {
+    setSelectedTags(initialSelectedTags);
+  }, [initialSelectedTags]);
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleTags = existingTags.filter((tag) =>

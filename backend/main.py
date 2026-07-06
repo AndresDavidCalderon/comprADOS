@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import backend.app.routes.productos
 import backend.app.routes.carrito
 import backend.app.routes.auth
+import backend.app.routes.ordenes
 
 # Crear aplicación FastAPI
 app = FastAPI(
@@ -24,6 +25,7 @@ app.add_middleware(
 app.include_router(backend.app.routes.productos.router)
 app.include_router(backend.app.routes.carrito.router)
 app.include_router(backend.app.routes.auth.router)
+app.include_router(backend.app.routes.ordenes.router)
 
 
 @app.get("/")

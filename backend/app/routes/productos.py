@@ -41,8 +41,65 @@ def upload_temporary_image(files :list[UploadFile]):
 def create_producto(producto: dict):
     """Endpoint para crear un nuevo producto"""
     if "id" not in producto:
-        producto["id"] = len(read_db()["productos"]) + 1  # Asignar un ID único
+        producto["id"] = read_db()["ultimoProductoId"] + 1  # Asignar un ID único
+        save_to_db({**read_db(), "ultimoProductoId": producto["id"]})
+    else:
+        # Verificar si el ID ya existe
+        existing_productos = read_db()["productos"]
+        if any(p["id"] == producto["id"] for p in existing_productos):
+            return {"error": "El ID del producto ya existe. Por favor, elija un ID único o no lo incluya."}
+    
     db = read_db()
     db["productos"].append(producto)
+    
     save_to_db(db)
     return {"message": "Producto creado exitosamente"}
+
+@router.patch("/{producto_id}")
+def update_producto(producto_id: int, producto_actualizado: dict):
+    """Endpoint para actualizar un producto por su ID"""
+    db = read_db()
+    productos = db["productos"]
+    for i, p in enumerate(productos):
+        if p["id"] == producto_id:
+            productos[i] = {**p, **producto_actualizado}
+            save_to_db(db)
+            return {"message": "Producto actualizado exitosamente"}
+    return {"error": "Producto no encontrado"}
+
+@router.delete("/{producto_id}")
+def delete_producto(producto_id: int):
+    """Endpoint para eliminar un producto por su ID"""
+    db = read_db()
+    productos = db["productos"]
+    producto_a_eliminar = next((p for p in productos if p["id"] == producto_id), None)
+    
+    if producto_a_eliminar:
+        productos.remove(producto_a_eliminar)
+        save_to_db(db)
+        return {"message": "Producto eliminado exitosamente"}
+    else:
+        return {"error": "Producto no encontrado"}
+
+@router.get("/etiquetas")
+def get_etiquetas():
+    """Endpoint para obtener todas las etiquetas existentes"""
+    return read_db()["etiquetas-existentes"]
+
+@router.get("/listaProductos")
+def get_producto(ids: list[int]):
+    """Endpoint para obtener un producto por su ID"""
+    productos = read_db()["productos"]
+    resultados=[]
+    for id in ids:
+        for producto in productos:
+            if producto["id"] == id:
+                resultados.append(producto)
+    return resultados
+
+@router.get("/categorias/{categoria}")
+def get_productos_por_categoria(categoria: str):
+    """Endpoint para obtener productos por categoría"""
+    productos = read_db()["productos"]
+    resultados = [producto for producto in productos if producto["category"] == categoria]
+    return resultados
