@@ -169,6 +169,40 @@
   border: 2px solid #5a1f3d;
 }
 
+/* Hamburguesa (oculta en escritorio) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 9px;
+  width: 42px;
+  height: 42px;
+  z-index: 1002;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background: #ffd700;
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Overlay oscuro (oculto por defecto) */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .navbar {
@@ -179,13 +213,68 @@
     gap: 1rem;
   }
 
+  /* Mostrar la hamburguesa */
+  .nav-toggle {
+    display: flex;
+  }
+
+  /* Las categorías pasan a ser un panel que sale desde la derecha */
   .categories {
-    gap: 1.5rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: min(78vw, 300px);
+    flex: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 0;
+    padding: 5rem 1.5rem 2rem;
+    background: linear-gradient(135deg, #7a2d4f 0%, #5a1f3d 100%);
+    box-shadow: -6px 0 20px rgba(0, 0, 0, 0.35);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    overflow-y: auto;
   }
 
   .categories a {
-    font-size: 1rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 1.1rem;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+  }
+
+  /* El subrayado animado no encaja en vertical: lo desactivamos aquí */
+  .categories a::before {
+    display: none;
+  }
+
+  .categories a:hover {
+    transform: none;
+    color: #ffd700;
+  }
+
+  /* Estado abierto */
+  .navbar.open .categories {
+    transform: translateX(0);
+  }
+
+  .navbar.open .nav-overlay {
+    display: block;
+  }
+
+  /* Hamburguesa -> "X" al abrir */
+  .navbar.open .nav-toggle span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+  }
+
+  .navbar.open .nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .navbar.open .nav-toggle span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
   }
 
   .nav-icons {
@@ -214,18 +303,9 @@
     justify-content: space-between;
   }
 
+  /* El panel lateral se ensancha un poco en pantallas muy pequeñas */
   .categories {
-    gap: 1rem;
-    flex: 0;
-  }
-
-  .categories a {
-    font-size: 0.9rem;
-    padding: 0.3rem 0.6rem;
-  }
-
-  .categories a::before {
-    bottom: -3px;
+    width: min(85vw, 300px);
   }
 
   .nav-icons {

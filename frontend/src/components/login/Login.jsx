@@ -68,9 +68,10 @@ export default function Login({ onClose }) {
             onChange={(e) => setContrasena(e.target.value)}
           />
         </label>
-
-        <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
-      </>
+        <div className="centerer"> 
+          <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
+        </div>
+        </>
       }
 
       </div>

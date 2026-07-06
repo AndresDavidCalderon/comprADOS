@@ -11,14 +11,27 @@
     padding: 20px;
 }
 
+@media (max-aspect-ratio: 1/1) {
+  .login-modal{
+    width: 80vw;
+    left: 10vw;
+  }
+}
+
 .start{
     width: 100%;
     text-align: center;
 }
 
 .enter{
-  width: 25%;
-  left: 37.5%;
+  text-align:center;
+}
+
+.centerer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .close-session{

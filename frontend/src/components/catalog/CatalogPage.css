@@ -28,6 +28,7 @@
   margin: 0 auto;
 }
 
+
 .catalog-state {
   max-width: 1200px;
   margin: 0 auto 1rem;
@@ -49,6 +50,7 @@
   flex-direction: column;
   width: 300px;
   width: min(30vw,400px);
+  position: relative;
 }
 
 .product-image {
@@ -145,12 +147,47 @@
   transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
+@media (max-aspect-ratio:1/1) {
   .catalog-page {
     padding: 1rem;
   }
 
   .catalog-grid {
     grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
   }
+
+  .product-card {
+    width: 90%;
+    max-width: 400px;
+    flex-direction: row;
+    height: 20vh;
+  }
+
+  .product-image {
+    height:100%;
+    width: auto;
+    aspect-ratio: auto;
+  }
+  .product-name {
+    font-size: 100%;
+    margin-bottom: 0.25rem;
+    color: #1d1614;
+  }
+
+  .product-price {
+    color: #241917;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+
+  .add-to-cart-btn {
+    font-size: 2vw;
+  }
+
+  .product-price{
+    font-size: 2vw;
+  }
+
 }
