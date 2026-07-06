@@ -57,25 +57,29 @@
             "password": "12345678"
         }
     ],
-    "ordenes": [
+    "pedidos": [
         {
-            "fecha": "2024-06-10",
             "id": 1,
-            "cc": 1034,
-            "nombre": "Juan Perez",
-            "telefono": "123456789",
-            "direccion": "Calle 123, Ciudad",
-            "monto": 50000,
-            "modo de pago": "Tarjeta de credito",
-            "estado": "En proceso",
-            "detalles": "Texto",
-            "productos": [
+            "cliente": {
+                "identificacion": "12345678",
+                "telefono": "3001234567",
+                "nombre": "Ana P\u00e9rez",
+                "departamento": "Cundinamarca",
+                "municipio": "Bogot\u00e1",
+                "carrera": "Carrera 10",
+                "calle": "Calle 50",
+                "detalles_extra": "Apto 203, Edificio Los Robles"
+            },
+            "items": [
                 {
-                    "id": 1,
-                    "quantity": 1,
-                    "price": 50000
+                    "producto_id": 1,
+                    "cantidad": 2
                 }
-            ]
+            ],
+            "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
+            "created_at": "2026-07-04T20:02:51.580833",
+            "modo de pago": "Tarjeta de credito",
+            "estado": "En proceso"
         }
     ]
 }

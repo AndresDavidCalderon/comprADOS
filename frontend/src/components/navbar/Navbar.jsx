@@ -5,30 +5,37 @@ import AuthContext from '../../context/AuthContext'
 
 export default function Navbar({ onLoginClick, onNavigate }) {
   const [cartCount] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
   const auth = useContext(AuthContext)
   const sendOrder = () => {
-    
+
+  }
+
+  // Navega y cierra el menú móvil
+  const go = (page) => {
+    onNavigate(page)
+    setMenuOpen(false)
   }
 
   const handleHome = () => {
-    onNavigate('home')
+    go('home')
   }
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar${menuOpen ? ' open' : ''}`}>
       <div className="navbar-container">
         <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
           <span className="logo-text">ADOS me gusta</span>
         </button>
 
-        <div className="categories">
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('collares') }}>Collares</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('manillas') }}>Manillas</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('aretes') }}>Aretes</a>
-          { auth.isAuthenticated && 
+        <div className="categories" id="nav-categories">
+          <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>Collares</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>Manillas</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>Aretes</a>
+          { auth.isAuthenticated &&
             <>
-            <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('adverts') }}>Anuncios</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('notice') }}>Notificaciones</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
             </>
           }
 
@@ -48,8 +55,24 @@ export default function Navbar({ onLoginClick, onNavigate }) {
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
             </svg>
           </button>
+          <button
+            className="nav-toggle"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            aria-controls="nav-categories"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
+
       </div>
+
+      <div
+        className="nav-overlay"
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      ></div>
     </nav>
   )
 }

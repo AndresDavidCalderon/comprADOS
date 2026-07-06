@@ -9,11 +9,11 @@ def create_order(order_data):
     db = read_db()
     order_id = len(db) + 1
     order_data["id"] = order_id
-    db["ordenes"].append(order_data)
+    db["pedidos"].append(order_data)
     save_to_db(db)
-    return {"mensaje","Orden creada"}
+    return {"mensaje": "Orden creada"}
 
 @router.get("/")
 def get_orders():
     db = read_db()
-    return db["ordenes"]
+    return db["pedidos"]

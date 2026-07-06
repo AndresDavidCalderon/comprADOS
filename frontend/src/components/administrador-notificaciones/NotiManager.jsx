@@ -20,7 +20,7 @@ export default function NotiManager() {
                             <div className="contenedor-notificacion" key={order.id}>
                                 <div className="tarjeta-notificacion">
                                     <h1 className="noti-type">{order.id}</h1>
-                                    <h2 className="noti-resume">{order.nombre}</h2>
+                                    <h2 className="noti-resume">{order.cliente.nombre}</h2>
                                     <h2 className="noti-resume">{order.estado}</h2>
                                     <button className="botonPequeño" onClick={() => {setCurrentPage('more');setSelectedOrder(order)}}>Ver más</button>
                                 </div>  
