@@ -1,6 +1,13 @@
+.noti-details {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    gap:1vw;
+}
+
 .noti-pedidos {
-    flex: 1;              
-    height: 100%;
+    flex: 1;
+    height: fit-content;
     border: 2px solid rgba(128,0,64,0.9);
     background-color: rgba(123,39,63,0.08);
     border-radius: 5px;
@@ -9,7 +16,7 @@
 
 .noti-detalles {
     flex: 1;              
-    height: 100%;
+    height: fit-content;
     border: 2px solid rgba(128,0,64,0.9);
     padding: 10px;
     border-radius: 5px;
@@ -66,4 +73,11 @@
   border-radius: 6px;
   border: 1px solid rgba(123,39,63,0.3);
   background: #fff6f1;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .noti-details {
+    flex-direction: column;
+    gap:2vh;
+  }
 }

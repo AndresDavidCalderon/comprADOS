@@ -6,12 +6,13 @@
 
 .navbar {
   background: linear-gradient(135deg, #7a2d4f 0%, #5a1f3d 100%);
-  padding: 1rem 2rem;
+  padding: 1rem 0.2vw;
   position: sticky;
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+  width: 100vw;
 }
 
 .navbar-container {
@@ -20,7 +21,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 1vw;
+  padding-right: 1vw;
 }
 
 /* Logo */
@@ -65,7 +67,7 @@
 /* Categories */
 .categories {
   display: flex;
-  gap: 3rem;
+  gap: 1vw;
   flex: 1;
   justify-content: center;
   align-items: center;
@@ -74,12 +76,12 @@
 .categories a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
   letter-spacing: 0.5px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.5vw;
 }
 
 .categories a::before {
@@ -107,7 +109,7 @@
 /* Nav Icons */
 .nav-icons {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.5vw;
   align-items: center;
 }
 

@@ -21,7 +21,7 @@ export default function NotiDetails({ order }) {
     }, [])
 
     return (
-    <>
+    <div className="noti-details">
         <div className="noti-pedidos">
             <h1 className="noti-title">Pedido: {order.id}</h1>
             {productList.map((item) => {
@@ -81,6 +81,6 @@ export default function NotiDetails({ order }) {
                 <h2 className="noti-text">{order.cliente.detalles_extra}</h2>
             </div>
         </div>
-    </>
+    </div>
     )
 }

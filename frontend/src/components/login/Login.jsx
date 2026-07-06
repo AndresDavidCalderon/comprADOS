@@ -36,7 +36,7 @@ export default function Login({ onClose }) {
 }
   
   return (
-    <div className="login-modal">
+    <div className={auth.isAuthenticated ? "login-modal logout-modal" : "login-modal"}>
       <div className="login-box">
         <button className="close-btn" onClick={onClose}>×</button>
 
