@@ -57,24 +57,6 @@
             "password": "12345678"
         }
     ],
-    "ordenes": [
-        {
-            "fecha": "2024-06-10",
-            "id": 1,
-            "cc": 1034,
-            "nombre": "Juan Perez",
-            "telefono": "123456789",
-            "direccion": "Calle 123, Ciudad",
-            "detalles": "Texto",
-            "productos": [
-                {
-                    "id": 1,
-                    "quantity": 1,
-                    "price": 50000
-                }
-            ]
-        }
-    ],
     "pedidos": [
         {
             "id": 1,
