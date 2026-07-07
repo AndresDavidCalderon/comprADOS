@@ -1,23 +1,40 @@
+import { useState, useContext } from 'react'
 import './Navbar.css'
+import '../../context/AuthContext'
+import AuthContext from '../../context/AuthContext'
 
-export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount }) {
+export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0 }) {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const auth = useContext(AuthContext)
+ 
+  // Navega y cierra el menú móvil
+  const go = (page) => {
+    onNavigate(page)
+    setMenuOpen(false)
+  }
 
   const handleHome = () => {
-    onNavigate('home')
+    go('home')
   }
 
   return (
-    <nav className="navbar">
+    <nav className={`navbar${menuOpen ? ' open' : ''}`}>
       <div className="navbar-container">
         <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
           <span className="logo-text">ADOS me gusta</span>
         </button>
 
-        <div className="categories">
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('collares') }}>Collares</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('manillas') }}>Manillas</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('aretes') }}>Aretes</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('adverts') }}>Anuncios</a>
+        <div className="categories" id="nav-categories">
+          <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>Collares</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>Manillas</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>Aretes</a>
+          { auth.isAuthenticated &&
+            <>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
+            </>
+          }
+
         </div>
 
         <div className="nav-icons">
@@ -28,6 +45,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             </svg>
           </button>
           <button
+            type="button"
             className="icon-btn cart"
             aria-label={`Carrito (${cartCount} items)`}
             title={`Carrito (${cartCount} items)`}
@@ -40,8 +58,33 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             </svg>
             <span className="cart-badge">{cartCount}</span>
           </button>
+          <button
+            className="nav-toggle"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            aria-controls="nav-categories"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span></span><span></span><span></span>
+          </button>
+          <button
+            className="nav-toggle"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            aria-controls="nav-categories"
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
+
       </div>
+
+      <div
+        className="nav-overlay"
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      ></div>
     </nav>
   )
 }

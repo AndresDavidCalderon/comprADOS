@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -9,6 +9,7 @@ import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
 import CartDrawer from './components/cart/CartDrawer'
 import { productCatalog } from './data/products'
+import NotiManager from './components/administrador-notificaciones/NotiManager'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -65,6 +66,11 @@ function App() {
   }
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const auth = useContext(AuthContext)
+
+  if ((!auth.isAuthenticated) && (currentPage === 'adverts' || currentPage === 'notice')) {
+    setCurrentPage('home')
+  }
 
   const renderPage = () => {
     switch(currentPage) {
@@ -75,6 +81,7 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.collares.title}
             subtitle={productCatalog.collares.subtitle}
+            title="Collares"
           />
         )
       case 'manillas':
@@ -84,17 +91,17 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.manillas.title}
             subtitle={productCatalog.manillas.subtitle}
+            title="Manillas"
           />
         )
       case 'aretes':
         return (
           <Aretes
-            products={productCatalog.aretes.products}
-            onAddToCart={addToCart}
-            title={productCatalog.aretes.title}
-            subtitle={productCatalog.aretes.subtitle}
+            title="Aretes"
           />
         )
+      case 'notice':
+        return <NotiManager />
       case 'adverts':
         return <AdvertsManager />
       default:
@@ -113,23 +120,23 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: false, login: () => {} }}>
-        <Navbar 
-          onLoginClick={() => setShowLogin(true)}
-          onNavigate={setCurrentPage}
-          onCartClick={() => setIsCartOpen((prev) => !prev)}
-          cartCount={cartCount}
-        />
-        {renderPage()}
-        <CartDrawer
-          isOpen={isCartOpen}
-          items={cartItems}
-          onClose={() => setIsCartOpen(false)}
-          onIncrement={incrementQuantity}
-          onDecrement={decrementQuantity}
-        />
-        {showLogin && <Login onClose={() => setShowLogin(false)} />}
-    </AuthContext.Provider>
+    <>
+      <Navbar
+        onLoginClick={() => setShowLogin(true)}
+        onNavigate={setCurrentPage}
+        onCartClick={() => setIsCartOpen((prev) => !prev)}
+        cartCount={cartCount}
+      />
+      {renderPage()}
+      <CartDrawer
+        isOpen={isCartOpen}
+        items={cartItems}
+        onClose={() => setIsCartOpen(false)}
+        onIncrement={incrementQuantity}
+        onDecrement={decrementQuantity}
+      />
+      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+    </>
   )
 }
 

@@ -7,6 +7,8 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value)
 
+const getItemImage = (item) => item.photos?.[0] || item.image || ''
+
 export default function CartDrawer({
   isOpen,
   items,
@@ -43,7 +45,7 @@ export default function CartDrawer({
           ) : (
             items.map((item) => (
               <article className="cart-item" key={item.id}>
-                <img src={item.image} alt={item.name} className="cart-item-image" />
+                <img src={getItemImage(item)} alt={item.name} className="cart-item-image" />
                 <div className="cart-item-main">
                   <h3>{item.name}</h3>
                   <p className="cart-item-price">{formatCurrency(item.price)}</p>
