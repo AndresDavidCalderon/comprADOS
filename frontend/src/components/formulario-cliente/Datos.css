@@ -9,7 +9,7 @@
     align-items: center;
 }
 
-.contenedor-pagos{
+.contenedor-datos{
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -26,14 +26,13 @@
 }
 
 @media (max-aspect-ratio: 1.3/1) {
-  
-  .contenedor-pagos{
+  .contenedor-datos{
     width: 80vw;
     left: 10vw;
   }
 }
 
-.contraentrega{
+.forms{
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -41,61 +40,14 @@
   gap: 10px;
 }
 
-.enlinea{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-}
-
-.opcion-pago{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-.confirmar-pago{
+.continuar{
   display: flex;
   justify-content: center; 
   width: 100%;
 }
-.modo-pago {
-  font-size: clamp(1.1rem, 1.5vw, 1.2rem);
-  color: #7b273f;
-  font-weight: bold;
-  max-width: 180px;
-}
 
-@media (max-aspect-ratio: 1.3/1) {
 
-  .pago-btn {
-    width: 100%;
-    max-width: 150px;
-    height: 50px;
-    font-size: 1.1rem;
-  }
-}
-
-.avisos{
-  font-size: 0.8vw;
-  color: #7b273f;
-  margin-left: 2.5vw;
-}
-
-.radio-btn{
-  width: 20px;
-  height: 20px;
-  accent-color: #7b273f;
-}
-
-.botonAlign{
-  margin-left: 2.5vw;
-}
-
-.pago-btn {
+.datos-btn {
   margin-top: 1rem;
 
   width: clamp(80px, 35%, 150px);
@@ -108,29 +60,19 @@
 
   font-size: clamp(1rem, 1.1vw, 1.2rem);
   font-weight: bold;
-  transition: 0.3s;
 
-  cursor: not-allowed;
-  box-shadow: none;
-  opacity: 0.8;
-}
-
-.pago-btn:enabled {
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(122, 45, 79, 0.2);
-  opacity: 1;
+  transition: 0.3s;
 }
 
-.pago-btn:hover:not(:disabled) {
+.datos-btn:hover:not(:disabled) {
   background: #5f1d31;
   transform: scale(1.03);
 }
 
-
-
 @media (max-aspect-ratio: 1.3/1) {
 
-  .pago-btn {
+  .datos-btn {
     width: 100%;
     max-width: 150px;
     height: 50px;

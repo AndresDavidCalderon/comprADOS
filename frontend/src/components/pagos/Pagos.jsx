@@ -1,24 +1,28 @@
 import { useState } from "react";
 import "./Pagos.css";
 
-export default function Pagos({ onConfirm }) {
+export default function Pagos({ datosCliente, onConfirm, onClose }) {
   const [metodoPago, setMetodoPago] = useState("");
   const [pagoValidado, setPagoValidado] = useState(false);
   const paymentCheck = () => {
     alert("Pago realizado correctamente");
     setPagoValidado(true);
   };
-  const handleConfirm = () => {
-    if (!pagoValidado) {
-      alert("Debes completar el proceso de pago.");
-      return;
-    }
 
-    console.log("Método seleccionado:", metodoPago);
-    onConfirm();
+  const handleConfirm = () => {
+      if (!pagoValidado) {
+          alert("Debes completar el proceso de pago.");
+          return;
+      }
+      onConfirm(
+          datosCliente,
+          metodoPago
+      );
   };
 
   return (
+    
+    <div className="datos-overlay">
     <div className="contenedor-pagos">
       <div className="contraentrega">
         <label className="opcion-pago">
@@ -54,7 +58,7 @@ export default function Pagos({ onConfirm }) {
         </label>
 
         <button
-          className="botonPequeño botonAlign"
+          className="botonPequeno pago-btn botonAlign"
           onClick={paymentCheck}
           disabled={metodoPago !== "enlinea"}
         >
@@ -65,14 +69,21 @@ export default function Pagos({ onConfirm }) {
 
       <div className="confirmar-pago">
         <button
-          className="botonPequeño"
+          className="botonPequeno pago-btn"
           onClick={handleConfirm}
           disabled={!pagoValidado}
         >
           Confirmar Pago
         </button>
       </div>
-
+      <button
+              className="close-btn"
+              onClick={onClose}
+            >
+              ×
+          </button>
+    </div>
+    
     </div>
   );
 }
