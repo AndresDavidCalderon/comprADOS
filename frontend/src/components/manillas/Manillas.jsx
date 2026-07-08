@@ -1,16 +1,13 @@
+import CatalogPage from '../catalog/CatalogPage'
 import './Manillas.css'
 
-export default function Manillas() {
-  
-
+export default function Manillas({ onAddToCart, title = 'Manillas', subtitle = 'Encuentra tu manilla perfecta en nuestra colección' }) {
   return (
-    <section className="manillas">
-      <div className="manillas-container">
-        <h1 className="manillas-title">Manillas</h1>
-        <p className="manillas-subtitle">Encuentra tu manilla perfecta en nuestra colección</p>
-        
-        
-      </div>
-    </section>
+    <CatalogPage
+      title={title}
+      subtitle={subtitle}
+      category="manillas"
+      onAddToCart={onAddToCart}
+    />
   )
 }

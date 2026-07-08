@@ -1,17 +1,44 @@
-import square_placeholder from "../../assets/square_placeholder.jpeg";
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
 import { useState } from "react";
+import "../../buttons.css"
 
-export default function CreateAdvert({onPublish}) {
+const formatThousands = (digits) => {
+  if (!digits) return "";
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
+export default function CreateAdvert({onPublish,editingProduct}) {
   const  [selectingTags, setSelectingTags] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [photoURLs, setPhotoURLs] = useState([square_placeholder]); // first is reference photo, rest are additional photos
+  const [selectedTags, setSelectedTags] = useState(editingProduct ? editingProduct.tags : []);
+  const [photoURLs, setPhotoURLs] = useState(editingProduct ? editingProduct.photos : []); // first is reference photo, rest are additional photos
   const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [name, setName] = useState(editingProduct ? editingProduct.name : "");
+  const [description, setDescription] = useState(editingProduct ? editingProduct.description : "");
+  const [quantity, setQuantity] = useState(editingProduct ? editingProduct.quantity : 0);
+  const [size, setSize] = useState(editingProduct ? editingProduct.size : "");
+  const [materialInput, setMaterialInput] = useState("");
+  const [materials, setMaterials] = useState(
+    editingProduct ? (editingProduct.materials ? 
+      editingProduct.materials : []) :
+     []
+  );
+  const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
+  const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
+  const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
+
+  const handlePriceChange = (event) => {
+    const rawValue = event.target.value.replace(/[^\d]/g, "");
+    if (rawValue === "") {
+      setPriceInput("");
+      setPrice(0);
+      return;
+    }
+
+    setPriceInput(formatThousands(rawValue));
+    setPrice(Number(rawValue));
+  }
 
   const confirmTags = (tags) => {
     setSelectingTags(false);
@@ -85,43 +112,99 @@ export default function CreateAdvert({onPublish}) {
     setDraggedPhotoIndex(null);
   }
 
+  const removeTag = (tagToRemove) => {
+    setSelectedTags((currentTags) => currentTags.filter((tag) => tag !== tagToRemove));
+  }
+
+  const addMaterial = () => {
+    const nextMaterial = materialInput.trim();
+    if (!nextMaterial || materials.includes(nextMaterial)) return;
+
+    setMaterials((currentMaterials) => [...currentMaterials, nextMaterial]);
+    setMaterialInput("");
+  }
+
+  const removeMaterial = (materialToRemove) => {
+    setMaterials((currentMaterials) => currentMaterials.filter((material) => material !== materialToRemove));
+  }
+
+  const handleMaterialKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addMaterial();
+    }
+  }
+
   const publish=async () => {
-    if (!name || !description  || price <= 0 || photoURLs.length === 0) {
+    if (!name || !description || !category || price <= 0 || photoURLs.length === 0) {
       alert("Por favor, complete todos los campos requeridos.");
       return;
     }
 
-    const producto = {
-      name,
-      description,
-      quantity,
-      price,
-      tags: selectedTags,
-      photos: photoURLs
+    if (editingProduct) {
+      const producto = editingProduct;
+      producto.name = name;
+      producto.description = description;
+      producto.quantity = quantity;
+      producto.size = size;
+      producto.materials = materials;
+      producto.price = price;
+      producto.category = category;
+      producto.tags = selectedTags;
+      producto.photos = photoURLs;
+      
+      const response = await fetch(`http://localhost:8000/productos/${producto.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(producto)
+      });
+      if (response.ok) {
+        alert("Producto actualizado exitosamente");
+        onPublish();
+      }
     }
-    const response = await fetch("http://localhost:8000/productos/",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(producto)
-    });
-    if (response.ok) {
-      alert("Producto publicado exitosamente");
-      onPublish();
+    else{
+      const producto = {
+            name,
+            description,
+            quantity,
+            size,
+            materials,
+            price,
+            category,
+            tags: selectedTags,
+            photos: photoURLs,
+          }
+          const response = await fetch("http://localhost:8000/productos/",{
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(producto)
+          });
+          if (response.ok) {
+            alert("Producto publicado exitosamente");
+            onPublish();
+          }
     }
   }
 
   return (
     <div className="create-advert-container">
       <div className="create-left-card">
+        <input id="reference-photo-input" type="file" accept="image/*" className="upload-input" onChange={uploadReferencePhoto} />
+        <input id="additional-photos-input" type="file" accept="image/*" multiple className="upload-input" onChange={uploadAdditionalPhotos} />
         <div className="image-window">
-          <img src={photoURLs[0]} alt="Referencia" className="reference-img" />
+          {
+            photoURLs.length > 0 ? <img src={photoURLs[0]} alt="Referencia" className="reference-img"/> : <p>Sube una foto de referencia y aparecerá aquí</p>
+          }
         </div>
         <h3 className="reference-caption">Foto de Referencia</h3>
-        <input type="file" accept="image/*" className="upload-input" onChange={uploadReferencePhoto} />
+        <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn"> {photoURLs.length > 0 ? "Cambiar foto de referencia" : "Subir foto de referencia"}</label>
         <h2>Otras fotos</h2>
-        <input type="file" accept="image/*" multiple className="upload-input" onChange={uploadAdditionalPhotos} />
+        <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
         <div className="additional-photos">
           {photoURLs.slice(1).map((url, index) => (
             <button
@@ -157,18 +240,85 @@ export default function CreateAdvert({onPublish}) {
             <input className="text-input" type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
           <label className="form-label">
+            Tamaño
+            <input className="text-input" type="text" name="size" value={size} onChange={(e) => setSize(e.target.value)} />
+          </label>
+          <label className="form-label">
+            Materiales
+            <div className="materials-input-row">
+              <input
+                className="text-input materials-input"
+                type="text"
+                name="materials"
+                value={materialInput}
+                onChange={(e) => setMaterialInput(e.target.value)}
+                onKeyDown={handleMaterialKeyDown}
+                placeholder="Escribe un material y agrégalo"
+              />
+              <button type="button" className="materials-add-btn" onClick={addMaterial}>
+                Agregar
+              </button>
+            </div>
+          </label>
+          <div className="materials-list">
+            {materials.map((material) => (
+              <span className="selected-tag-chip" key={material}>
+                <span>{material}</span>
+                <button
+                  type="button"
+                  className="selected-tag-remove"
+                  aria-label={`Quitar ${material}`}
+                  onClick={() => removeMaterial(material)}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+          <label className="form-label">
             Precio
-            <input className="text-input" type="number" name="price" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} />
+            <input
+              className="text-input"
+              type="text"
+              inputMode="decimal"
+              name="price"
+              value={priceInput}
+              onChange={handlePriceChange}
+            />
+          </label>
+          <label className="form-label">
+            Categoría
+            <select className="text-input category-select" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">Selecciona una categoría</option>
+              <option value="collares">Collares</option>
+              <option value="manillas">Manillas</option>
+              <option value="aretes">Aretes</option>
+            </select>
           </label>
           <label className="form-label">
             Palabras Clave
           </label>
+          <div className="selected-tags-list">
+            {selectedTags.map((tag) => (
+              <span className="selected-tag-chip" key={tag}>
+                <span>{tag}</span>
+                <button
+                  type="button"
+                  className="selected-tag-remove"
+                  aria-label={`Quitar ${tag}`}
+                  onClick={() => removeTag(tag)}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
           <button onClick={() => setSelectingTags(true)} className="select-tags-btn">
-            Seleccionar
+            Agregar palabras clave
           </button>
-          {selectingTags && <TagDialogue onConfirm={confirmTags} />}
-          <button onClick={publish} className="publish-btn">
-            Publicar
+          {selectingTags && <TagDialogue initialSelectedTags={selectedTags} onConfirm={confirmTags} />}
+          <button onClick={publish} className={"btn btn-primary publish-btn"}>
+            {editingProduct ? "Guardar Cambios" : "Publicar Pieza"}
           </button>
       </div>
     </div>
