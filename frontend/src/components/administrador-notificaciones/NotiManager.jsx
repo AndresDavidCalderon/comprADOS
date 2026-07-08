@@ -22,7 +22,9 @@ export default function NotiManager() {
                                     <h1 className="noti-type">{order.id}</h1>
                                     <h2 className="noti-resume">{order.cliente.nombre}</h2>
                                     <h2 className="noti-resume">{order.estado}</h2>
+                                    <div className="noti-btn-container">
                                     <button className="botonPequeño" onClick={() => {setCurrentPage('more');setSelectedOrder(order)}}>Ver más</button>
+                                    </div>
                                 </div>  
                             </div>
                         ))}
