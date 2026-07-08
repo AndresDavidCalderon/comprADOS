@@ -1,5 +1,5 @@
 {
-    "ultimoProductoId": 5,
+    "ultimoProductoId": 6,
     "productos": [
         {
             "name": "Gargantilla para hombre",
@@ -84,6 +84,23 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783538884/productos/temporal/trxmvjavbydxom9dogs1.png"
             ],
             "id": 5
+        },
+        {
+            "name": "Aretes rodio con pedrer\u00eda",
+            "description": "El rodio es un elemento qu\u00edmico de n\u00famero at\u00f3mico 45 situado en el grupo 9 de la tabla peri\u00f3dica de los elementos. Su s\u00edmbolo es Rh.",
+            "quantity": 20,
+            "size": "2.5cm de largo",
+            "materials": [],
+            "price": 90000,
+            "category": "aretes",
+            "tags": [
+                "Rodio",
+                "Mineral"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
+            ],
+            "id": 6
         }
     ],
     "etiquetas-existentes": [
