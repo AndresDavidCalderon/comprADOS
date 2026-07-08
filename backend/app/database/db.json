@@ -1,0 +1,105 @@
+{
+    "ultimoProductoId": 4,
+    "productos": [
+        {
+            "name": "Gargantilla para hombre",
+            "description": "En materiales duraderos",
+            "quantity": 10,
+            "price": 50000,
+            "tags": [
+                "gargantilla",
+                "ajustado",
+                "hombre",
+                "collar"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
+            ],
+            "id": 1,
+            "category": "collares",
+            "size": "40cm de diametro",
+            "materials": [
+                "Perlas"
+            ],
+            "oculto": false
+        },
+        {
+            "name": "Collar de perlas para hombre",
+            "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
+            "quantity": 10,
+            "price": 50000,
+            "category": "collares",
+            "tags": [
+                "hombre",
+                "collar",
+                "perla"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
+            ],
+            "id": 3,
+            "oculto": false
+        },
+        {
+            "name": "prueba",
+            "description": "dasfasdf",
+            "quantity": 2,
+            "size": "40cm de diametro",
+            "materials": [
+                "cuero"
+            ],
+            "price": 50000,
+            "category": "manillas",
+            "tags": [
+                "brazalete",
+                "verde",
+                "negro"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+            ],
+            "id": 4
+        }
+    ],
+    "etiquetas-existentes": [
+        "hombre",
+        "piedra natural",
+        "verde",
+        "brazalete",
+        "negro"
+    ],
+    "credenciales": [
+        {
+            "usuario": [
+                "ADOS",
+                "SCRUM_2.2"
+            ],
+            "password": "12345678"
+        }
+    ],
+    "pedidos": [
+        {
+            "id": 1,
+            "cliente": {
+                "identificacion": "12345678",
+                "telefono": "3001234567",
+                "nombre": "Ana P\u00e9rez",
+                "departamento": "Cundinamarca",
+                "municipio": "Bogot\u00e1",
+                "carrera": "Carrera 10",
+                "calle": "Calle 50",
+                "detalles_extra": "Apto 203, Edificio Los Robles"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 2
+                }
+            ],
+            "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
+            "created_at": "2026-07-04T20:02:51.580833",
+            "modo de pago": "Tarjeta de credito",
+            "estado": "En proceso"
+        }
+    ]
+}

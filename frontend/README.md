@@ -1,18 +1,118 @@
-# React + Vite
+# MeGusta Joyería - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interfaz de usuario moderna construida con **React** y **Vite**.
 
-Currently, two official plugins are available:
+## 🚀 Inicio Rápido
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Instalar dependencias
+```bash
+npm install
+```
 
-## React Compiler
+### 2. Ejecutar en desarrollo
+```bash
+npm run dev
+```
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Abre http://localhost:5173 en tu navegador.
 
-Note: This will impact Vite dev & build performances.
+### 3. Construir para producción
+```bash
+npm run build
+```
 
-## Expanding the ESLint configuration
+## 📁 Estructura del Proyecto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+├── components/
+│   ├── navbar/          # Barra de navegación
+│   ├── collares/        # Página de collares
+│   ├── manillas/        # Página de manillas
+│   ├── aretes/          # Página de aretes
+│   ├── login/           # Modal de login/registro
+│   └── cart/            # Carrito de compras
+├── App.jsx              # Componente principal
+├── App.css              # Estilos globales
+└── main.jsx             # Punto de entrada
+```
+
+## 🎨 Componentes Principales
+
+### Navbar
+- Logo "MeGusta" ✨
+- Navegación entre categorías
+- Icono de usuario (abre login)
+- Carrito con contador
+
+### Categorías
+- **Collares** - Joyería para el cuello
+- **Manillas** - Pulseras y brazaletes
+- **Aretes** - Pendientes elegantes
+
+Cada página muestra:
+- Grid de productos
+- Nombre, descripción y precio
+- Botón "Agregar al carrito"
+
+### Login Modal
+- ✅ Registro de nuevos usuarios
+- ✅ Iniciar sesión existente
+- ✅ Login con Google/Facebook
+- ✅ Validación de formularios
+
+## 🔗 Conexión con Backend
+
+El frontend está configurado para conectar con el backend FastAPI en `http://localhost:8000`
+
+**Endpoints usados:**
+- `POST /auth/register` - Registrar usuario
+- `POST /auth/login` - Iniciar sesión
+- `GET /productos/` - Obtener productos
+- `GET /productos/?categoria=...` - Filtrar por categoría
+- `GET /carrito/` - Ver carrito
+- `POST /carrito/agregar` - Agregar al carrito
+
+## 🎯 Funcionalidades
+
+✅ Navegación fluida entre páginas  
+✅ Productos dinámicos por categoría  
+✅ Modal de login/registro  
+✅ Carrito visual  
+✅ Diseño responsive (móvil, tablet, desktop)  
+✅ Animaciones suaves  
+
+## 🛠️ Tecnologías
+
+- **React 18** - Librería UI
+- **Vite** - Bundler y dev server
+- **CSS3** - Estilos modernos
+- **Fetch API** - Comunicación con backend
+
+## 📱 Responsive Design
+
+Optimizado para:
+- 📱 Mobile (320px+)
+- 📱 Tablet (768px+)
+- 💻 Desktop (1200px+)
+
+## 🚦 Scripts disponibles
+
+```bash
+npm run dev       # Iniciar servidor de desarrollo
+npm run build     # Crear versión de producción
+npm run preview   # Vista previa de build
+npm run lint      # Ejecutar ESLint
+```
+
+## ⚡ Performance
+
+- Vite proporciona HMR (Hot Module Replacement)
+- Code splitting automático
+- Optimización de assets
+
+## 📖 Para más información
+
+- [React Docs](https://react.dev)
+- [Vite Docs](https://vitejs.dev)
+- [README Principal](../README.md)

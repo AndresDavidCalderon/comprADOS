@@ -1,0 +1,159 @@
+.tag-dialogue {
+    position: absolute;
+    top: 25vh;
+    left: 30vw;
+    width: 40vw;
+
+  margin-top: 8px;
+  padding: 16px 18px 20px;
+  border: 1px solid #f25b5b;
+  border-radius: 14px;
+  background: #fff7db;
+  box-shadow: 0 10px 30px rgba(123, 39, 63, 0.08);
+}
+
+.tag-dialogue-title {
+  margin: 0 0 14px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.02em;
+}
+
+.tag-dialogue-section {
+  margin-bottom: 14px;
+}
+
+.tag-dialogue-label,
+.tag-dialogue-panel-label {
+  margin: 0 0 10px;
+  color: #f25b5b;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tag-dialogue-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid #1a1a1a;
+  border-radius: 999px;
+  background: #f3dfb9;
+  color: #111;
+  font-size: 15px;
+}
+
+.tag-chip-remove {
+  border: 0;
+  background: transparent;
+  color: #f25b5b;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tag-dialogue-input-wrap {
+  display: block;
+}
+
+.tag-dialogue-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #f25b5b;
+  border-radius: 12px;
+  background: transparent;
+  color: #111;
+  font-size: 16px;
+  outline: none;
+}
+
+.tag-dialogue-input::placeholder {
+  color: rgba(17, 17, 17, 0.45);
+}
+
+.tag-dialogue-panel {
+  margin-top: 16px;
+  padding: 14px 14px 12px;
+  border: 1px solid #f25b5b;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.tag-dialogue-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tag-dialogue-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font-size: 16px;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+
+.tag-dialogue-suggestion-mark {
+  color: #f25b5b;
+  font-weight: 700;
+  min-width: 16px;
+}
+
+.tag-dialogue-divider {
+  margin: 12px 0;
+  height: 1px;
+  background: rgba(17, 17, 17, 0.35);
+}
+
+.tag-dialogue-create {
+  border: 0;
+  background: transparent;
+  color: #f25b5b;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0;
+  cursor: pointer;
+}
+
+.tag-dialogue-apply {
+  display: block;
+  width: min(100%, 320px);
+  margin: 28px auto 0;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: #f9b46b;
+  color: #111;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tag-dialogue-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
