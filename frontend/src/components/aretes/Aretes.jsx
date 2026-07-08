@@ -1,13 +1,13 @@
-import './Aretes.css'
 import CatalogPage from '../catalog/CatalogPage'
+import './Aretes.css'
 
-export default function Aretes() {
-  
+export default function Aretes({ onAddToCart, title = 'Aretes', subtitle = 'Descubre nuestros aretes más hermosos y elegantes' }) {
   return (
     <CatalogPage
-      title="Aretes"
-      subtitle="Descubre nuestros aretes más hermosos y elegantes"
+      title={title}
+      subtitle={subtitle}
       category="aretes"
+      onAddToCart={onAddToCart}
     />
   )
 }

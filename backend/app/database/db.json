@@ -1,5 +1,5 @@
 {
-    "ultimoProductoId": 3,
+    "ultimoProductoId": 4,
     "productos": [
         {
             "name": "Gargantilla para hombre",
@@ -39,6 +39,26 @@
             ],
             "id": 3,
             "oculto": false
+        },
+        {
+            "name": "prueba",
+            "description": "dasfasdf",
+            "quantity": 2,
+            "size": "40cm de diametro",
+            "materials": [
+                "cuero"
+            ],
+            "price": 50000,
+            "category": "manillas",
+            "tags": [
+                "brazalete",
+                "verde",
+                "negro"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+            ],
+            "id": 4
         }
     ],
     "etiquetas-existentes": [
