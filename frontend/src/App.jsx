@@ -26,28 +26,31 @@ function App() {
           item.id === product.id
             ? {
                 ...item,
-                quantity: item.quantity + 1,
+                quantityOnCart: item.quantityOnCart + 1,
               }
             : item,
         )
       }
 
-      return [...prevItems, { ...product, quantity: 1 }]
+      return [...prevItems, { ...product, quantityOnCart: 1 }]
     })
     setIsCartOpen(true)
   }
 
   const incrementQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item,
-      ),
-    )
+    const item = cartItems.find(item => item.id === id);
+    if (item.quantityOnCart < item.quantity) {
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === id
+            ? {
+                ...item,
+                quantityOnCart: item.quantityOnCart + 1,
+              }
+            : item,
+      ))
+    }
+    
   }
 
   const decrementQuantity = (id) => {
@@ -57,11 +60,11 @@ function App() {
           item.id === id
             ? {
                 ...item,
-                quantity: Math.max(0, item.quantity - 1),
+                quantityOnCart: Math.max(0, item.quantityOnCart - 1),
               }
             : item,
         )
-        .filter((item) => item.quantity > 0),
+        .filter((item) => item.quantityOnCart > 0),
     )
   }
 
@@ -73,7 +76,7 @@ function App() {
     metodoPago,
     fecha: new Date().toISOString(),
     total: cartItems.reduce(
-      (acc, item) => acc + item.price * item.quantity,
+      (acc, item) => acc + item.price * item.quantityOnCart,
       0
     )
   };
@@ -97,7 +100,7 @@ function App() {
     alert("¡Compra realizada con éxito!");
   };
 
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
 
   if ((!auth.isAuthenticated) && (currentPage === 'adverts' || currentPage === 'notice')) {
