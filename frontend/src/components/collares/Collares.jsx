@@ -1,14 +1,13 @@
-import './Collares.css'
 import CatalogPage from '../catalog/CatalogPage'
+import './Collares.css'
 
-export default function Collares() {
-  
-
+export default function Collares({ onAddToCart, title = 'Collares', subtitle = 'Descubre nuestra colección de collares exclusivos' }) {
   return (
     <CatalogPage
-      title="Collares"
-      subtitle="Descubre nuestra colección de collares exclusivos"
+      title={title}
+      subtitle={subtitle}
       category="collares"
+      onAddToCart={onAddToCart}
     />
   )
 }

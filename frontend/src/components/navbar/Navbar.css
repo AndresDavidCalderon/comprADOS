@@ -152,8 +152,7 @@
   position: relative;
 }
 
-.icon-btn.cart::after {
-  content: '0';
+.cart-badge {
   position: absolute;
   top: -8px;
   right: -8px;

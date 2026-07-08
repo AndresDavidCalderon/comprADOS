@@ -18,7 +18,7 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value)
 
-export default function CatalogPage({ title, subtitle, category}) {
+export default function CatalogPage({ title, subtitle, category, onAddToCart }) {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -78,6 +78,7 @@ export default function CatalogPage({ title, subtitle, category}) {
             <button
               className="add-to-cart-btn"
               type="button"
+              onClick={() => onAddToCart?.(product)}
             >
               Agregar al carrito
             </button>
