@@ -1,5 +1,5 @@
 {
-    "ultimoProductoId": 6,
+    "ultimoProductoId": 7,
     "productos": [
         {
             "name": "Gargantilla para hombre",
@@ -101,6 +101,29 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
             ],
             "id": 6
+        },
+        {
+            "name": "Manilla de rodio estrella",
+            "description": "Porque brillas para alguien",
+            "quantity": 10,
+            "size": "10 cm de perimetro",
+            "materials": [
+                "Rodio",
+                "Hilo de poliester"
+            ],
+            "price": 90000,
+            "category": "manillas",
+            "tags": [
+                "Poliester",
+                "Estrella",
+                "Forma",
+                "Manilla",
+                "brazalete"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783541923/productos/temporal/hlnkmqy5c9al7s0owjz4.jpg"
+            ],
+            "id": 7
         }
     ],
     "etiquetas-existentes": [
