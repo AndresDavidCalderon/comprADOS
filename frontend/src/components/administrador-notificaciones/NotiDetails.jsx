@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./NotiDetails.css"
+import ApiContext from "../../context/ApiContext";
 
 export default function NotiDetails({ order }) {
     const [productList, setProductList] = useState([])
+    const { apiUrl } = useContext(ApiContext);
 
     useEffect(() => {
-        fetch("http://localhost:8000/productos/")
+        fetch(`${apiUrl}/productos/`)
             .then(response => response.json())
             .then(data => {
                 setProductList(order.items.map(item => {

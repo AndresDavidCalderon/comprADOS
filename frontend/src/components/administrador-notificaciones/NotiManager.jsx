@@ -2,12 +2,16 @@ import { useState, useEffect} from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./NotiManager.css"
 import NotiDetails from "./NotiDetails";
+import ApiContext from "../../context/ApiContext";
+
 export default function NotiManager() {
     const [currentPage, setCurrentPage] = useState('list')
     const [orderList, setOrderList] = useState([])
     const [selectedOrder, setSelectedOrder] = useState(null)
+    const { apiUrl } = useContext(ApiContext);
+
     useEffect(() => {
-        fetch("http://localhost:8000/ordenes")
+        fetch(`${apiUrl}/ordenes`)
         .then(response => response.json())
         .then(data => setOrderList(data))
     }, [])

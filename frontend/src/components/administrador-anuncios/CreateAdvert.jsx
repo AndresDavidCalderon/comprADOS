@@ -1,7 +1,8 @@
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import "../../buttons.css"
+import ApiContext from "../../context/ApiContext";
 
 const formatThousands = (digits) => {
   if (!digits) return "";
@@ -27,6 +28,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
   const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
   const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
+  const { apiUrl } = useContext(ApiContext);
 
   const handlePriceChange = (event) => {
     const rawValue = event.target.value.replace(/[^\d]/g, "");
@@ -59,7 +61,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
     for (const file of files) {
       form.append("files", file);
     }
-    const response = await fetch("http://localhost:8000/productos/imagenes/temporales", {
+    const response = await fetch(`${apiUrl}/productos/imagenes/temporales`, {
       method: "POST",
       body: form
     });
@@ -153,7 +155,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       producto.tags = selectedTags;
       producto.photos = photoURLs;
       
-      const response = await fetch(`http://localhost:8000/productos/${producto.id}`, {
+      const response = await fetch(`${apiUrl}/productos/${producto.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -177,7 +179,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             tags: selectedTags,
             photos: photoURLs,
           }
-          const response = await fetch("http://localhost:8000/productos/",{
+          const response = await fetch(`${apiUrl}/productos/`,{
             method: "POST",
             headers: {
               "Content-Type": "application/json"

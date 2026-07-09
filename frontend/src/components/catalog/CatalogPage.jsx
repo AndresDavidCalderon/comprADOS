@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useContext } from 'react'
 import './CatalogPage.css'
+import ApiContext from '../../context/ApiContext'
 
 const colorClassMap = {
   Verde: 'dot-green',
@@ -22,6 +23,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const { apiUrl } = useContext(ApiContext);
 
   useEffect(() => {
     if (!category) return
@@ -30,7 +32,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
       try {
         setLoading(true)
         setError("")
-        const response = await fetch(`http://localhost:8000/productos/categorias/${category}`)
+        const response = await fetch(`${apiUrl}/productos/categorias/${category}`)
         if (!response.ok) {
           throw new Error("No se pudieron cargar los productos")
         }
