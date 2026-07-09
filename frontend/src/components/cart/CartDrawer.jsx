@@ -23,7 +23,7 @@ export default function CartDrawer({
     return null
   }
 
-  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
+  const total = items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0)
   const [showDatos, setShowDatos] = useState(false);
   return (
     <>
@@ -59,8 +59,10 @@ export default function CartDrawer({
                   <button type="button" onClick={() => onDecrement(item.id)}>
                     -
                   </button>
-                  <span>{item.quantity}</span>
-                  <button type="button" onClick={() => onIncrement(item.id)}>
+                  <span>{item.quantityOnCart}</span>
+                  <button type="button" onClick={() => onIncrement(item.id)}
+                    disabled={item.quantityOnCart >= item.quantity}
+                    >
                     +
                   </button>
                 </div>
