@@ -1,0 +1,210 @@
+{
+    "ultimoProductoId": 7,
+    "productos": [
+        {
+            "name": "Gargantilla para hombre",
+            "description": "En materiales duraderos",
+            "quantity": 10,
+            "price": 50000,
+            "tags": [
+                "gargantilla",
+                "ajustado",
+                "hombre",
+                "collar"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
+            ],
+            "id": 1,
+            "category": "collares",
+            "size": "40cm de diametro",
+            "materials": [
+                "Perlas"
+            ],
+            "oculto": false
+        },
+        {
+            "name": "Collar de perlas para hombre",
+            "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
+            "quantity": 10,
+            "price": 50000,
+            "category": "collares",
+            "tags": [
+                "hombre",
+                "collar",
+                "perla"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
+            ],
+            "id": 3,
+            "oculto": false
+        },
+        {
+            "name": "prueba",
+            "description": "dasfasdf",
+            "quantity": 2,
+            "size": "40cm de diametro",
+            "materials": [
+                "cuero"
+            ],
+            "price": 50000,
+            "category": "manillas",
+            "tags": [
+                "brazalete",
+                "verde",
+                "negro"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+            ],
+            "id": 4,
+            "oculto": true
+        },
+        {
+            "name": "Pulseras para hombre en piedra natural",
+            "description": "No sabemos si la piedra natural puede contener la capacidad de mentir, pero vale la pena intentar.",
+            "quantity": 5,
+            "size": "15cm de per\u00edmetro",
+            "materials": [
+                "Piedra natural"
+            ],
+            "price": 20000,
+            "category": "manillas",
+            "tags": [
+                "hombre",
+                "piedra natural",
+                "brazalete",
+                "verde",
+                "negro",
+                "amarillo",
+                "azul"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783538884/productos/temporal/trxmvjavbydxom9dogs1.png"
+            ],
+            "id": 5
+        },
+        {
+            "name": "Aretes rodio con pedrer\u00eda",
+            "description": "El rodio es un elemento qu\u00edmico de n\u00famero at\u00f3mico 45 situado en el grupo 9 de la tabla peri\u00f3dica de los elementos. Su s\u00edmbolo es Rh.",
+            "quantity": 20,
+            "size": "2.5cm de largo",
+            "materials": [],
+            "price": 90000,
+            "category": "aretes",
+            "tags": [
+                "Rodio",
+                "Mineral"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
+            ],
+            "id": 6
+        },
+        {
+            "name": "Manilla de rodio estrella",
+            "description": "Porque brillas para alguien",
+            "quantity": 10,
+            "size": "10 cm de perimetro",
+            "materials": [
+                "Rodio",
+                "Hilo de poliester"
+            ],
+            "price": 90000,
+            "category": "manillas",
+            "tags": [
+                "Poliester",
+                "Estrella",
+                "Forma",
+                "Manilla",
+                "brazalete"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783541923/productos/temporal/hlnkmqy5c9al7s0owjz4.jpg"
+            ],
+            "id": 7
+        }
+    ],
+    "etiquetas-existentes": [
+        "hombre",
+        "piedra natural",
+        "verde",
+        "brazalete",
+        "negro"
+    ],
+    "credenciales": [
+        {
+            "usuario": [
+                "ADOS",
+                "SCRUM_2.2"
+            ],
+            "password": "12345678"
+        }
+    ],
+    "pedidos": [
+        {
+            "id": 1,
+            "cliente": {
+                "identificacion": "12345678",
+                "telefono": "3001234567",
+                "nombre": "Ana P\u00e9rez",
+                "departamento": "Cundinamarca",
+                "municipio": "Bogot\u00e1",
+                "carrera": "Carrera 10",
+                "calle": "Calle 50",
+                "detalles_extra": "Apto 203, Edificio Los Robles"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 2
+                }
+            ],
+            "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
+            "created_at": "2026-07-04T20:02:51.580833"
+        },
+        {
+            "id": 2,
+            "cliente": {
+                "identificacion": "213",
+                "telefono": "213",
+                "nombre": "Jeisson Steven",
+                "departamento": "sdfds",
+                "municipio": "sdgfds",
+                "carrera": "234",
+                "calle": "234",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 1
+                }
+            ],
+            "direccion_resumen": "sdfds, sdgfds, 234, 234",
+            "created_at": "2026-07-09T02:54:03.032926"
+        },
+        {
+            "id": 3,
+            "cliente": {
+                "identificacion": "jhkhj",
+                "telefono": "43433",
+                "nombre": "ergre",
+                "departamento": "ergr",
+                "municipio": "ergre",
+                "carrera": "45",
+                "calle": "dfhdf",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 1
+                }
+            ],
+            "direccion_resumen": "ergr, ergre, 45, dfhdf",
+            "created_at": "2026-07-09T02:55:39.447471"
+        }
+    ]
+}

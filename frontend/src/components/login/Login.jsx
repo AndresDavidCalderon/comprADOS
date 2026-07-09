@@ -1,0 +1,82 @@
+import { useState,useContext } from "react"
+import './Login.css'
+import AuthContext from "../../context/AuthContext"
+
+export default function Login({ onClose }) {
+  const [usuario, setUsuario] = useState('')
+  const [contrasena, setContrasena] = useState('')
+  const auth = useContext(AuthContext)
+
+  const handleSubmit = async () => {
+    if (auth.isAuthenticated) {
+      auth.logout()
+      onClose()
+      return
+    } else {
+      try {
+        const response = await fetch("http://localhost:8000/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, contrasena })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          console.log(data)
+          onClose()
+          auth.login()
+        } else {
+          alert("Usuario o contraseña incorrectos")
+        }
+      } catch (error) {
+        console.error(error)
+        alert("No se pudo conectar con el servidor. ¿Está corriendo el backend?")
+      }
+    }
+}
+  
+  return (
+    <div className={auth.isAuthenticated ? "login-modal logout-modal" : "login-modal"}>
+      <div className="login-box">
+        <button className="close-btn" onClick={onClose}>×</button>
+
+        {
+        auth.isAuthenticated ?
+        <>
+        <h1 className = "start">¿Deseas Cerrar Sesión?</h1>
+        <button className="close-session btn-contrast" onClick={handleSubmit}>Cerrar Sesión</button>
+        </>:
+        <>
+        <h1 className="start">Iniciar Sesión</h1>
+        <form className="login-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          <label className="form-label">
+            Usuario
+            <input
+              className="text-input"
+              type="text"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+            />
+          </label>
+
+          <label className="form-label">
+            Contraseña
+            <input
+              className="text-input"
+              type="password"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              onSubmit={handleSubmit}
+            />
+          </label>
+          <div className="centerer"> 
+            <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
+          </div>
+        </form>
+        </>
+      }
+
+      </div>
+    </div>
+  )
+}
