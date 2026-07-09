@@ -15,6 +15,7 @@ export default function CartDrawer({
   onClose,
   onIncrement,
   onDecrement,
+  onCheckout,
 }) {
   if (!isOpen) {
     return null
@@ -67,7 +68,7 @@ export default function CartDrawer({
 
         <footer className="cart-footer">
           <p className="cart-total">Total: {formatCurrency(total)}</p>
-          <button type="button" className="checkout-btn" disabled={items.length === 0}>
+          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => onCheckout && onCheckout()}>
             Continuar
           </button>
         </footer>

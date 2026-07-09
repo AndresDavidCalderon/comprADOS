@@ -97,32 +97,49 @@
                 }
             ],
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833",
-            "modo de pago": "Tarjeta de credito",
-            "estado": "En proceso"
-        }
-    ],
-    "pedidos": [
+            "created_at": "2026-07-04T20:02:51.580833"
+        },
         {
-            "id": 1,
+            "id": 2,
             "cliente": {
-                "identificacion": "12345678",
-                "telefono": "3001234567",
-                "nombre": "Ana P\u00e9rez",
-                "departamento": "Cundinamarca",
-                "municipio": "Bogot\u00e1",
-                "carrera": "Carrera 10",
-                "calle": "Calle 50",
-                "detalles_extra": "Apto 203, Edificio Los Robles"
+                "identificacion": "213",
+                "telefono": "213",
+                "nombre": "Jeisson Steven",
+                "departamento": "sdfds",
+                "municipio": "sdgfds",
+                "carrera": "234",
+                "calle": "234",
+                "detalles_extra": ""
             },
             "items": [
                 {
-                    "producto_id": 1,
-                    "cantidad": 2
+                    "producto_id": 4,
+                    "cantidad": 1
                 }
             ],
-            "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833"
+            "direccion_resumen": "sdfds, sdgfds, 234, 234",
+            "created_at": "2026-07-09T02:54:03.032926"
+        },
+        {
+            "id": 3,
+            "cliente": {
+                "identificacion": "jhkhj",
+                "telefono": "43433",
+                "nombre": "ergre",
+                "departamento": "ergr",
+                "municipio": "ergre",
+                "carrera": "45",
+                "calle": "dfhdf",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 1
+                }
+            ],
+            "direccion_resumen": "ergr, ergre, 45, dfhdf",
+            "created_at": "2026-07-09T02:55:39.447471"
         }
     ]
 }
