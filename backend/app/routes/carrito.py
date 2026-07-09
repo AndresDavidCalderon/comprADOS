@@ -29,6 +29,7 @@ class Item(BaseModel):
 class CheckoutRequest(BaseModel):
     cliente: Cliente
     items: List[Item]
+    total: Optional[float] = None
 
 
 @router.post("/checkout")
@@ -41,8 +42,23 @@ def checkout(payload: CheckoutRequest):
     """
     cliente = payload.cliente.dict()
     items = [item.dict() for item in payload.items]
-
     db = read_db()
+
+    productos_por_id = {producto["id"]: producto for producto in db.get("productos", [])}
+    total_calculado = 0
+    items_con_precio = []
+
+    for item in items:
+        producto = productos_por_id.get(item["producto_id"])
+        precio = float(producto.get("price", 0)) if producto else 0
+        cantidad = int(item.get("cantidad", 0))
+        total_calculado += precio * cantidad
+        items_con_precio.append({
+            **item,
+            "precio_unitario": precio,
+            "subtotal": precio * cantidad,
+        })
+
     if "pedidos" not in db:
         db["pedidos"] = []
 
@@ -62,7 +78,8 @@ def checkout(payload: CheckoutRequest):
     pedido = {
         "id": pedido_id,
         "cliente": cliente,
-        "items": items,
+        "items": items_con_precio,
+        "total": total_calculado if total_calculado > 0 else payload.total,
         "direccion_resumen": direccion,
         "created_at": timestamp
     }
@@ -74,6 +91,7 @@ def checkout(payload: CheckoutRequest):
         "message": "Pedido registrado (borrador)",
         "pedido_id": pedido_id,
         "direccion_resumen": direccion,
+        "total": pedido["total"],
         "cliente": {"nombre": cliente.get("nombre"), "telefono": cliente.get("telefono"), "identificacion": cliente.get("identificacion")},
-        "items": items
+        "items": items_con_precio
     }
