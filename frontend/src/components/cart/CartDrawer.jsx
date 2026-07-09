@@ -1,5 +1,3 @@
-import { useState } from "react";
-import Datos from "../formulario-cliente/Datos";
 import './CartDrawer.css'
 
 const formatCurrency = (value) =>
@@ -24,9 +22,7 @@ export default function CartDrawer({
   }
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0)
-  const [showDatos, setShowDatos] = useState(false);
   return (
-    <>
     <div className="cart-layer" role="dialog" aria-modal="true" aria-label="Carrito de compras">
       <button
         type="button"
@@ -73,18 +69,11 @@ export default function CartDrawer({
 
         <footer className="cart-footer">
           <p className="cart-total">Total: {formatCurrency(total)}</p>
-          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => onCheckout && onCheckout() && setShowDatos(true)}>
+          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => onCheckout && onCheckout()}>
             Continuar
           </button>
         </footer>
       </aside>
     </div>
-    {showDatos && (
-      <Datos
-        onClose={() => setShowDatos(false)}
-        onFinalizarCompra={onCheckout}
-      />
-    )}
-  </> 
   )
 }

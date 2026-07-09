@@ -79,7 +79,8 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
 
     const payload = {
       cliente,
-      items: items.map((it) => ({ producto_id: it.id, cantidad: it.quantity }))
+      items: items.map((it) => ({ producto_id: it.id, cantidad: it.quantityOnCart })),
+      total: items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0),
     }
 
     try {
