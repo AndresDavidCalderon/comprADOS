@@ -53,8 +53,13 @@
   font-size: 15px;
 }
 
+.noti-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
 .botonPequeño {
-  margin-left: 25%;
   margin-top: 5%;
   background: linear-gradient(135deg, #7a2d4f, #5a1f3d);
   color: white;

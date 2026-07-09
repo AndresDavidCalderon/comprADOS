@@ -67,15 +67,6 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
           >
             <span></span><span></span><span></span>
           </button>
-          <button
-            className="nav-toggle"
-            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            aria-expanded={menuOpen}
-            aria-controls="nav-categories"
-            onClick={() => setMenuOpen((o) => !o)}
-          >
-            <span></span><span></span><span></span>
-          </button>
         </div>
 
       </div>

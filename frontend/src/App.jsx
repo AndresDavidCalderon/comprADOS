@@ -66,6 +66,39 @@ function App() {
     )
   }
 
+  const finalizarCompra = async (datosCliente, metodoPago) => {
+
+  const venta = {
+    cliente: datosCliente,
+    productos: cartItems,
+    metodoPago,
+    fecha: new Date().toISOString(),
+    total: cartItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    )
+  };
+
+  console.log("Venta creada:", venta);
+
+    /*
+    //Después aquí irá el fetch al backend para el POST de la venta
+    //Sería algo así
+    await fetch("http://localhost:8000/ventas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(venta)
+    });
+    */
+
+    setCartItems([]);
+    setIsCartOpen(false);
+    setCurrentPage('checkout');
+    alert("¡Compra realizada con éxito!");
+  };
+
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0)
   const auth = useContext(AuthContext)
 
@@ -143,7 +176,7 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
-        onCheckout={() => setCurrentPage('checkout')}
+        onCheckout={finalizarCompra}
       />
       {showLogin && <Login onClose={() => setShowLogin(false)} />}
     </>
