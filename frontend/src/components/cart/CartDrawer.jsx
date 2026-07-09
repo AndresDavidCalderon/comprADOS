@@ -17,7 +17,7 @@ export default function CartDrawer({
   onClose,
   onIncrement,
   onDecrement,
-  onFinalizarCompra
+  onCheckout,
 }) {
   if (!isOpen) {
     return null
@@ -73,7 +73,7 @@ export default function CartDrawer({
 
         <footer className="cart-footer">
           <p className="cart-total">Total: {formatCurrency(total)}</p>
-          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => setShowDatos(true)}>
+          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => onCheckout && onCheckout() && setShowDatos(true)}>
             Continuar
           </button>
         </footer>
@@ -82,7 +82,7 @@ export default function CartDrawer({
     {showDatos && (
       <Datos
         onClose={() => setShowDatos(false)}
-        onFinalizarCompra={onFinalizarCompra}
+        onFinalizarCompra={onCheckout}
       />
     )}
   </> 

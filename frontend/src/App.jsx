@@ -8,6 +8,7 @@ import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
 import CartDrawer from './components/cart/CartDrawer'
+import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
 
@@ -97,6 +98,7 @@ function App() {
 
     setCartItems([]);
     setIsCartOpen(false);
+    setCurrentPage('checkout');
     alert("¡Compra realizada con éxito!");
   };
 
@@ -135,6 +137,14 @@ function App() {
             title="Aretes"
           />
         )
+      case 'checkout':
+        return (
+          <Checkout
+            items={cartItems}
+            onSuccess={() => { setCartItems([]); setCurrentPage('home') }}
+            onCancel={() => setCurrentPage('home')}
+          />
+        )
       case 'notice':
         return <NotiManager />
       case 'adverts':
@@ -169,7 +179,7 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
-        onFinalizarCompra={finalizarCompra}
+        onCheckout={finalizarCompra}
       />
       {showLogin && <Login onClose={() => setShowLogin(false)} />}
     </>
