@@ -136,7 +136,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   }
 
   const publish=async () => {
-    if (!name || !description || !category || price <= 0 || photoURLs.length === 0) {
+    if (!name || !description || !category || price <= 0 || photoURLs.length === 0 || quantity <= 0) {
       alert("Por favor, complete todos los campos requeridos.");
       return;
     }
@@ -201,7 +201,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             photoURLs.length > 0 ? <img src={photoURLs[0]} alt="Referencia" className="reference-img"/> : <p>Sube una foto de referencia y aparecerá aquí</p>
           }
         </div>
-        <h3 className="reference-caption">Foto de Referencia</h3>
+        <h3 className="reference-caption">Foto de Referencia *</h3>
         <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn"> {photoURLs.length > 0 ? "Cambiar foto de referencia" : "Subir foto de referencia"}</label>
         <h2>Otras fotos</h2>
         <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
@@ -226,17 +226,17 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       <div className="create-right-card">
         <h2 className="create-title">Nueva Pieza</h2>
           <label className="form-label">
-            Nombre
+            Nombre *
             <input className="text-input" type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
           </label>
 
           <label className="form-label">
-            Descripción del producto
+            Descripción del producto *
             <textarea className="textarea-input" name="description" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
           </label>
 
           <label className="form-label">
-            Cantidad Disponible
+            Cantidad Disponible *
             <input className="text-input" type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
           <label className="form-label">
@@ -276,7 +276,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             ))}
           </div>
           <label className="form-label">
-            Precio
+            Precio *
             <input
               className="text-input"
               type="text"
@@ -287,7 +287,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             />
           </label>
           <label className="form-label">
-            Categoría
+            Categoría *
             <select className="text-input category-select" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="">Selecciona una categoría</option>
               <option value="collares">Collares</option>
