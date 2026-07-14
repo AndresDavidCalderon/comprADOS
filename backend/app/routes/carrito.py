@@ -52,6 +52,17 @@ def checkout(payload: CheckoutRequest):
         producto = productos_por_id.get(item["producto_id"])
         precio = float(producto.get("price", 0)) if producto else 0
         cantidad = int(item.get("cantidad", 0))
+
+        # Descontar del inventario
+        producto["quantity"] -= cantidad
+        print(f"Stock después: {producto['quantity']}")
+
+        # Si se agotó, ocultarlo
+        if producto["quantity"] <= 0:
+            producto["quantity"] = 0
+            producto["oculto"] = True
+            print("Producto ocultado automáticamente")
+
         total_calculado += precio * cantidad
         items_con_precio.append({
             **item,
