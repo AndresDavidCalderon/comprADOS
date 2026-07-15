@@ -1,26 +1,54 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./NotiDetails.css"
 import ApiContext from "../../context/ApiContext";
 
 export default function NotiDetails({ order }) {
+<<<<<<< HEAD
     const [productList, setProductList] = useState([])
     const { apiUrl } = useContext(ApiContext);
 
     useEffect(() => {
         fetch(`${apiUrl}/productos/`)
+=======
+    const [catalogProducts, setCatalogProducts] = useState([])
+
+    useEffect(() => {
+        if (!order?.items?.length) {
+            return
+        }
+
+        fetch("http://localhost:8000/productos/")
+>>>>>>> dev
             .then(response => response.json())
             .then(data => {
-                setProductList(order.items.map(item => {
-                    const product = data.find(p => p.id === item.producto_id)
-                    return {
-                        ...item,
-                        producto: product || null
-                    }
-                }))}
-                )
+                setCatalogProducts(data)
+            })
             .catch(err => console.error("error trayendo productos:", err))
-    }, [])
+    }, [order])
+
+    const productList = useMemo(() => {
+        if (!order?.items?.length) {
+            return []
+        }
+
+        return order.items.map((item) => {
+            const product = catalogProducts.find((p) => Number(p.id) === Number(item.producto_id))
+            return {
+                ...item,
+                producto: product || null,
+            }
+        })
+    }, [order, catalogProducts])
+
+    const montoCalculado = productList.reduce((total, item) => {
+        const price = Number(item.producto?.price ?? 0)
+        const quantity = Number(item.cantidad ?? item.quantityOnCart ?? 0)
+        return total + (price * quantity)
+    }, 0)
+
+    const montoGuardado = Number(order?.total)
+    const monto = Number.isFinite(montoGuardado) && montoGuardado > 0 ? montoGuardado : montoCalculado
 
     return (
     <div className="noti-details">
@@ -32,7 +60,7 @@ export default function NotiDetails({ order }) {
                     ? item.producto.photos[0]
                     : square_placeholder
                 return (
-                    <div key={item.producto.id} className="noti-obj-group">
+                    <div key={item.producto ? item.producto.id : item.producto_id} className="noti-obj-group">
                         <img className="noti-obj-img" src={foto} alt={item.producto ? item.producto.name : "producto"} />
                         <div>
                             <h2 className="noti-obj">{item.producto ? item.producto.name : "Cargando..."}</h2>
@@ -68,7 +96,7 @@ export default function NotiDetails({ order }) {
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Monto:</h2>
-                <h2 className="noti-text">{productList.reduce((total, item) => total + (item.producto ? item.producto.price : 0) * item.cantidad, 0)}</h2>
+                <h2 className="noti-text">{monto}</h2>
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Modo de Pago:</h2>

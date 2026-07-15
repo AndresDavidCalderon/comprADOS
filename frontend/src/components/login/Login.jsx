@@ -50,29 +50,31 @@ export default function Login({ onClose }) {
         </>:
         <>
         <h1 className="start">Iniciar Sesión</h1>
+        <form className="login-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          <label className="form-label">
+            Usuario
+            <input
+              className="text-input"
+              type="text"
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+            />
+          </label>
 
-        <label className="form-label">
-          Usuario
-          <input
-            className="text-input"
-            type="text"
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-          />
-        </label>
-
-        <label className="form-label">
-          Contraseña
-          <input
-            className="text-input"
-            type="password"
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
-          />
-        </label>
-        <div className="centerer"> 
-          <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
-        </div>
+          <label className="form-label">
+            Contraseña
+            <input
+              className="text-input"
+              type="password"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              onSubmit={handleSubmit}
+            />
+          </label>
+          <div className="centerer"> 
+            <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
+          </div>
+        </form>
         </>
       }
 
