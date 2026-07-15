@@ -4,6 +4,7 @@ import App from './App.jsx'
 import {AuthProvider} from './context/AuthContext.jsx'
 import {ApiProvider} from './context/ApiContext.jsx'
 import './colors.css'
+import './buttons.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
