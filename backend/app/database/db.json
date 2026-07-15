@@ -1,5 +1,5 @@
 {
-    "ultimoProductoId": 6,
+    "ultimoProductoId": 7,
     "productos": [
         {
             "name": "Gargantilla para hombre",
@@ -101,6 +101,29 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
             ],
             "id": 6
+        },
+        {
+            "name": "Manilla de rodio estrella",
+            "description": "Porque brillas para alguien",
+            "quantity": 10,
+            "size": "10 cm de perimetro",
+            "materials": [
+                "Rodio",
+                "Hilo de poliester"
+            ],
+            "price": 90000,
+            "category": "manillas",
+            "tags": [
+                "Poliester",
+                "Estrella",
+                "Forma",
+                "Manilla",
+                "brazalete"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783541923/productos/temporal/hlnkmqy5c9al7s0owjz4.jpg"
+            ],
+            "id": 7
         }
     ],
     "etiquetas-existentes": [
@@ -139,9 +162,49 @@
                 }
             ],
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833",
-            "modo de pago": "Tarjeta de credito",
-            "estado": "En proceso"
+            "created_at": "2026-07-04T20:02:51.580833"
+        },
+        {
+            "id": 2,
+            "cliente": {
+                "identificacion": "213",
+                "telefono": "213",
+                "nombre": "Jeisson Steven",
+                "departamento": "sdfds",
+                "municipio": "sdgfds",
+                "carrera": "234",
+                "calle": "234",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 1
+                }
+            ],
+            "direccion_resumen": "sdfds, sdgfds, 234, 234",
+            "created_at": "2026-07-09T02:54:03.032926"
+        },
+        {
+            "id": 3,
+            "cliente": {
+                "identificacion": "jhkhj",
+                "telefono": "43433",
+                "nombre": "ergre",
+                "departamento": "ergr",
+                "municipio": "ergre",
+                "carrera": "45",
+                "calle": "dfhdf",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 1
+                }
+            ],
+            "direccion_resumen": "ergr, ergre, 45, dfhdf",
+            "created_at": "2026-07-09T02:55:39.447471"
         }
     ]
 }

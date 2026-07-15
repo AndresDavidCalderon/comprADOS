@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -8,6 +8,7 @@ import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
 import CartDrawer from './components/cart/CartDrawer'
+import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
 
@@ -15,7 +16,19 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartItems, setCartItems] = useState([])
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const storedCart = localStorage.getItem('cartItems')
+      return storedCart ? JSON.parse(storedCart) : []
+    } catch (error) {
+      console.error('No se pudo cargar el carrito persistido:', error)
+      return []
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
+  }, [cartItems])
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -68,37 +81,10 @@ function App() {
     )
   }
 
-  const finalizarCompra = async (datosCliente, metodoPago) => {
-
-  const venta = {
-    cliente: datosCliente,
-    productos: cartItems,
-    metodoPago,
-    fecha: new Date().toISOString(),
-    total: cartItems.reduce(
-      (acc, item) => acc + item.price * item.quantityOnCart,
-      0
-    )
-  };
-
-  console.log("Venta creada:", venta);
-
-    /*
-    //Después aquí irá el fetch al backend para el POST de la venta
-    //Sería algo así
-    await fetch("http://localhost:8000/ventas", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(venta)
-    });
-    */
-
-    setCartItems([]);
-    setIsCartOpen(false);
-    alert("¡Compra realizada con éxito!");
-  };
+  const finalizarCompra = () => {
+    setIsCartOpen(false)
+    setCurrentPage('checkout')
+  }
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
@@ -132,7 +118,16 @@ function App() {
       case 'aretes':
         return (
           <Aretes
+            onAddToCart={addToCart}
             title="Aretes"
+          />
+        )
+      case 'checkout':
+        return (
+          <Checkout
+            items={cartItems}
+            onSuccess={() => { setCartItems([]); setCurrentPage('home') }}
+            onCancel={() => setCurrentPage('home')}
           />
         )
       case 'notice':
@@ -169,7 +164,7 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
-        onFinalizarCompra={finalizarCompra}
+        onCheckout={finalizarCompra}
       />
       {showLogin && <Login onClose={() => setShowLogin(false)} />}
     </>

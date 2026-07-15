@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react"
+import { useState, useEffect,useContext} from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./NotiManager.css"
 import NotiDetails from "./NotiDetails";
