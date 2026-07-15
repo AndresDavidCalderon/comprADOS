@@ -142,6 +142,17 @@
             "password": "12345678"
         }
     ],
+    "reviews": {
+            "1":[
+                {
+                    "texto":"Muy lindo!!!", "id":1
+                }],
+
+            "2":[
+            {
+                    "texto":"Me gusta ADOS me gusta :)", "id":2
+                }]
+    },
     "pedidos": [
         {
             "id": 1,
