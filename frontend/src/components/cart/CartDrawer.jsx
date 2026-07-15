@@ -22,10 +22,6 @@ export default function CartDrawer({
   }
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0)
-<<<<<<< HEAD
-  const [showDatos, setShowDatos] = useState(false);
-=======
->>>>>>> dev
   return (
     <div className="cart-layer" role="dialog" aria-modal="true" aria-label="Carrito de compras">
       <button

@@ -86,39 +86,6 @@ function App() {
     setCurrentPage('checkout')
   }
 
-<<<<<<< HEAD
-  const venta = {
-    cliente: datosCliente,
-    productos: cartItems,
-    metodoPago,
-    fecha: new Date().toISOString(),
-    total: cartItems.reduce(
-      (acc, item) => acc + item.price * item.quantityOnCart,
-      0
-    )
-  };
-
-  console.log("Venta creada:", venta);
-
-    /*
-    //Después aquí irá el fetch al backend para el POST de la venta
-    //Sería algo así
-    await fetch("http://localhost:8000/ventas", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(venta)
-    });
-    */
-
-    setCartItems([]);
-    setIsCartOpen(false);
-    alert("¡Compra realizada con éxito!");
-  };
-
-=======
->>>>>>> dev
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
 

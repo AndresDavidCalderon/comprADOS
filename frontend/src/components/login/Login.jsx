@@ -7,6 +7,7 @@ export default function Login({ onClose }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
   const auth = useContext(AuthContext)
+  const { apiUrl } = useContext(ApiContext);
 
   const handleSubmit = async () => {
     if (auth.isAuthenticated) {
@@ -15,7 +16,6 @@ export default function Login({ onClose }) {
       return
     } else {
       try {
-        const { apiUrl } = useContext(ApiContext);
         const response = await fetch(`${apiUrl}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
