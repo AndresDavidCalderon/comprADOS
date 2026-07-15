@@ -1,11 +1,13 @@
 import { useState,useContext } from "react"
 import './Login.css'
 import AuthContext from "../../context/AuthContext"
+import ApiContext from "../../context/ApiContext"
 
 export default function Login({ onClose }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
   const auth = useContext(AuthContext)
+  const { apiUrl } = useContext(ApiContext);
 
   const handleSubmit = async () => {
     if (auth.isAuthenticated) {
@@ -14,7 +16,7 @@ export default function Login({ onClose }) {
       return
     } else {
       try {
-        const response = await fetch("http://localhost:8000/auth/login", {
+        const response = await fetch(`${apiUrl}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usuario, contrasena })
