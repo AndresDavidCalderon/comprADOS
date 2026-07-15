@@ -197,3 +197,18 @@
   border-radius: 8px;
   display: block;
 }
+
+.radio-input{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+
+.radio-btn{
+  width: 20px;
+  height: 20px;
+  accent-color: #7b273f;
+}

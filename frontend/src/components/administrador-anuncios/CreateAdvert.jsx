@@ -9,8 +9,8 @@ const formatThousands = (digits) => {
 }
 
 
-export default function CreateAdvert({onPublish,editingProduct}) {
-  const  [selectingTags, setSelectingTags] = useState(false);
+export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
+  const [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState(editingProduct ? editingProduct.tags : []);
   const [photoURLs, setPhotoURLs] = useState(editingProduct ? editingProduct.photos : []); // first is reference photo, rest are additional photos
   const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
@@ -27,6 +27,9 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
   const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
   const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
+  const [visibilidadAnuncio, setVisibilidadAnuncio] = useState(
+      editingProduct?.oculto ? "oculto" : "visible"
+  );
 
   const handlePriceChange = (event) => {
     const rawValue = event.target.value.replace(/[^\d]/g, "");
@@ -136,7 +139,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   }
 
   const publish=async () => {
-    if (!name || !description || !category || price <= 0 || photoURLs.length === 0 || quantity <= 0) {
+    if (!name || !description || !category || price <= 0 || photoURLs.length === 0 || quantity <= 0 || !visibilidadAnuncio) {
       alert("Por favor, complete todos los campos requeridos.");
       return;
     }
@@ -152,6 +155,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       producto.category = category;
       producto.tags = selectedTags;
       producto.photos = photoURLs;
+      producto.oculto = visibilidadAnuncio === "oculto";
       
       const response = await fetch(`http://localhost:8000/productos/${producto.id}`, {
         method: "PATCH",
@@ -294,6 +298,27 @@ export default function CreateAdvert({onPublish,editingProduct}) {
               <option value="manillas">Manillas</option>
               <option value="aretes">Aretes</option>
             </select>
+          </label>
+          <label className="form-label"> 
+          Visibilidad del Anuncio *
+          </label>
+          <label className="radio-input form-label">
+            <input  className="radio-btn"
+                type="radio"
+                name="visibilidad"
+                value="visible"
+                checked={visibilidadAnuncio === "visible"}
+                onChange={() => setVisibilidadAnuncio("visible")}
+            />
+            Visible
+            <input  className="radio-btn"
+                type="radio"
+                name="visibilidad"
+                value="oculto"
+                checked={visibilidadAnuncio === "oculto"}
+                onChange={() => setVisibilidadAnuncio("oculto")}
+            />
+            Oculto
           </label>
           <label className="form-label">
             Palabras Clave
