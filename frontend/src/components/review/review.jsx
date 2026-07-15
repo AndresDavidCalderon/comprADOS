@@ -1,7 +1,7 @@
 import { useState,useContext } from "react"
 import './review.css'
 
-export default function Login({ onClose }) {
+export default function Reviews() {
     const [estrellas, setEstrellas] = useState('')
     const [comentario, setComentario] = useState('')
 

@@ -1,5 +1,6 @@
 import "./detalles.css"
 import DetallesCarousel from "./DetallesCarousel"
+import Reviews from "../review/review"
 
 const formatCurrency = (value) =>
     new Intl.NumberFormat("es-CO", {
@@ -17,8 +18,7 @@ export default function Detalles({ initialProduct,onExit }) {
                     <h1>{initialProduct?.name}</h1>
                     <div className="detalles-lado-a-lado">
                         <div class="contenedor-carrusel-detalles">
-
-                                    <DetallesCarousel initialProduct={initialProduct} />
+                                <DetallesCarousel initialProduct={initialProduct} />
                             </div>
                             <div>
                                 <div className="detalles-description">
@@ -27,6 +27,7 @@ export default function Detalles({ initialProduct,onExit }) {
                                 <div className="detalles-price">
                                     <h4>{formatCurrency(initialProduct.price)}</h4>
                                 </div>
+                                <Reviews />
                             </div>
                         </div>
                 </div>
