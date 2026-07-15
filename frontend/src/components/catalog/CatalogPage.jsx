@@ -1,6 +1,7 @@
 import { useEffect, useState,useContext } from 'react'
 import './CatalogPage.css'
 import ApiContext from '../../context/ApiContext'
+import Detalles from '../detalles-producto/detalles'
 
 const colorClassMap = {
   Verde: 'dot-green',
@@ -23,6 +24,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [viendoDetalles,setViendoDetalles] = useState(null)
   const { apiUrl } = useContext(ApiContext);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
 
       <div className="catalog-grid">
         {products.map((product) => (
-          <article className="product-card" key={product.id}>
+          <article className="product-card" key={product.id} onClick={() => setViendoDetalles(product)}>
             <img className="product-image" src={getProductImage(product)} alt={product.name} />
             <div className="product-meta-row">
               <div>
@@ -87,6 +89,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
           </article>
         ))}
       </div>
+      {viendoDetalles && (<Detalles initialProduct={viendoDetalles} onExit={() => setViendoDetalles(null)} />) }
     </section>
   )
 }

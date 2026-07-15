@@ -1,0 +1,42 @@
+#marco-detalles{
+    position:fixed;
+    width: 80vw;
+    height: 80vh;
+    top: 15vh;
+    left: 10vw;
+    background-color: white;
+    z-index:15;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding:10px;
+    overflow:auto;
+}
+
+.contenedor-carrusel-detalles{
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detalles-lado-a-lado{
+    display: flex;
+    justify-content: fill;
+    align-items: start;
+    gap: 20px;
+    width:100%
+}
+
+.exit-btn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}

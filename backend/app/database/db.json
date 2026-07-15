@@ -56,10 +56,11 @@
                 "negro"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784145369/productos/temporal/wcj7n8lyysicyfowngsu.jpg"
             ],
             "id": 4,
-            "oculto": true
+            "oculto": false
         },
         {
             "name": "Pulseras para hombre en piedra natural",
@@ -143,15 +144,18 @@
         }
     ],
     "reviews": {
-            "1":[
-                {
-                    "texto":"Muy lindo!!!", "id":1
-                }],
-
-            "2":[
+        "1": [
             {
-                    "texto":"Me gusta ADOS me gusta :)", "id":2
-                }]
+                "texto": "Muy lindo!!!",
+                "id": 1
+            }
+        ],
+        "2": [
+            {
+                "texto": "Me gusta ADOS me gusta :)",
+                "id": 2
+            }
+        ]
     },
     "pedidos": [
         {
