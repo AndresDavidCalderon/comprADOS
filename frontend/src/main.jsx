@@ -6,8 +6,10 @@ import {ApiProvider} from './context/ApiContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ApiProvider>
-      <App />
-    </ApiProvider>
+    <AuthProvider>
+      <ApiProvider>
+        <App />
+      </ApiProvider>
+    </AuthProvider>
   </StrictMode>,
 )
