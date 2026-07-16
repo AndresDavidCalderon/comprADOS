@@ -1,6 +1,5 @@
-import Aretes from '../aretes/Aretes'
-import Collares from '../collares/Collares'
-import Manillas from '../manillas/Manillas'
+import CatalogPage from '../catalog/CatalogPage'
+import { productCatalog } from '../../data/products'
 import './home.css'
 
 export default function Home({ onAddToCart}) {
@@ -11,20 +10,20 @@ export default function Home({ onAddToCart}) {
                 <p>Descubre nuestras colecciones exclusivas de joyería fina</p>
             </div>
             <div className="home-catalogs">
-                <Collares
+                <CatalogPage
+                    category="collares"
+                    title={productCatalog.collares.title}
                     onAddToCart={onAddToCart}
-                    title="Collares"
-                    subtitle="Explora nuestra selección de collares exclusivos"
                 />
-                <Manillas
+                <CatalogPage
+                    category="manillas"
+                    title={productCatalog.manillas.title}
                     onAddToCart={onAddToCart}
-                    title="Manillas"
-                    subtitle="Encuentra la manilla ideal para tu estilo"
                 />
-                <Aretes
+                <CatalogPage
+                    category="aretes"
+                    title={productCatalog.aretes.title}
                     onAddToCart={onAddToCart}
-                    title="Aretes"
-                    subtitle="Descubre aretes elegantes para cada ocasión"
                 />
             </div>
         </section>
