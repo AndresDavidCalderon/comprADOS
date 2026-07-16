@@ -68,9 +68,13 @@
 }
 
 @media (max-aspect-ratio:1/1){
+    .contenedor-carrusel-detalles{
+        width: 100%;
+    }
+    
     .detalles-lado-a-lado{
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
 
     #marco-detalles{
