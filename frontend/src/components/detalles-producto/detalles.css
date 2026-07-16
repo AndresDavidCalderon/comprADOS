@@ -62,3 +62,17 @@
     border-radius: 5px;
     padding: 5px 10px;
 }
+
+@media (max-aspect-ratio:1/1){
+    .detalles-lado-a-lado{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #marco-detalles{
+        left: 2.5vw;
+        top: 8vh;
+        width: 95vw;
+        height: 90vh;
+    }
+}
