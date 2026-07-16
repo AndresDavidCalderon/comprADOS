@@ -1,7 +1,8 @@
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import "../../buttons.css"
+import ApiContext from "../../context/ApiContext";
 
 const formatThousands = (digits) => {
   if (!digits) return "";
@@ -30,6 +31,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
   const [visibilidadAnuncio, setVisibilidadAnuncio] = useState(
       editingProduct?.oculto ? "oculto" : "visible"
   );
+  const { apiUrl } = useContext(ApiContext);
 
   const handlePriceChange = (event) => {
     const rawValue = event.target.value.replace(/[^\d]/g, "");
@@ -62,7 +64,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
     for (const file of files) {
       form.append("files", file);
     }
-    const response = await fetch("http://localhost:8000/productos/imagenes/temporales", {
+    const response = await fetch(`${apiUrl}/productos/imagenes/temporales`, {
       method: "POST",
       body: form
     });
@@ -157,7 +159,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
       producto.photos = photoURLs;
       producto.oculto = visibilidadAnuncio === "oculto";
       
-      const response = await fetch(`http://localhost:8000/productos/${producto.id}`, {
+      const response = await fetch(`${apiUrl}/productos/${producto.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -181,7 +183,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
             tags: selectedTags,
             photos: photoURLs,
           }
-          const response = await fetch("http://localhost:8000/productos/",{
+          const response = await fetch(`${apiUrl}/productos/`,{
             method: "POST",
             headers: {
               "Content-Type": "application/json"

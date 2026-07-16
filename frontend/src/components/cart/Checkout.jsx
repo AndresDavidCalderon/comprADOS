@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import './Checkout.css'
+import ApiContext from '../../context/ApiContext'
 
 export default function Checkout({ items = [], onSuccess = () => {}, onCancel = () => {} }) {
   const [form, setForm] = useState({
@@ -22,6 +23,8 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
   const [serverError, setServerError] = useState(null)
 
   const requiredFields = ['identificacion', 'telefono', 'nombre', 'departamento', 'municipio', 'carrera', 'calle']
+
+  const { apiUrl } = useContext(ApiContext);
 
   const validate = () => {
     const e = {}
@@ -84,7 +87,7 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
     }
 
     try {
-      const res = await fetch('http://localhost:8000/carrito/checkout', {
+      const res = await fetch(`${apiUrl}/carrito/checkout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

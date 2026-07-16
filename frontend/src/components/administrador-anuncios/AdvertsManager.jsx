@@ -1,17 +1,19 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect,useContext } from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./AdvertsManager.css"
 import CreateAdvert from "./CreateAdvert";
 import AdvertCard from "./AdvertCard";
 import "../../buttons.css"
+import ApiContext from "../../context/ApiContext";
 
 export default function AdvertsManager() {
     const [currentPage, setCurrentPage] = useState('list')
     const [advertList, setAdvertList] = useState([])
     const [editingProduct, setEditingProduct] = useState(null)
+    const { apiUrl } = useContext(ApiContext);
 
     const fetchAdverts = () => {
-        fetch("http://localhost:8000/productos")
+        fetch(`${apiUrl}/productos`)
         .then(response => response.json())
         .then(data => setAdvertList(data))
     }
@@ -22,7 +24,7 @@ export default function AdvertsManager() {
 
 
     const deleteAdvert = (advertId) => {
-        fetch(`http://localhost:8000/productos/${advertId}`, {
+        fetch(`${apiUrl}/productos/${advertId}`, {
             method: "DELETE"
         })
         .then(response => {
@@ -37,7 +39,7 @@ export default function AdvertsManager() {
     }
 
     const switchShow = (advertId,show) => {
-        fetch(`http://localhost:8000/productos/${advertId}`, {
+        fetch(`${apiUrl}/productos/${advertId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"

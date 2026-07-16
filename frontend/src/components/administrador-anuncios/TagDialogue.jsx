@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import "./TagDialogue.css";
+import ApiContext from "../../context/ApiContext";
 
 export default function TagDialogue({
   title = "Nueva Pieza • Palabras Clave",
@@ -11,9 +12,10 @@ export default function TagDialogue({
   const [query, setQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [existingTags, setExistingTags] = useState([]);
+  const { apiUrl } = useContext(ApiContext);
 
   useEffect(() => {
-    fetch("http://localhost:8000/productos/etiquetas")
+    fetch(`${apiUrl}/productos/etiquetas`)
       .then((response) => response.json())
       .then((data) => setExistingTags(data));
   }, []);
