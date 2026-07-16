@@ -27,6 +27,14 @@ export default function Detalles({ initialProduct,onExit }) {
                                 <div className="detalles-price">
                                     <h4>{formatCurrency(initialProduct.price)}</h4>
                                 </div>
+                                <h4>Materiales</h4>
+                                <div class="material-container">{initialProduct.materials.map((material) => (
+                                    <div class="material-card" key={material}>
+                                        {material}
+                                    </div>
+                                ))}</div>
+                                <h4>Tamaño</h4>
+                                <div>{initialProduct.size}</div>
                                 <Reviews />
                             </div>
                         </div>

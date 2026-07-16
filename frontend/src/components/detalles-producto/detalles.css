@@ -48,3 +48,17 @@
 .detalles-description{
     margin-top: 10px;
 }
+
+.material-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.material-card {
+    background-color: var(--comfy-beige);
+    border: 1px solid var(--salmon);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
