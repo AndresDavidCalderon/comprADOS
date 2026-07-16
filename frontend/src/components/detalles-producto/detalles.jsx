@@ -15,7 +15,7 @@ export default function Detalles({ initialProduct,onExit }) {
                     <button onClick={onExit} className="exit-btn btn-primary">
                         Cerrar
                     </button>
-                    <h1>{initialProduct?.name}</h1>
+                    <h1 class="detalles-title">{initialProduct?.name}</h1>
                     <div className="detalles-lado-a-lado">
                         <div class="contenedor-carrusel-detalles">
                                 <DetallesCarousel initialProduct={initialProduct} />

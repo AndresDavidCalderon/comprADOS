@@ -12,6 +12,10 @@
     overflow:auto;
 }
 
+.detalles-title{
+    width: 85%;
+}
+
 .contenedor-carrusel-detalles{
     width: 50%;
     height: 50%;

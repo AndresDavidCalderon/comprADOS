@@ -147,6 +147,10 @@
   transform: translateY(-1px);
 }
 
+.add-to-cart-icon {
+  display: none;
+}
+
 @media (max-aspect-ratio:1/1) {
   .catalog-page {
     padding: 1rem;
@@ -183,11 +187,18 @@
   }
 
   .add-to-cart-btn {
-    font-size: 2vw;
+    font-size: 0vw;
+    position:absolute;
+    bottom: 0.5rem;
+    right: 1rem;
   }
 
   .product-price{
     font-size: 2vw;
+  }
+
+  .add-to-cart-icon {
+    display: block;
   }
 
 }

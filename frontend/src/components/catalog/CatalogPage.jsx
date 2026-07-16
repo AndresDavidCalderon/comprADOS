@@ -2,6 +2,7 @@ import { useEffect, useState,useContext } from 'react'
 import './CatalogPage.css'
 import ApiContext from '../../context/ApiContext'
 import Detalles from '../detalles-producto/detalles'
+import cartAddIcon from "../../assets/cart-add.svg"
 
 const colorClassMap = {
   Verde: 'dot-green',
@@ -85,6 +86,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
               onClick={() => onAddToCart?.(product)}
             >
               Agregar al carrito
+              <img src={cartAddIcon} alt="Agregar al carrito" className="add-to-cart-icon" />
             </button>
           </article>
         ))}
