@@ -10,8 +10,8 @@ const formatThousands = (digits) => {
 }
 
 
-export default function CreateAdvert({onPublish,editingProduct}) {
-  const  [selectingTags, setSelectingTags] = useState(false);
+export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
+  const [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState(editingProduct ? editingProduct.tags : []);
   const [photoURLs, setPhotoURLs] = useState(editingProduct ? editingProduct.photos : []); // first is reference photo, rest are additional photos
   const [draggedPhotoIndex, setDraggedPhotoIndex] = useState(null);
@@ -28,6 +28,9 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
   const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
   const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
+  const [visibilidadAnuncio, setVisibilidadAnuncio] = useState(
+      editingProduct?.oculto ? "oculto" : "visible"
+  );
   const { apiUrl } = useContext(ApiContext);
 
   const handlePriceChange = (event) => {
@@ -138,7 +141,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   }
 
   const publish=async () => {
-    if (!name || !description || !category || price <= 0 || photoURLs.length === 0) {
+    if (!name || !description || !category || price <= 0 || photoURLs.length === 0 || quantity <= 0 || !visibilidadAnuncio) {
       alert("Por favor, complete todos los campos requeridos.");
       return;
     }
@@ -154,6 +157,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       producto.category = category;
       producto.tags = selectedTags;
       producto.photos = photoURLs;
+      producto.oculto = visibilidadAnuncio === "oculto";
       
       const response = await fetch(`${apiUrl}/productos/${producto.id}`, {
         method: "PATCH",
@@ -203,7 +207,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             photoURLs.length > 0 ? <img src={photoURLs[0]} alt="Referencia" className="reference-img"/> : <p>Sube una foto de referencia y aparecerá aquí</p>
           }
         </div>
-        <h3 className="reference-caption">Foto de Referencia</h3>
+        <h3 className="reference-caption">Foto de Referencia *</h3>
         <label htmlFor="reference-photo-input" className="btn btn-primary upload-btn"> {photoURLs.length > 0 ? "Cambiar foto de referencia" : "Subir foto de referencia"}</label>
         <h2>Otras fotos</h2>
         <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
@@ -228,17 +232,17 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       <div className="create-right-card">
         <h2 className="create-title">Nueva Pieza</h2>
           <label className="form-label">
-            Nombre
+            Nombre *
             <input className="text-input" type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
           </label>
 
           <label className="form-label">
-            Descripción del producto
+            Descripción del producto *
             <textarea className="textarea-input" name="description" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
           </label>
 
           <label className="form-label">
-            Cantidad Disponible
+            Cantidad Disponible *
             <input className="text-input" type="number" name="quantity" value={quantity} onChange={(e) => setQuantity(parseInt(e.target.value))} />
           </label>
           <label className="form-label">
@@ -278,7 +282,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             ))}
           </div>
           <label className="form-label">
-            Precio
+            Precio *
             <input
               className="text-input"
               type="text"
@@ -289,13 +293,34 @@ export default function CreateAdvert({onPublish,editingProduct}) {
             />
           </label>
           <label className="form-label">
-            Categoría
+            Categoría *
             <select className="text-input category-select" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
               <option value="">Selecciona una categoría</option>
               <option value="collares">Collares</option>
               <option value="manillas">Manillas</option>
               <option value="aretes">Aretes</option>
             </select>
+          </label>
+          <label className="form-label"> 
+          Visibilidad del Anuncio *
+          </label>
+          <label className="radio-input form-label">
+            <input  className="radio-btn"
+                type="radio"
+                name="visibilidad"
+                value="visible"
+                checked={visibilidadAnuncio === "visible"}
+                onChange={() => setVisibilidadAnuncio("visible")}
+            />
+            Visible
+            <input  className="radio-btn"
+                type="radio"
+                name="visibilidad"
+                value="oculto"
+                checked={visibilidadAnuncio === "oculto"}
+                onChange={() => setVisibilidadAnuncio("oculto")}
+            />
+            Oculto
           </label>
           <label className="form-label">
             Palabras Clave
