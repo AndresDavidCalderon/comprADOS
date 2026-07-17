@@ -27,7 +27,16 @@ export default function Detalles({ initialProduct,onExit }) {
                                 <div className="detalles-price">
                                     <h4>{formatCurrency(initialProduct.price)}</h4>
                                 </div>
-                                <Reviews />
+                                <h4>Materiales</h4>
+                                <div className="detalles-materials">
+                                    {initialProduct.materials?.map((material, index) => (
+                                        <span key={index} className="detalles-material">
+                                            {material}
+                                        </span>
+                                    ))}
+                                </div>
+                                <h4>Reseñas</h4>
+                                <Reviews productId={initialProduct.id} />
                             </div>
                         </div>
                 </div>

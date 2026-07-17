@@ -146,14 +146,35 @@
     "reviews": {
         "1": [
             {
-                "texto": "Muy lindo!!!",
-                "id": 1
+                "id": 1,
+                "estrellas": 4,
+                "texto": "Muy lindo!!!"
+            },
+            {
+                "id": 3,
+                "estrellas": 3,
+                "texto": "El material es incre\u00edble!!"
             }
         ],
         "2": [
             {
-                "texto": "Me gusta ADOS me gusta :)",
-                "id": 2
+                "id": 2,
+                "estrellas": 5,
+                "texto": "Me gusta ADOS me gusta :)"
+            }
+        ],
+        "5": [
+            {
+                "id": 4,
+                "estrellas": 5,
+                "texto": "Incre\u00edble!! Me encant\u00f3"
+            }
+        ],
+        "3": [
+            {
+                "id": 5,
+                "estrellas": 5,
+                "texto": "Fant\u00e1sticas perlas!!!"
             }
         ]
     },
