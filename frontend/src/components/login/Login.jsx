@@ -3,7 +3,7 @@ import './Login.css'
 import AuthContext from "../../context/AuthContext"
 import ApiContext from "../../context/ApiContext"
 
-export default function Login({ onClose }) {
+export default function Login({ onClose,onNavigate }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
   const auth = useContext(AuthContext)
@@ -25,6 +25,7 @@ export default function Login({ onClose }) {
         if (response.ok) {
           const data = await response.json()
           console.log(data)
+          onNavigate('adverts')
           onClose()
           auth.login()
         } else {

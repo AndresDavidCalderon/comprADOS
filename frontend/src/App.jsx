@@ -159,7 +159,7 @@ function App() {
         onCheckout={finalizarCompra}
       />
       <Detalles />
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
     </>
   )
 }
