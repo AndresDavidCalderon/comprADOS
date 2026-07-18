@@ -96,6 +96,10 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
     });
   }
 
+  const removeAdditionalPhoto = (index) => {
+    setPhotoURLs((currentURLs) => currentURLs.filter((_, currentIndex) => currentIndex !== index + 1))
+  }
+
   const handlePhotoDragStart = (index) => {
     setDraggedPhotoIndex(index + 1);
   }
@@ -213,9 +217,8 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
         <label htmlFor="additional-photos-input" className="btn btn-primary upload-btn">Subir fotos extra</label>
         <div className="additional-photos">
           {photoURLs.slice(1).map((url, index) => (
-            <button
+            <div
               key={url}
-              type="button"
               className="additional-photo-btn"
               draggable
               onDragStart={() => handlePhotoDragStart(index)}
@@ -224,7 +227,15 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
               onDragEnd={handlePhotoDragEnd}
             >
               <img src={url} alt={`Foto adicional ${index + 1}`} className="additional-img" />
-            </button>
+              <button
+                type="button"
+                className="additional-photo-remove"
+                aria-label={`Eliminar foto adicional ${index + 1}`}
+                onClick={() => removeAdditionalPhoto(index)}
+              >
+                ×
+              </button>
+            </div>
           ))}
         </div>
       </div>

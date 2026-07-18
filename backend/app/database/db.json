@@ -2,24 +2,23 @@
     "ultimoProductoId": 7,
     "productos": [
         {
-            "name": "Gargantilla para hombre",
-            "description": "En materiales duraderos",
+            "name": "Collar nueva vida",
+            "description": "Un collar que expresa seguridad.",
             "quantity": 10,
             "price": 50000,
             "tags": [
-                "gargantilla",
-                "ajustado",
-                "hombre",
-                "collar"
+                "Mostacilla",
+                "Estrecho"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245398/productos/temporal/vbxrr5ryv9jnqpmwovwf.png",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245054/productos/temporal/i0vphqmce4c3kau6cnl4.jpg"
             ],
             "id": 1,
             "category": "collares",
             "size": "40cm de diametro",
             "materials": [
-                "Perlas"
+                "Mostacilla"
             ],
             "oculto": false
         },
@@ -35,10 +34,12 @@
                 "perla"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244838/productos/temporal/x6m0uacbwkndc5y7yrjt.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245124/productos/temporal/fvf5vcs3iw0qgkokbfvw.jpg"
             ],
             "id": 3,
-            "oculto": false
+            "oculto": false,
+            "materials": []
         },
         {
             "name": "prueba",
@@ -56,10 +57,11 @@
                 "negro"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784145369/productos/temporal/wcj7n8lyysicyfowngsu.jpg"
             ],
             "id": 4,
-            "oculto": true
+            "oculto": false
         },
         {
             "name": "Pulseras para hombre en piedra natural",
@@ -81,7 +83,11 @@
                 "azul"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783538884/productos/temporal/trxmvjavbydxom9dogs1.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244296/productos/temporal/dmbqhhet8p80r7oatylp.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244304/productos/temporal/lr6sn9kfjagdx25wqbua.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244304/productos/temporal/qgyyjatlykdb2ys1nmil.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244305/productos/temporal/ymymvd02xnffapfczhj1.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244306/productos/temporal/vycytwmzt1c0tqt4mbag.jpg"
             ],
             "id": 5
         },
@@ -142,6 +148,20 @@
             "password": "12345678"
         }
     ],
+    "reviews": {
+        "1": [
+            {
+                "texto": "Muy lindo!!!",
+                "id": 1
+            }
+        ],
+        "2": [
+            {
+                "texto": "Me gusta ADOS me gusta :)",
+                "id": 2
+            }
+        ]
+    },
     "pedidos": [
         {
             "id": 1,

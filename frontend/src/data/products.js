@@ -2,7 +2,7 @@ import placeholderImage from '../assets/square_placeholder.jpeg'
 
 export const productCatalog = {
   collares: {
-    title: 'ADOS me gusta',
+    title: 'Collares',
     subtitle: 'Antojate! Hay mucho para ver',
     products: [
       { id: 'col-1', name: 'Collar #1', price: 5000, color: 'Verde', image: placeholderImage },
