@@ -30,6 +30,7 @@ class CheckoutRequest(BaseModel):
     cliente: Cliente
     items: List[Item]
     total: Optional[float] = None
+    metodo_pago: Optional[str] = None
 
 
 @router.post("/checkout")
@@ -90,6 +91,7 @@ def checkout(payload: CheckoutRequest):
         "items": items_con_precio,
         "total": total_calculado if total_calculado > 0 else payload.total,
         "direccion_resumen": direccion,
+        "metodo_pago": payload.metodo_pago,
         "created_at": timestamp
     }
 

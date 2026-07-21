@@ -4,7 +4,7 @@
         {
             "name": "Collar nueva vida",
             "description": "Un collar que expresa seguridad.",
-            "quantity": 10,
+            "quantity": 8,
             "price": 50000,
             "tags": [
                 "Mostacilla",
@@ -25,7 +25,7 @@
         {
             "name": "Collar de perlas para hombre",
             "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
-            "quantity": 10,
+            "quantity": 9,
             "price": 50000,
             "category": "collares",
             "tags": [
@@ -66,7 +66,7 @@
         {
             "name": "Pulseras para hombre en piedra natural",
             "description": "No sabemos si la piedra natural puede contener la capacidad de mentir, pero vale la pena intentar.",
-            "quantity": 5,
+            "quantity": 4,
             "size": "15cm de per\u00edmetro",
             "materials": [
                 "Piedra natural"
@@ -225,6 +225,81 @@
             ],
             "direccion_resumen": "ergr, ergre, 45, dfhdf",
             "created_at": "2026-07-09T02:55:39.447471"
+        },
+        {
+            "id": 4,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv2",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": "Edificio/Conjunto: calasania 1; Apto/Casa: 332; Observaciones: asdf"
+            },
+            "items": [
+                {
+                    "producto_id": 5,
+                    "cantidad": 1,
+                    "precio_unitario": 20000.0,
+                    "subtotal": 20000.0
+                }
+            ],
+            "total": 20000.0,
+            "direccion_resumen": "Antioquia, Medellin, 32, 3 (Detalles: Edificio/Conjunto: calasania 1; Apto/Casa: 332; Observaciones: asdf)",
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-21T01:29:15.533253"
+        },
+        {
+            "id": 5,
+            "cliente": {
+                "identificacion": "a",
+                "telefono": "4",
+                "nombre": "jutobonv3",
+                "departamento": "a",
+                "municipio": "a",
+                "carrera": "a",
+                "calle": "a",
+                "detalles_extra": "Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "a, a, a, a (Detalles: Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a)",
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-21T01:36:44.196895"
+        },
+        {
+            "id": 6,
+            "cliente": {
+                "identificacion": "3",
+                "telefono": "3",
+                "nombre": "jutobonv4",
+                "departamento": "a",
+                "municipio": "a",
+                "carrera": "a",
+                "calle": "a",
+                "detalles_extra": "Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a"
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 50000.0,
+            "direccion_resumen": "a, a, a, a (Detalles: Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a)",
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-21T01:39:30.504081"
         }
     ]
 }

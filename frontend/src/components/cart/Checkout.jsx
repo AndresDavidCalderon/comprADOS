@@ -21,6 +21,7 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(null)
   const [serverError, setServerError] = useState(null)
+  const [metodoPago, setMetodoPago] = useState('')
 
   const requiredFields = ['identificacion', 'telefono', 'nombre', 'departamento', 'municipio', 'carrera', 'calle']
 
@@ -33,6 +34,9 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
         e[f] = 'Este campo es obligatorio'
       }
     })
+    if (!metodoPago) {
+      e.metodoPago = 'Selecciona un método de pago'
+    }
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -84,6 +88,7 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
       cliente,
       items: items.map((it) => ({ producto_id: it.id, cantidad: it.quantityOnCart })),
       total: items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0),
+      metodo_pago: metodoPago,
     }
 
     try {
@@ -179,6 +184,39 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
           <label>Observaciones</label>
           <textarea name="observaciones" value={form.observaciones} onChange={handleChange} />
         </div>
+
+        <hr />
+        <h3>Método de pago *</h3>
+        <div className="payment-methods">
+          <label className={`payment-option ${metodoPago === 'efectivo' ? 'selected' : ''}`}>
+            <input
+              type="radio"
+              name="metodoPago"
+              value="efectivo"
+              checked={metodoPago === 'efectivo'}
+              onChange={(e) => setMetodoPago(e.target.value)}
+            />
+            <span className="payment-label">
+              <strong> Efectivo</strong>
+              <small>Pago contra entrega</small>
+            </span>
+          </label>
+
+          <label className={`payment-option ${metodoPago === 'tarjeta' ? 'selected' : ''}`}>
+            <input
+              type="radio"
+              name="metodoPago"
+              value="tarjeta"
+              checked={metodoPago === 'tarjeta'}
+              onChange={(e) => setMetodoPago(e.target.value)}
+            />
+            <span className="payment-label">
+              <strong> Tarjeta</strong>
+              <small>Pago en línea</small>
+            </span>
+          </label>
+        </div>
+        {errors.metodoPago && <span className="error">{errors.metodoPago}</span>}
 
         {serverError && <div className="server-error">{serverError}</div>}
 
