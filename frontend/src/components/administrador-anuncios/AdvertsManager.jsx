@@ -80,7 +80,7 @@ export default function AdvertsManager() {
                 return (
                     <div>
                         <button className="btn-contrast" onClick={() => setCurrentPage('list')}>Volver a la lista</button>
-                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} />
+                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} switchShow={switchShow} />
                     </div>
                 )
             default:

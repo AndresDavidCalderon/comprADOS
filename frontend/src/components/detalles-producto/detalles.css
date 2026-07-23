@@ -1,3 +1,11 @@
+.detalles-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 12, 14, 0.18);
+    z-index: 1001;
+    backdrop-filter: blur(1px);
+}
+
 #marco-detalles{
     position:fixed;
     width: 80vw;
@@ -5,11 +13,16 @@
     top: 15vh;
     left: 10vw;
     background-color: var(--unofficial-beige);
-    z-index:15;
+    z-index: 1002;
     border: 3px solid var(--salmon);
     border-radius: 10px;
     padding:10px;
     overflow:auto;
+}
+
+.detalles-title{
+    width: 85%;
+    margin-bottom:1rem;
 }
 
 .contenedor-carrusel-detalles{
@@ -25,7 +38,7 @@
     justify-content: fill;
     align-items: start;
     gap: 20px;
-    width:100%
+    width:100%;
 }
 
 .exit-btn{
@@ -47,4 +60,36 @@
 
 .detalles-description{
     margin-top: 10px;
+}
+
+.material-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.material-card {
+    background-color: var(--comfy-beige);
+    border: 1px solid var(--salmon);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+@media (max-aspect-ratio:1/1){
+    .contenedor-carrusel-detalles{
+        width: 100%;
+    }
+    
+    .detalles-lado-a-lado{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #marco-detalles{
+        left: 2.5vw;
+        top: 8vh;
+        width: 95vw;
+        height: 90vh;
+    }
 }

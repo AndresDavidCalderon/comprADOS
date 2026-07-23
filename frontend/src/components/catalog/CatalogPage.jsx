@@ -1,7 +1,8 @@
-import { useEffect, useState,useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import './CatalogPage.css'
 import ApiContext from '../../context/ApiContext'
-import Detalles from '../detalles-producto/detalles'
+import DetallesContext from '../../context/DetallesContext'
+import cartAddIcon from "../../assets/cart-add.svg"
 
 const colorClassMap = {
   Verde: 'dot-green',
@@ -24,8 +25,8 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
-  const [viendoDetalles,setViendoDetalles] = useState(null)
-  const { apiUrl } = useContext(ApiContext);
+  const { apiUrl } = useContext(ApiContext)
+  const { openDetalles } = useContext(DetallesContext)
 
   useEffect(() => {
     if (!category) return
@@ -57,7 +58,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
     <section className="catalog-page">
       <header className="catalog-header">
         <h1 className="catalog-title">{title}</h1>
-        <p className="catalog-subtitle">{subtitle}</p>
+        {subtitle && <p className="catalog-subtitle">{subtitle}</p>}
       </header>
 
       {loading && <p className="catalog-state">Cargando productos...</p>}
@@ -65,7 +66,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
 
       <div className="catalog-grid">
         {products.map((product) => (
-          <article className="product-card" key={product.id} onClick={() => setViendoDetalles(product)}>
+            <article className="product-card" key={product.id} onClick={() => openDetalles(product)}>
             <img className="product-image" src={getProductImage(product)} alt={product.name} />
             <div className="product-meta-row">
               <div>
@@ -82,14 +83,17 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
             <button
               className="add-to-cart-btn"
               type="button"
-              onClick={() => onAddToCart?.(product)}
+              onClick={(event) => {
+                event.stopPropagation()
+                onAddToCart?.(product)
+              }}
             >
               Agregar al carrito
+              <img src={cartAddIcon} alt="Agregar al carrito" className="add-to-cart-icon" />
             </button>
           </article>
         ))}
       </div>
-      {viendoDetalles && (<Detalles initialProduct={viendoDetalles} onExit={() => setViendoDetalles(null)} />) }
     </section>
   )
 }

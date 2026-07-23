@@ -11,6 +11,8 @@ import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
+import Home from './components/home/Home'
+import Detalles from './components/detalles-producto/Detalles'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -135,17 +137,7 @@ function App() {
       case 'adverts':
         return <AdvertsManager />
       default:
-        return (
-          <section className="home">
-            <div className="home-hero">
-              <h1>Bienvenido a ADOS Me Gusta</h1>
-              <p>Descubre nuestras colecciones exclusivas de joyería fina</p>
-              <button className="cta-btn" onClick={() => setCurrentPage('collares')}>
-                Explorar Ahora
-              </button>
-            </div>
-          </section>
-        )
+        return <Home onAddToCart={addToCart} onNavigate={setCurrentPage} />
     }
   }
 
@@ -166,7 +158,8 @@ function App() {
         onDecrement={decrementQuantity}
         onCheckout={finalizarCompra}
       />
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      <Detalles />
+      {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
     </>
   )
 }
