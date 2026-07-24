@@ -6,7 +6,7 @@ const ApiContext = createContext({
 });
 
 export function ApiProvider({ children }) {
-    const apiUrl = 'https://friendly-space-lamp-j96jj7vw5j62q5jp-8000.app.github.dev';
+    const apiUrl = 'http://localhost:8000';
     return <ApiContext.Provider value={{ apiUrl }}>{children}</ApiContext.Provider>;
 }
 
