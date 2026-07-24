@@ -54,7 +54,8 @@ export default function Detalles() {
                                 <div>{selectedProduct.size}</div>
                             </>
                         )}
-                        <Reviews />
+                        <h4>Reseñas</h4>
+                        <Reviews productId={selectedProduct.id} />
                     </div>
                 </div>
             </div>

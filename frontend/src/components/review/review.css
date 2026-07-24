@@ -1,0 +1,93 @@
+.resena {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+/* --- Formulario de nueva reseña --- */
+.resena-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--unofficial-beige);
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.resena-estrellas {
+    display: flex;
+    gap: 4px;
+}
+
+/* Cada estrella es un botón sin fondo; se colorea al pasar el mouse o al elegirla */
+.estrella {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.8rem;
+    line-height: 1;
+    padding: 0;
+    color: #cbb99b;
+    transition: color 0.15s ease;
+}
+
+.estrella.activa {
+    color: var(--sunset-yellow);
+}
+
+.resena-textarea {
+    resize: vertical;
+    min-height: 70px;
+    padding: 10px;
+    border: 1px solid var(--salmon);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.resena-textarea:focus {
+    outline: none;
+    border-color: var(--lipstick-red);
+}
+
+.resena-error {
+    color: var(--lipstick-red);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* --- Lista de reseñas existentes --- */
+.resena-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.resena-promedio {
+    font-weight: 700;
+    color: var(--pop-violet);
+    margin: 0;
+}
+
+.resena-vacia {
+    color: var(--unofficial-gray);
+    font-style: italic;
+    margin: 0;
+}
+
+.resena-item {
+    border-left: 3px solid var(--salmon);
+    padding: 4px 0 4px 12px;
+}
+
+.resena-item-estrellas {
+    color: var(--sunset-yellow);
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+.resena-item-texto {
+    margin: 4px 0 0;
+    color: var(--unofficial-gray);
+}
