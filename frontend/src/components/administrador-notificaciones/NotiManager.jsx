@@ -16,6 +16,13 @@ export default function NotiManager() {
         .then(data => setOrderList(data))
     }, [])
 
+    const handleEstadoChange = (updatedOrder) => {
+        setOrderList((prev) =>
+            prev.map((o) => (o.id === updatedOrder.id ? updatedOrder : o))
+        )
+        setSelectedOrder(updatedOrder)
+    }
+
         switch (currentPage) {
             case 'list':
                 return (
@@ -25,7 +32,7 @@ export default function NotiManager() {
                                 <div className="tarjeta-notificacion">
                                     <h1 className="noti-type">{order.id}</h1>
                                     <h2 className="noti-resume">{order.cliente.nombre}</h2>
-                                    <h2 className="noti-resume">{order.estado}</h2>
+                                    <h2 className="noti-resume">{order.estado || 'pendiente'}</h2>
                                     <div className="noti-btn-container">
                                     <button className="botonPequeño" onClick={() => {setCurrentPage('more');setSelectedOrder(order)}}>Ver más</button>
                                     </div>
@@ -39,7 +46,7 @@ export default function NotiManager() {
                 return (
                         <div className="info-notificacion">
                             <div className="detalles">
-                                <NotiDetails order={selectedOrder}/>
+                                <NotiDetails order={selectedOrder} onEstadoChange={handleEstadoChange}/>
                             </div>
                             <div className="ver-mas">
                                 <button className="cta-btn"onClick={() => setCurrentPage('list')}>Ver otros anuncios</button>

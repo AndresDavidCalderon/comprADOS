@@ -3,10 +3,12 @@ import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./NotiDetails.css"
 import ApiContext from "../../context/ApiContext";
 
-export default function NotiDetails({ order }) {
+export default function NotiDetails({ order, onEstadoChange }) {
     const { apiUrl } = useContext(ApiContext);
 
     const [catalogProducts, setCatalogProducts] = useState([])
+    const [updatingEstado, setUpdatingEstado] = useState(false)
+    const [estadoError, setEstadoError] = useState(null)
 
     useEffect(() => {
         if (!order?.items?.length) {
@@ -43,6 +45,27 @@ export default function NotiDetails({ order }) {
 
     const montoGuardado = Number(order?.total)
     const monto = Number.isFinite(montoGuardado) && montoGuardado > 0 ? montoGuardado : montoCalculado
+
+    const estadoActual = order.estado || "pendiente"
+    const handleFinalizar = async () => {
+            setUpdatingEstado(true)
+            setEstadoError(null)
+            try {
+                const res = await fetch(`${apiUrl}/ordenes/${order.id}/estado`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ estado: 'finalizado' }),
+                })
+                if (!res.ok) throw new Error('Error actualizando el estado')
+                const updatedOrder = await res.json()
+                if (onEstadoChange) onEstadoChange(updatedOrder)
+            } catch (err) {
+                console.error(err)
+                setEstadoError('No se pudo actualizar el estado. Intenta de nuevo.')
+            } finally {
+                setUpdatingEstado(false)
+            }
+        }
 
     return (
     <div className="noti-details">
@@ -96,10 +119,25 @@ export default function NotiDetails({ order }) {
                 <h2 className="noti-subtitle">Modo de Pago:</h2>
                 <h2 className="noti-text">{order["modo de pago"]}</h2>
             </div>
+
             <div className="noti-info">
                 <h2 className="noti-subtitle">Estado:</h2>
-                <h2 className="noti-text">{order.estado}</h2>
+                <h2 className="noti-text">{estadoActual}</h2>
             </div>
+
+            {estadoActual !== 'finalizado' && (
+                <div className="noti-info">
+                    <button
+                        className="botonPequeño"
+                        onClick={handleFinalizar}
+                        disabled={updatingEstado}
+                    >
+                        {updatingEstado ? 'Actualizando...' : 'Marcar como finalizado'}
+                    </button>
+                    {estadoError && <span className="error">{estadoError}</span>}
+                </div>
+            )}
+
             <div className="noti-info">
                 <h2 className="noti-subtitle">Detalles:</h2>
                 <h2 className="noti-text">{order.cliente.detalles_extra}</h2>
