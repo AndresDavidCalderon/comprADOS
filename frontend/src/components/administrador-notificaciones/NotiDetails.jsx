@@ -46,7 +46,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
     const montoGuardado = Number(order?.total)
     const monto = Number.isFinite(montoGuardado) && montoGuardado > 0 ? montoGuardado : montoCalculado
 
-    const estadoActual = order.estado || "pendiente"
+    const estadoActual = order.estado || "Pendiente"
     const handleFinalizar = async () => {
             setUpdatingEstado(true)
             setEstadoError(null)
@@ -54,7 +54,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
                 const res = await fetch(`${apiUrl}/ordenes/${order.id}/estado`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ estado: 'finalizado' }),
+                    body: JSON.stringify({ estado: 'Finalizado' }),
                 })
                 if (!res.ok) throw new Error('Error actualizando el estado')
                 const updatedOrder = await res.json()
@@ -121,12 +121,18 @@ export default function NotiDetails({ order, onEstadoChange }) {
             </div>
 
             <div className="noti-info">
+                <h2 className="noti-subtitle">Detalles:</h2>
+                <h2 className="noti-text">{order.cliente.detalles_extra}</h2>
+            </div>
+
+            <div className="estado-container">
+            <div className="noti-info estado-part">
                 <h2 className="noti-subtitle">Estado:</h2>
                 <h2 className="noti-text">{estadoActual}</h2>
             </div>
 
-            {estadoActual !== 'finalizado' && (
-                <div className="noti-info">
+            {estadoActual !== 'Finalizado' && (
+                <div className="estado-btn-container">
                     <button
                         className="botonPequeño"
                         onClick={handleFinalizar}
@@ -137,10 +143,6 @@ export default function NotiDetails({ order, onEstadoChange }) {
                     {estadoError && <span className="error">{estadoError}</span>}
                 </div>
             )}
-
-            <div className="noti-info">
-                <h2 className="noti-subtitle">Detalles:</h2>
-                <h2 className="noti-text">{order.cliente.detalles_extra}</h2>
             </div>
         </div>
     </div>
