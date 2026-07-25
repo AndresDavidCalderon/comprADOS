@@ -50,6 +50,10 @@ export default function NotiDetails({ order, onEstadoChange }) {
     const handleFinalizar = async () => {
             setUpdatingEstado(true)
             setEstadoError(null)
+            if (!window.confirm("¿La venta ya fue finalizada?")) {
+                setUpdatingEstado(false)
+                return;
+            }
             try {
                 const res = await fetch(`${apiUrl}/ordenes/${order.id}/estado`, {
                     method: 'PATCH',
