@@ -75,6 +75,29 @@
   background: #fff6f1;
 }
 
+.estado-container{
+  display: flex;
+  flex-direction: row;
+  border-radius: 6px;
+
+}
+
+.estado-part{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.estado-btn-container{
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+  margin-left: 8vw;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
 @media (max-aspect-ratio: 1/1) {
   .noti-details {
     flex-direction: column;

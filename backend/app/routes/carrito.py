@@ -90,6 +90,7 @@ def checkout(payload: CheckoutRequest):
         "items": items_con_precio,
         "total": total_calculado if total_calculado > 0 else payload.total,
         "direccion_resumen": direccion,
+        "estado": "Pendiente",
         "created_at": timestamp
     }
 

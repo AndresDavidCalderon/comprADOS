@@ -203,7 +203,8 @@
                 }
             ],
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833"
+            "created_at": "2026-07-04T20:02:51.580833",
+            "estado": "Finalizado"
         },
         {
             "id": 2,
