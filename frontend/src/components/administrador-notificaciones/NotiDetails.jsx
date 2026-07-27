@@ -52,6 +52,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
             setEstadoError(null)
             if (!window.confirm("¿La venta ya fue finalizada?")) {
                 setUpdatingEstado(false)
+                setEstadoError("Actualización cancelada por el usuario.")
                 return;
             }
             try {
