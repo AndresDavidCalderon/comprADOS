@@ -5,6 +5,10 @@ import backend.app.routes.carrito
 import backend.app.routes.auth
 import backend.app.routes.ordenes
 import backend.app.routes.reviews
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Crear aplicación FastAPI
 app = FastAPI(

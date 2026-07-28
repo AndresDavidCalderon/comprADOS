@@ -4,7 +4,7 @@
         {
             "name": "Collar nueva vida",
             "description": "Un collar que expresa seguridad.",
-            "quantity": 8,
+            "quantity": 7,
             "price": 50000,
             "tags": [
                 "Mostacilla",
@@ -25,7 +25,7 @@
         {
             "name": "Collar de perlas para hombre",
             "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
-            "quantity": 9,
+            "quantity": 4,
             "price": 50000,
             "category": "collares",
             "tags": [
@@ -44,7 +44,7 @@
         {
             "name": "prueba",
             "description": "dasfasdf",
-            "quantity": 2,
+            "quantity": 0,
             "size": "40cm de diametro",
             "materials": [
                 "cuero"
@@ -61,7 +61,7 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784145369/productos/temporal/wcj7n8lyysicyfowngsu.jpg"
             ],
             "id": 4,
-            "oculto": false
+            "oculto": true
         },
         {
             "name": "Pulseras para hombre en piedra natural",
@@ -111,7 +111,7 @@
         {
             "name": "Manilla de rodio estrella",
             "description": "Porque brillas para alguien",
-            "quantity": 10,
+            "quantity": 9,
             "size": "10 cm de perimetro",
             "materials": [
                 "Rodio",
@@ -300,6 +300,225 @@
             "direccion_resumen": "a, a, a, a (Detalles: Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a)",
             "metodo_pago": "tarjeta",
             "created_at": "2026-07-21T01:39:30.504081"
+        },
+        {
+            "id": 7,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 50000.0,
+            "direccion_resumen": "Antioquia, Medellin, 32, 3",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_a17gDLuZJ7sZV2y9VzmmtxfwfVS7TIlHDRCxjxLlfX0XjfwX2ans2n03vY",
+            "created_at": "2026-07-26T18:09:29.642349"
+        },
+        {
+            "id": 8,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "PRUEBAAAAAAAAAAAAAAA",
+                "departamento": "Antioquia",
+                "municipio": "a",
+                "carrera": "32",
+                "calle": "123",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 4,
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "Antioquia, a, 32, 123",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_a1L56II3Ac6hTAW7MM3UKPIh5HX8xO7WVB4nvB1T76xQD0I0h7Ky7GU36C",
+            "created_at": "2026-07-26T18:10:27.270472"
+        },
+        {
+            "id": 9,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "PRUEBAAAA4",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "a",
+                "calle": "22",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 7,
+                    "cantidad": 1,
+                    "precio_unitario": 90000.0,
+                    "subtotal": 90000.0
+                }
+            ],
+            "total": 90000.0,
+            "direccion_resumen": "Antioquia, Medellin, a, 22",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_a17QymJfENLWWiyRDLU2ZuyrSqrTpQsT5tl7hbbrFh0ViscBbwgpBl0X9V",
+            "created_at": "2026-07-26T18:11:16.629917"
+        },
+        {
+            "id": 10,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "OLIWI",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "a",
+                "detalles_extra": "Edificio/Conjunto: calasania 1; Apto/Casa: 332"
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 50000.0,
+            "direccion_resumen": "Antioquia, Medellin, 32, a (Detalles: Edificio/Conjunto: calasania 1; Apto/Casa: 332)",
+            "metodo_pago": "efectivo",
+            "created_at": "2026-07-26T18:11:55.713962"
+        },
+        {
+            "id": 11,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "pruebita6",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "123",
+                "detalles_extra": "Edificio/Conjunto: calasania 1"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "Antioquia, Medellin, 32, 123 (Edificio/Conjunto: calasania 1)",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_b13ttLnNaiiB4MA5UlekCSMg6nTqeaV8WJESxMRdGvCJ1hYLqlxIxPoq8s",
+            "created_at": "2026-07-26T18:15:07.911107"
+        },
+        {
+            "id": 12,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "prueba322332",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "a",
+                "calle": "a",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "Antioquia, Medellin, a, a",
+            "metodo_pago": "efectivo",
+            "created_at": "2026-07-28T17:07:58.800749"
         }
-    ]
+    ],
+    "pagos_pendientes": {
+        "cs_test_a1mLvnS3phHHghFbatasH43fUWoC6y0iAZEVBw1GclermJM3JCKQxqwlYK": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "3135909864",
+                "nombre": "pruebita",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1wzRS5f7MSKnP80p1hxm45VjSaUzyStXo9wicXK0FJs77ks3zZ3W3xLNA": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "666",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1PYAhrrx5tzfxwWipJWtz6yDwyvl3QSkHPao0xeP0aYJFbYyQzMmNyNSX": {
+            "cliente": {
+                "identificacion": "3",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "a",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 2
+                }
+            ],
+            "total": 100000.0
+        }
+    }
 }

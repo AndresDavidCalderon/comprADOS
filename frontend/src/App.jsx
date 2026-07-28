@@ -13,6 +13,9 @@ import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
 import Home from './components/home/Home'
 import Detalles from './components/detalles-producto/Detalles'
+import ApiContext from './context/ApiContext'
+import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
+
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -27,6 +30,7 @@ function App() {
       return []
     }
   })
+
 
   useEffect(() => {
     localStorage.setItem('cartItems', JSON.stringify(cartItems))
@@ -90,6 +94,7 @@ function App() {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
+  const { apiUrl } = useContext(ApiContext)   // ← agregar esta línea
 
   if ((!auth.isAuthenticated) && (currentPage === 'adverts' || currentPage === 'notice')) {
     setCurrentPage('home')
@@ -141,6 +146,40 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const status = params.get('payment')
+    const sessionId = params.get('session_id')
+
+    if (status === 'success' && sessionId) {
+      window.history.replaceState({}, '', '/')
+
+      fetch(`${apiUrl}/carrito/confirmar-pago`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(async (res) => {
+          const data = await res.json()
+          if (!res.ok) {
+            throw new Error(data.detail || 'Error al confirmar el pago')
+          }
+          return data
+        })
+        .then((data) => {
+          alert(`¡Pago exitoso! Pedido #${data.pedido_id} creado.`)
+          setCartItems([])
+        })
+        .catch((err) => {
+          console.error(err)
+          alert(`Error: ${err.message}`)
+        })
+    } else if (status === 'cancel') {
+      window.history.replaceState({}, '', '/')
+      alert('El pago fue cancelado.')
+    }
+  }, [apiUrl])
+
   return (
     <>
       <Navbar
@@ -160,6 +199,8 @@ function App() {
       />
       <Detalles />
       {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
+      <WhatsAppButton />
+
     </>
   )
 }
