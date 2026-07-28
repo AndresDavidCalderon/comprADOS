@@ -25,7 +25,7 @@
         {
             "name": "Collar de perlas para hombre",
             "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
-            "quantity": 4,
+            "quantity": 3,
             "price": 50000,
             "category": "collares",
             "tags": [
@@ -178,65 +178,27 @@
             "items": [
                 {
                     "producto_id": 1,
-                    "cantidad": 2
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
                 }
             ],
+            "total": 100000.0,
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
+            "metodo_pago": "tarjeta",
             "created_at": "2026-07-04T20:02:51.580833"
         },
         {
             "id": 2,
             "cliente": {
-                "identificacion": "213",
-                "telefono": "213",
-                "nombre": "Jeisson Steven",
-                "departamento": "sdfds",
-                "municipio": "sdgfds",
-                "carrera": "234",
-                "calle": "234",
-                "detalles_extra": ""
-            },
-            "items": [
-                {
-                    "producto_id": 4,
-                    "cantidad": 1
-                }
-            ],
-            "direccion_resumen": "sdfds, sdgfds, 234, 234",
-            "created_at": "2026-07-09T02:54:03.032926"
-        },
-        {
-            "id": 3,
-            "cliente": {
-                "identificacion": "jhkhj",
-                "telefono": "43433",
-                "nombre": "ergre",
-                "departamento": "ergr",
-                "municipio": "ergre",
-                "carrera": "45",
-                "calle": "dfhdf",
-                "detalles_extra": ""
-            },
-            "items": [
-                {
-                    "producto_id": 4,
-                    "cantidad": 1
-                }
-            ],
-            "direccion_resumen": "ergr, ergre, 45, dfhdf",
-            "created_at": "2026-07-09T02:55:39.447471"
-        },
-        {
-            "id": 4,
-            "cliente": {
                 "identificacion": "322332",
                 "telefono": "4226021",
-                "nombre": "jutobonv2",
+                "nombre": "Juli\u00e1n Rodr\u00edguez",
                 "departamento": "Antioquia",
-                "municipio": "Medellin",
+                "municipio": "Medell\u00edn",
                 "carrera": "32",
                 "calle": "3",
-                "detalles_extra": "Edificio/Conjunto: calasania 1; Apto/Casa: 332; Observaciones: asdf"
+                "detalles_extra": "Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n"
             },
             "items": [
                 {
@@ -247,174 +209,21 @@
                 }
             ],
             "total": 20000.0,
-            "direccion_resumen": "Antioquia, Medellin, 32, 3 (Detalles: Edificio/Conjunto: calasania 1; Apto/Casa: 332; Observaciones: asdf)",
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 3 (Detalles: Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n)",
             "metodo_pago": "tarjeta",
             "created_at": "2026-07-21T01:29:15.533253"
         },
         {
-            "id": 5,
-            "cliente": {
-                "identificacion": "a",
-                "telefono": "4",
-                "nombre": "jutobonv3",
-                "departamento": "a",
-                "municipio": "a",
-                "carrera": "a",
-                "calle": "a",
-                "detalles_extra": "Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a"
-            },
-            "items": [
-                {
-                    "producto_id": 1,
-                    "cantidad": 2,
-                    "precio_unitario": 50000.0,
-                    "subtotal": 100000.0
-                }
-            ],
-            "total": 100000.0,
-            "direccion_resumen": "a, a, a, a (Detalles: Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a)",
-            "metodo_pago": "tarjeta",
-            "created_at": "2026-07-21T01:36:44.196895"
-        },
-        {
-            "id": 6,
-            "cliente": {
-                "identificacion": "3",
-                "telefono": "3",
-                "nombre": "jutobonv4",
-                "departamento": "a",
-                "municipio": "a",
-                "carrera": "a",
-                "calle": "a",
-                "detalles_extra": "Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a"
-            },
-            "items": [
-                {
-                    "producto_id": 3,
-                    "cantidad": 1,
-                    "precio_unitario": 50000.0,
-                    "subtotal": 50000.0
-                }
-            ],
-            "total": 50000.0,
-            "direccion_resumen": "a, a, a, a (Detalles: Edificio/Conjunto: a; Apto/Casa: a; Observaciones: a)",
-            "metodo_pago": "tarjeta",
-            "created_at": "2026-07-21T01:39:30.504081"
-        },
-        {
-            "id": 7,
+            "id": 3,
             "cliente": {
                 "identificacion": "322332",
                 "telefono": "4226021",
-                "nombre": "jutobonv",
+                "nombre": "Alexander Olaya",
                 "departamento": "Antioquia",
-                "municipio": "Medellin",
-                "carrera": "32",
-                "calle": "3",
-                "detalles_extra": ""
-            },
-            "items": [
-                {
-                    "producto_id": 3,
-                    "cantidad": 1,
-                    "precio_unitario": 50000.0,
-                    "subtotal": 50000.0
-                }
-            ],
-            "total": 50000.0,
-            "direccion_resumen": "Antioquia, Medellin, 32, 3",
-            "metodo_pago": "tarjeta",
-            "stripe_session_id": "cs_test_a17gDLuZJ7sZV2y9VzmmtxfwfVS7TIlHDRCxjxLlfX0XjfwX2ans2n03vY",
-            "created_at": "2026-07-26T18:09:29.642349"
-        },
-        {
-            "id": 8,
-            "cliente": {
-                "identificacion": "322332",
-                "telefono": "4226021",
-                "nombre": "PRUEBAAAAAAAAAAAAAAA",
-                "departamento": "Antioquia",
-                "municipio": "a",
+                "municipio": "Medell\u00edn",
                 "carrera": "32",
                 "calle": "123",
-                "detalles_extra": ""
-            },
-            "items": [
-                {
-                    "producto_id": 4,
-                    "cantidad": 2,
-                    "precio_unitario": 50000.0,
-                    "subtotal": 100000.0
-                }
-            ],
-            "total": 100000.0,
-            "direccion_resumen": "Antioquia, a, 32, 123",
-            "metodo_pago": "tarjeta",
-            "stripe_session_id": "cs_test_a1L56II3Ac6hTAW7MM3UKPIh5HX8xO7WVB4nvB1T76xQD0I0h7Ky7GU36C",
-            "created_at": "2026-07-26T18:10:27.270472"
-        },
-        {
-            "id": 9,
-            "cliente": {
-                "identificacion": "322332",
-                "telefono": "4226021",
-                "nombre": "PRUEBAAAA4",
-                "departamento": "Antioquia",
-                "municipio": "Medellin",
-                "carrera": "a",
-                "calle": "22",
-                "detalles_extra": ""
-            },
-            "items": [
-                {
-                    "producto_id": 7,
-                    "cantidad": 1,
-                    "precio_unitario": 90000.0,
-                    "subtotal": 90000.0
-                }
-            ],
-            "total": 90000.0,
-            "direccion_resumen": "Antioquia, Medellin, a, 22",
-            "metodo_pago": "tarjeta",
-            "stripe_session_id": "cs_test_a17QymJfENLWWiyRDLU2ZuyrSqrTpQsT5tl7hbbrFh0ViscBbwgpBl0X9V",
-            "created_at": "2026-07-26T18:11:16.629917"
-        },
-        {
-            "id": 10,
-            "cliente": {
-                "identificacion": "322332",
-                "telefono": "4226021",
-                "nombre": "OLIWI",
-                "departamento": "Antioquia",
-                "municipio": "Medellin",
-                "carrera": "32",
-                "calle": "a",
-                "detalles_extra": "Edificio/Conjunto: calasania 1; Apto/Casa: 332"
-            },
-            "items": [
-                {
-                    "producto_id": 3,
-                    "cantidad": 1,
-                    "precio_unitario": 50000.0,
-                    "subtotal": 50000.0
-                }
-            ],
-            "total": 50000.0,
-            "direccion_resumen": "Antioquia, Medellin, 32, a (Detalles: Edificio/Conjunto: calasania 1; Apto/Casa: 332)",
-            "metodo_pago": "efectivo",
-            "created_at": "2026-07-26T18:11:55.713962"
-        },
-        {
-            "id": 11,
-            "cliente": {
-                "identificacion": "322332",
-                "telefono": "4226021",
-                "nombre": "pruebita6",
-                "departamento": "Antioquia",
-                "municipio": "Medellin",
-                "carrera": "32",
-                "calle": "123",
-                "detalles_extra": "Edificio/Conjunto: calasania 1"
+                "detalles_extra": "Edificio/Conjunto: Calasania 1"
             },
             "items": [
                 {
@@ -431,35 +240,35 @@
                 }
             ],
             "total": 100000.0,
-            "direccion_resumen": "Antioquia, Medellin, 32, 123 (Edificio/Conjunto: calasania 1)",
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 123 (Edificio/Conjunto: Calasania 1)",
             "metodo_pago": "tarjeta",
             "stripe_session_id": "cs_test_b13ttLnNaiiB4MA5UlekCSMg6nTqeaV8WJESxMRdGvCJ1hYLqlxIxPoq8s",
             "created_at": "2026-07-26T18:15:07.911107"
         },
         {
-            "id": 12,
+            "id": 4,
             "cliente": {
-                "identificacion": "322332",
-                "telefono": "4226021",
-                "nombre": "prueba322332",
+                "identificacion": "2122221321",
+                "telefono": "3155193851",
+                "nombre": "Andres David Calderon Jimenez",
                 "departamento": "Antioquia",
                 "municipio": "Medellin",
-                "carrera": "a",
-                "calle": "a",
-                "detalles_extra": ""
+                "carrera": "74",
+                "calle": "73",
+                "detalles_extra": "Edificio/Conjunto: MP2"
             },
             "items": [
                 {
                     "producto_id": 3,
-                    "cantidad": 2,
+                    "cantidad": 1,
                     "precio_unitario": 50000.0,
-                    "subtotal": 100000.0
+                    "subtotal": 50000.0
                 }
             ],
-            "total": 100000.0,
-            "direccion_resumen": "Antioquia, Medellin, a, a",
+            "total": 50000.0,
+            "direccion_resumen": "Antioquia, Medellin, 74, 73 (Detalles: Edificio/Conjunto: MP2)",
             "metodo_pago": "efectivo",
-            "created_at": "2026-07-28T17:07:58.800749"
+            "created_at": "2026-07-28T22:05:23.708211"
         }
     ],
     "pagos_pendientes": {
@@ -468,7 +277,7 @@
                 "identificacion": "322332",
                 "telefono": "3135909864",
                 "nombre": "pruebita",
-                "departamento": "Antioquia",
+                "dpruebitaepartamento": "Antioquia",
                 "municipio": "Medellin",
                 "carrera": "32",
                 "calle": "3",
