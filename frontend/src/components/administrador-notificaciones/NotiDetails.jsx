@@ -121,8 +121,11 @@ export default function NotiDetails({ order, onEstadoChange }) {
                 <h2 className="noti-text">{monto}</h2>
             </div>
             <div className="noti-info">
-                <h2 className="noti-subtitle">Modo de Pago:</h2>
-                <h2 className="noti-text">{order["modo de pago"]}</h2>
+                <h2 className="noti-subtitle">Modo de Pago:  
+                    {order.metodo_pago === 'efectivo' ? ' Efectivo' : 
+                    order.metodo_pago === 'tarjeta' ? ' Tarjeta' : 
+                    order.metodo_pago || 'No especificado'}
+                </h2>
             </div>
 
             <div className="noti-info">

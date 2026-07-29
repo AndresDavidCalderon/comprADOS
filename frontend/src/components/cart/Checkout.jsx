@@ -21,6 +21,7 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(null)
   const [serverError, setServerError] = useState(null)
+  const [metodoPago, setMetodoPago] = useState('')
 
   const requiredFields = ['identificacion', 'telefono', 'nombre', 'departamento', 'municipio', 'carrera', 'calle']
 
@@ -33,6 +34,9 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
         e[f] = 'Este campo es obligatorio'
       }
     })
+    if (!metodoPago) {
+      e.metodoPago = 'Selecciona un método de pago'
+    }
     setErrors(e)
     return Object.keys(e).length === 0
   }
@@ -59,50 +63,74 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
   }
 
   const handleSubmit = async () => {
-    if (!validate()) return
-    setSubmitting(true)
-    setServerError(null)
+  if (!validate()) return
+  setSubmitting(true)
+  setServerError(null)
 
-    // Combine optional details into "detalles_extra" to send to backend
-    const detalles = []
-    if (form.edificio_conjunto) detalles.push(`Edificio/Conjunto: ${form.edificio_conjunto}`)
-    if (form.apto_casa) detalles.push(`Apto/Casa: ${form.apto_casa}`)
-    if (form.observaciones) detalles.push(`Observaciones: ${form.observaciones}`)
+  const detalles = []
+  if (form.edificio_conjunto) detalles.push(`Edificio/Conjunto: ${form.edificio_conjunto}`)
+  if (form.apto_casa) detalles.push(`Apto/Casa: ${form.apto_casa}`)
+  if (form.observaciones) detalles.push(`Observaciones: ${form.observaciones}`)
 
-    const cliente = {
-      identificacion: form.identificacion,
-      telefono: form.telefono,
-      nombre: form.nombre,
-      departamento: form.departamento,
-      municipio: form.municipio,
-      carrera: form.carrera,
-      calle: form.calle,
-      detalles_extra: detalles.join('; ')
-    }
+  const cliente = {
+    identificacion: form.identificacion,
+    telefono: form.telefono,
+    nombre: form.nombre,
+    departamento: form.departamento,
+    municipio: form.municipio,
+    carrera: form.carrera,
+    calle: form.calle,
+    detalles_extra: detalles.join('; ')
+  }
 
-    const payload = {
-      cliente,
-      items: items.map((it) => ({ producto_id: it.id, cantidad: it.quantityOnCart })),
-      total: items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0),
-    }
+  const items_payload = items.map((it) => ({ producto_id: it.id, cantidad: it.quantityOnCart }))
+  const total = items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0)
 
+  // ─── Flujo TARJETA → Stripe ───
+  if (metodoPago === 'tarjeta') {
     try {
-      const res = await fetch(`${apiUrl}/carrito/checkout`, {
+      const res = await fetch(`${apiUrl}/carrito/create-checkout-session`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ cliente, items: items_payload, total }),
       })
-      if (!res.ok) throw new Error('Error en el servidor')
+      if (!res.ok) throw new Error('Error al crear sesión de pago')
       const data = await res.json()
-      setSuccess(data)
-      setSubmitting(false)
-      onSuccess()
+      // Redirigir al checkout de Stripe
+      window.location.href = data.url
     } catch (err) {
       console.error(err)
-      setServerError('No se pudo crear el pedido. Intente más tarde.')
+      setServerError('No se pudo iniciar el pago con tarjeta. Intente más tarde.')
       setSubmitting(false)
     }
+    return
   }
+
+  // ─── Flujo EFECTIVO → directo (existente) ───
+  const payload = {
+    cliente,
+    items: items_payload,
+    total,
+    metodo_pago: metodoPago,
+  }
+
+  try {
+    const res = await fetch(`${apiUrl}/carrito/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    if (!res.ok) throw new Error('Error en el servidor')
+    const data = await res.json()
+    setSuccess(data)
+    setSubmitting(false)
+    onSuccess()
+  } catch (err) {
+    console.error(err)
+    setServerError('No se pudo crear el pedido. Intente más tarde.')
+    setSubmitting(false)
+  }
+}
 
   if (success) {
     return (
@@ -179,6 +207,39 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
           <label>Observaciones</label>
           <textarea name="observaciones" value={form.observaciones} onChange={handleChange} />
         </div>
+
+        <hr />
+        <h3>Método de pago *</h3>
+        <div className="payment-methods">
+          <label className={`payment-option ${metodoPago === 'efectivo' ? 'selected' : ''}`}>
+            <input
+              type="radio"
+              name="metodoPago"
+              value="efectivo"
+              checked={metodoPago === 'efectivo'}
+              onChange={(e) => setMetodoPago(e.target.value)}
+            />
+            <span className="payment-label">
+              <strong> Efectivo</strong>
+              <small>Pago contra entrega</small>
+            </span>
+          </label>
+
+          <label className={`payment-option ${metodoPago === 'tarjeta' ? 'selected' : ''}`}>
+            <input
+              type="radio"
+              name="metodoPago"
+              value="tarjeta"
+              checked={metodoPago === 'tarjeta'}
+              onChange={(e) => setMetodoPago(e.target.value)}
+            />
+            <span className="payment-label">
+              <strong> Tarjeta</strong>
+              <small>Pago en línea</small>
+            </span>
+          </label>
+        </div>
+        {errors.metodoPago && <span className="error">{errors.metodoPago}</span>}
 
         {serverError && <div className="server-error">{serverError}</div>}
 

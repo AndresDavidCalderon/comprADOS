@@ -87,3 +87,44 @@
   font-size:12px;
   color:#666;
 }
+
+/* ── Método de pago ── */
+.payment-methods {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.payment-option {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.payment-option.selected {
+  border-color: #800040;
+  background: #fdf2f8;
+}
+
+.payment-option input[type="radio"] {
+  accent-color: #800040;
+  width: 18px;
+  height: 18px;
+}
+
+.payment-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-label small {
+  font-size: 12px;
+  color: #666;
+}

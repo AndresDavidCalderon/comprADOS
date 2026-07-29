@@ -4,7 +4,7 @@
         {
             "name": "Collar nueva vida",
             "description": "Un collar que expresa seguridad.",
-            "quantity": 10,
+            "quantity": 7,
             "price": 50000,
             "tags": [
                 "Mostacilla",
@@ -25,7 +25,7 @@
         {
             "name": "Collar de perlas para hombre",
             "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
-            "quantity": 10,
+            "quantity": 2,
             "price": 50000,
             "category": "collares",
             "tags": [
@@ -44,7 +44,7 @@
         {
             "name": "prueba",
             "description": "dasfasdf",
-            "quantity": 2,
+            "quantity": 0,
             "size": "40cm de diametro",
             "materials": [
                 "cuero"
@@ -61,12 +61,12 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784145369/productos/temporal/wcj7n8lyysicyfowngsu.jpg"
             ],
             "id": 4,
-            "oculto": false
+            "oculto": true
         },
         {
             "name": "Pulseras para hombre en piedra natural",
             "description": "No sabemos si la piedra natural puede contener la capacidad de mentir, pero vale la pena intentar.",
-            "quantity": 5,
+            "quantity": 3,
             "size": "15cm de per\u00edmetro",
             "materials": [
                 "Piedra natural"
@@ -111,7 +111,7 @@
         {
             "name": "Manilla de rodio estrella",
             "description": "Porque brillas para alguien",
-            "quantity": 10,
+            "quantity": 9,
             "size": "10 cm de perimetro",
             "materials": [
                 "Rodio",
@@ -199,54 +199,211 @@
             "items": [
                 {
                     "producto_id": 1,
-                    "cantidad": 2
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
                 }
             ],
+            "total": 100000.0,
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833",
-            "estado": "Finalizado"
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-04T20:02:51.580833"
         },
         {
             "id": 2,
             "cliente": {
-                "identificacion": "213",
-                "telefono": "213",
-                "nombre": "Jeisson Steven",
-                "departamento": "sdfds",
-                "municipio": "sdgfds",
-                "carrera": "234",
-                "calle": "234",
-                "detalles_extra": ""
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "Juli\u00e1n Rodr\u00edguez",
+                "departamento": "Antioquia",
+                "municipio": "Medell\u00edn",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": "Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n"
             },
             "items": [
                 {
-                    "producto_id": 4,
-                    "cantidad": 1
+                    "producto_id": 5,
+                    "cantidad": 1,
+                    "precio_unitario": 20000.0,
+                    "subtotal": 20000.0
                 }
             ],
-            "direccion_resumen": "sdfds, sdgfds, 234, 234",
-            "created_at": "2026-07-09T02:54:03.032926"
+            "total": 20000.0,
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 3 (Detalles: Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n)",
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-21T01:29:15.533253"
         },
         {
             "id": 3,
             "cliente": {
-                "identificacion": "jhkhj",
-                "telefono": "43433",
-                "nombre": "ergre",
-                "departamento": "ergr",
-                "municipio": "ergre",
-                "carrera": "45",
-                "calle": "dfhdf",
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "Alexander Olaya",
+                "departamento": "Antioquia",
+                "municipio": "Medell\u00edn",
+                "carrera": "32",
+                "calle": "123",
+                "detalles_extra": "Edificio/Conjunto: Calasania 1"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 123 (Edificio/Conjunto: Calasania 1)",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_b13ttLnNaiiB4MA5UlekCSMg6nTqeaV8WJESxMRdGvCJ1hYLqlxIxPoq8s",
+            "created_at": "2026-07-26T18:15:07.911107"
+        },
+        {
+            "id": 4,
+            "cliente": {
+                "identificacion": "2122221321",
+                "telefono": "3155193851",
+                "nombre": "Andres David Calderon Jimenez",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "74",
+                "calle": "73",
+                "detalles_extra": "Edificio/Conjunto: MP2"
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 50000.0,
+            "direccion_resumen": "Antioquia, Medellin, 74, 73 (Detalles: Edificio/Conjunto: MP2)",
+            "metodo_pago": "efectivo",
+            "created_at": "2026-07-28T22:05:23.708211"
+        },
+        {
+            "id": 5,
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
                 "detalles_extra": ""
             },
             "items": [
                 {
-                    "producto_id": 4,
+                    "producto_id": 5,
+                    "cantidad": 1,
+                    "precio_unitario": 20000.0,
+                    "subtotal": 20000.0
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 70000.0,
+            "direccion_resumen": "Antioquia, Medellin, 32, 3",
+            "metodo_pago": "efectivo",
+            "created_at": "2026-07-29T01:43:50.434767",
+            "estado": "Finalizado"
+        }
+    ],
+    "pagos_pendientes": {
+        "cs_test_a1mLvnS3phHHghFbatasH43fUWoC6y0iAZEVBw1GclermJM3JCKQxqwlYK": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "3135909864",
+                "nombre": "pruebita",
+                "dpruebitaepartamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
                     "cantidad": 1
                 }
             ],
-            "direccion_resumen": "ergr, ergre, 45, dfhdf",
-            "created_at": "2026-07-09T02:55:39.447471"
+            "total": 50000.0
+        },
+        "cs_test_a1wzRS5f7MSKnP80p1hxm45VjSaUzyStXo9wicXK0FJs77ks3zZ3W3xLNA": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "666",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1PYAhrrx5tzfxwWipJWtz6yDwyvl3QSkHPao0xeP0aYJFbYyQzMmNyNSX": {
+            "cliente": {
+                "identificacion": "3",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "a",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 2
+                }
+            ],
+            "total": 100000.0
+        },
+        "cs_test_b1NbmsLyyLtwVX5WKICvKGWyXR1lngrgXkFvl0SqqH3VHs3eABRWCne9ew": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "prueba_dev",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 5,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 70000.0
         }
-    ]
+    }
 }
