@@ -2,7 +2,7 @@
 
 > **Proyecto Universitario** — Tienda virtual *MeGusta* (Monorepo: Frontend + Backend)
 
-Un README estructurado y estilizado para guiar la configuración local del entorno de desarrollo.
+
 
 ---
 
