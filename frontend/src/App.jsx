@@ -153,12 +153,30 @@ function App() {
         return <AdvertsManager />
       default:
         return (
-          <Collares
-            products={productCatalog.collares.products}
-            onAddToCart={addToCart}
-            title={productCatalog.collares.title}
-            subtitle={productCatalog.collares.subtitle}
-          />
+          <div className="home-catalog">
+            <header className="home-header">
+              <h1>Bienvenido a ADOS Me Gusta</h1>
+              <p>Descubre nuestras colecciones exclusivas de joyería fina</p>
+            </header>
+            <Collares
+              products={productCatalog.collares.products}
+              onAddToCart={addToCart}
+              title={productCatalog.collares.title}
+              subtitle={productCatalog.collares.subtitle}
+            />
+            <Manillas
+              products={productCatalog.manillas.products}
+              onAddToCart={addToCart}
+              title={productCatalog.manillas.title}
+              subtitle={productCatalog.manillas.subtitle}
+            />
+            <Aretes
+              products={productCatalog.aretes.products}
+              onAddToCart={addToCart}
+              title={productCatalog.aretes.title}
+              subtitle={productCatalog.aretes.subtitle}
+            />
+          </div>
         )
     }
   }

@@ -214,11 +214,12 @@ def confirmar_pago(payload: ConfirmarPagoRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/validar-municipio/{municipio}")
-def validar_municipio(municipio: str):
+def validar_municipio(municipio: str, departamento: Optional[str] = None):
     """Valida si un municipio es cercano o lejano."""
-    cercano = es_municipio_cercano(municipio)
+    cercano = es_municipio_cercano(municipio, departamento)
     return {
         "municipio": municipio,
+        "departamento": departamento,
         "tipo": "cercano" if cercano else "lejano",
         "permite_contra_entrega": cercano
     }
@@ -229,17 +230,17 @@ def checkout(payload: CheckoutRequest):
     """Registrar un pedido provisional con los datos del cliente.
 
     - Valida los campos básicos usando Pydantic.
-    - Valida que el pago contra entrega solo sea permitido en municipios cercanos.
+    - Valida que el pago contra entrega solo sea permitido en municipios cercanos de Antioquia.
     - Guarda el pedido en `db.json` bajo la clave `pedidos` (se crea si no existe).
     - Devuelve un resumen de la dirección para que el frontend lo confirme.
     """
     cliente = payload.cliente.dict()
-    es_cercano = es_municipio_cercano(cliente.get("municipio", ""))
+    es_cercano = es_municipio_cercano(cliente.get("municipio", ""), cliente.get("departamento", ""))
 
     if payload.metodo_pago == "efectivo" and not es_cercano:
         raise HTTPException(
             status_code=400,
-            detail="El pago contra entrega solo está disponible para municipios cercanos (Bello, Medellín, Itagüí, Envigado)."
+            detail="El pago contra entrega solo está disponible para municipios cercanos en el departamento de Antioquia (Bello, Medellín, Itagüí, Envigado)."
         )
 
     items = [item.dict() for item in payload.items]

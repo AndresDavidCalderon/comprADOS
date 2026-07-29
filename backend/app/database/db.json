@@ -172,6 +172,11 @@
                 "id": 7,
                 "estrellas": 1,
                 "texto": "wd"
+            },
+            {
+                "id": 9,
+                "estrellas": 4,
+                "texto": "Lo volveria a comprar"
             }
         ],
         "2": [
@@ -533,6 +538,25 @@
             "items": [
                 {
                     "producto_id": 1,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1wiIdjwSkEFKezAe177tQFrkMgkMbsBx6dj6pXtSxQ94nrFvK4QDun35l": {
+            "cliente": {
+                "identificacion": "34534",
+                "telefono": "25345",
+                "nombre": "matias",
+                "departamento": "antioquia",
+                "municipio": "Bello",
+                "carrera": "32",
+                "calle": "88",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
                     "cantidad": 1
                 }
             ],

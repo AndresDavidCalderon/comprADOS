@@ -28,8 +28,8 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
 
   const { apiUrl } = useContext(ApiContext);
 
-  // Evaluar si el municipio ingresado es cercano
-  const esCercano = esMunicipioCercano(form.municipio);
+  // Evaluar si el municipio ingresado es cercano (requiere Departamento Antioquia)
+  const esCercano = esMunicipioCercano(form.municipio, form.departamento);
 
   // Efecto para auto-seleccionar "tarjeta" si el municipio es lejano
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
         setMetodoPago('tarjeta');
       }
     }
-  }, [form.municipio, esCercano]);
+  }, [form.municipio, form.departamento, esCercano]);
 
   const validate = () => {
     const e = {}

@@ -41,3 +41,20 @@ body {
   background-color: var(--accent-bg);
   border-bottom: 2px solid var(--accent-border);
 }
+
+.home-header {
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+
+.home-header h1 {
+  font-size: 2.8rem;
+  color: #5a1f3d;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.home-header p {
+  font-size: 1.15rem;
+  color: #666;
+}
