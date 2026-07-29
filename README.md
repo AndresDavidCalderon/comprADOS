@@ -1,36 +1,72 @@
-# 🛍️ ADOS Me Gusta — Tienda Virtual
+# 🛍️ ADOS_MeGusta
 
-> **Proyecto Universitario**  
-> Plataforma e-commerce para la tienda **ADOS Me Gusta**, desarrollada con un **Backend en FastAPI** y un **Frontend en React + Vite**.
+> **Proyecto Universitario** — Tienda virtual *MeGusta* (Monorepo: Frontend + Backend)
 
----
-
-## 📋 Tabla de Contenidos
-
-- [Requisitos Previos](#-requisitos-previos)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Configuración del Backend](#-configuración-del-backend)
-- [Configuración del Frontend](#-configuración-del-frontend)
-- [Documentación de la API](#-documentación-de-la-api)
+Un README estructurado y estilizado para guiar la configuración local del entorno de desarrollo.
 
 ---
 
-## 🛠️ Requisitos Previos
+## 📋 Requisitos Previos
 
-Asegúrate de tener instalados las siguientes herramientas antes de iniciar:
+Antes de empezar, asegúrate de contar con los siguientes componentes instalados:
 
-- **Node.js** `v16.0.0` o superior
-- **Python** `3.10` o superior
-- **pip** (gestor de paquetes de Python)
+* 🟢 **Node.js**: `v16+` *(Recomendado para el Frontend)*
+* 🐍 **Python**: `v3.10+` *(Para el Backend)*
+* 📦 **pip**: Gestor de paquetes de Python
 
 ---
 
-## 🚀 Guía de Instalación y Ejecución
+## 🚀 Guía de Instalación y Ejecución Local
 
-Para probar el proyecto localmente, debes ejecutar **ambos servidores** (Backend y Frontend) de manera simultánea en dos terminales distintas.
+### ⚙️ Backend (FastAPI + Uvicorn)
 
-### 🐍 1. Backend (FastAPI)
-
-1. Abre una terminal y posicionate en la carpeta raíz del proyecto:
+1. **Abre una terminal en la carpeta del backend:**
    ```bash
    cd backend
+   ```
+
+2. **Instala las dependencias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Ejecuta la API:**
+   ```bash
+   cd ..
+   python -m backend.main
+   ```
+
+📌 **Puntos de acceso del Backend:**
+* 🌐 **API:** [http://localhost:8000](http://localhost:8000)
+* 📄 **Documentación Automática (Swagger):** [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### 💻 Frontend (Vite)
+
+1. **Abre una terminal en la carpeta del frontend:**
+   ```bash
+   cd frontend
+   ```
+
+2. **Instala las dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Inicia el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+📌 **Punto de acceso del Frontend:**
+* 🌐 **Aplicación:** [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Módulo | Tecnologías Principal |
+| :--- | :--- |
+| **Frontend** | Node.js, Vite |
+| **Backend** | Python, FastAPI, Uvicorn |
