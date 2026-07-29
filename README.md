@@ -20,7 +20,6 @@ Backend
 
 3. Ejecutar la API (FastAPI/uvicorn):
 
-   cd ..
    python -m backend.main
 
    - La API quedará disponible en http://localhost:8000

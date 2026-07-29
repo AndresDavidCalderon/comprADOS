@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -11,30 +11,13 @@ import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
-import Home from './components/home/Home'
 import Detalles from './components/detalles-producto/Detalles'
-import ApiContext from './context/ApiContext'
-import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
-
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const storedCart = localStorage.getItem('cartItems')
-      return storedCart ? JSON.parse(storedCart) : []
-    } catch (error) {
-      console.error('No se pudo cargar el carrito persistido:', error)
-      return []
-    }
-  })
-
-
-  useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems))
-  }, [cartItems])
+  const [cartItems, setCartItems] = useState([])
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -87,14 +70,41 @@ function App() {
     )
   }
 
-  const finalizarCompra = () => {
-    setIsCartOpen(false)
-    setCurrentPage('checkout')
-  }
+  const finalizarCompra = async (datosCliente, metodoPago) => {
+
+  const venta = {
+    cliente: datosCliente,
+    productos: cartItems,
+    metodoPago,
+    fecha: new Date().toISOString(),
+    total: cartItems.reduce(
+      (acc, item) => acc + item.price * item.quantityOnCart,
+      0
+    )
+  };
+
+  console.log("Venta creada:", venta);
+
+    /*
+    //Después aquí irá el fetch al backend para el POST de la venta
+    //Sería algo así
+    await fetch("http://localhost:8000/ventas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(venta)
+    });
+    */
+
+    setCartItems([]);
+    setIsCartOpen(false);
+    setCurrentPage('checkout');
+    alert("¡Compra realizada con éxito!");
+  };
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
-  const { apiUrl } = useContext(ApiContext)   // ← agregar esta línea
 
   if ((!auth.isAuthenticated) && (currentPage === 'adverts' || currentPage === 'notice')) {
     setCurrentPage('home')
@@ -109,7 +119,6 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.collares.title}
             subtitle={productCatalog.collares.subtitle}
-            title="Collares"
           />
         )
       case 'manillas':
@@ -119,14 +128,15 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.manillas.title}
             subtitle={productCatalog.manillas.subtitle}
-            title="Manillas"
           />
         )
       case 'aretes':
         return (
           <Aretes
+            products={productCatalog.aretes.products}
             onAddToCart={addToCart}
-            title="Aretes"
+            title={productCatalog.aretes.title}
+            subtitle={productCatalog.aretes.subtitle}
           />
         )
       case 'checkout':
@@ -142,43 +152,21 @@ function App() {
       case 'adverts':
         return <AdvertsManager />
       default:
-        return <Home onAddToCart={addToCart} onNavigate={setCurrentPage} />
+        return (
+          <Collares
+            products={productCatalog.collares.products}
+            onAddToCart={addToCart}
+            title={productCatalog.collares.title}
+            subtitle={productCatalog.collares.subtitle}
+          />
+        )
     }
   }
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const status = params.get('payment')
-    const sessionId = params.get('session_id')
-
-    if (status === 'success' && sessionId) {
-      window.history.replaceState({}, '', '/')
-
-      fetch(`${apiUrl}/carrito/confirmar-pago`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ session_id: sessionId }),
-      })
-        .then(async (res) => {
-          const data = await res.json()
-          if (!res.ok) {
-            throw new Error(data.detail || 'Error al confirmar el pago')
-          }
-          return data
-        })
-        .then((data) => {
-          alert(`¡Pago exitoso! Pedido #${data.pedido_id} creado.`)
-          setCartItems([])
-        })
-        .catch((err) => {
-          console.error(err)
-          alert(`Error: ${err.message}`)
-        })
-    } else if (status === 'cancel') {
-      window.history.replaceState({}, '', '/')
-      alert('El pago fue cancelado.')
-    }
-  }, [apiUrl])
+  const irACheckout = () => {
+    setIsCartOpen(false);
+    setCurrentPage('checkout');
+  };
 
   return (
     <>
@@ -195,12 +183,10 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
-        onCheckout={finalizarCompra}
+        onCheckout={irACheckout}
       />
       <Detalles />
       {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
-      <WhatsAppButton />
-
     </>
   )
 }

@@ -2,7 +2,7 @@
     "ultimoProductoId": 7,
     "productos": [
         {
-            "name": "Collar nueva vida",
+            "name": "Collar Nueva vida",
             "description": "Un collar que expresa seguridad.",
             "quantity": 7,
             "price": 50000,
@@ -44,13 +44,13 @@
         {
             "name": "prueba",
             "description": "dasfasdf",
-            "quantity": 0,
+            "quantity": 1,
             "size": "40cm de diametro",
             "materials": [
                 "cuero"
             ],
             "price": 50000,
-            "category": "manillas",
+            "category": "collares",
             "tags": [
                 "brazalete",
                 "verde",
@@ -89,7 +89,8 @@
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244305/productos/temporal/ymymvd02xnffapfczhj1.jpg",
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244306/productos/temporal/vycytwmzt1c0tqt4mbag.jpg"
             ],
-            "id": 5
+            "id": 5,
+            "oculto": false
         },
         {
             "name": "Aretes rodio con pedrer\u00eda",
@@ -106,12 +107,13 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
             ],
-            "id": 6
+            "id": 6,
+            "oculto": false
         },
         {
             "name": "Manilla de rodio estrella",
             "description": "Porque brillas para alguien",
-            "quantity": 9,
+            "quantity": 8,
             "size": "10 cm de perimetro",
             "materials": [
                 "Rodio",
@@ -129,7 +131,8 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783541923/productos/temporal/hlnkmqy5c9al7s0owjz4.jpg"
             ],
-            "id": 7
+            "id": 7,
+            "oculto": false
         }
     ],
     "etiquetas-existentes": [
@@ -159,6 +162,16 @@
                 "id": 3,
                 "estrellas": 3,
                 "texto": "El material es incre\u00edble!!"
+            },
+            {
+                "id": 6,
+                "estrellas": 4,
+                "texto": "Excelente material"
+            },
+            {
+                "id": 7,
+                "estrellas": 1,
+                "texto": "wd"
             }
         ],
         "2": [
@@ -173,6 +186,11 @@
                 "id": 4,
                 "estrellas": 5,
                 "texto": "Incre\u00edble!! Me encant\u00f3"
+            },
+            {
+                "id": 8,
+                "estrellas": 4,
+                "texto": "Muy bonito"
             }
         ],
         "3": [
@@ -207,7 +225,8 @@
             "total": 100000.0,
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
             "metodo_pago": "tarjeta",
-            "created_at": "2026-07-04T20:02:51.580833"
+            "created_at": "2026-07-04T20:02:51.580833",
+            "estado": "Finalizado"
         },
         {
             "id": 2,
@@ -322,6 +341,32 @@
             "metodo_pago": "efectivo",
             "created_at": "2026-07-29T01:43:50.434767",
             "estado": "Finalizado"
+        },
+        {
+            "id": 6,
+            "cliente": {
+                "identificacion": "4554",
+                "telefono": "435",
+                "nombre": "rger",
+                "departamento": "trtr",
+                "municipio": "bello",
+                "carrera": "78",
+                "calle": "87",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 7,
+                    "cantidad": 1,
+                    "precio_unitario": 90000.0,
+                    "subtotal": 90000.0
+                }
+            ],
+            "total": 90000.0,
+            "direccion_resumen": "trtr, bello, 78, 87",
+            "metodo_pago": "efectivo",
+            "tipo_municipio": "cercano",
+            "created_at": "2026-07-29T05:14:53.334328"
         }
     ],
     "pagos_pendientes": {
@@ -404,6 +449,94 @@
                 }
             ],
             "total": 70000.0
+        },
+        "cs_test_a1wMSkHxINVhIYmldWuRQorzk6gWpWB4nVUhQajSfo2MdmeAop0ZhBR5mF": {
+            "cliente": {
+                "identificacion": "3443",
+                "telefono": "4343",
+                "nombre": "3fg",
+                "departamento": "fdg",
+                "municipio": "rgre",
+                "carrera": "34",
+                "calle": "54",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 7,
+                    "cantidad": 1
+                }
+            ],
+            "total": 90000.0
+        },
+        "cs_test_a1FJH5n5VAfo1hieQOpQnQgq4hW1R6t889WqHgJu5zRDntU9k70Mwt5VTf": {
+            "cliente": {
+                "identificacion": "567",
+                "telefono": "546",
+                "nombre": "ewrgre",
+                "departamento": "Antioquia",
+                "municipio": "itagui",
+                "carrera": "34",
+                "calle": "654",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_b1MoGH3VCWk5iaWUrmpMH7lpobOc1OXGowcl5xuMcC6GPy62cZMPHvYqhc": {
+            "cliente": {
+                "identificacion": "344",
+                "telefono": "3443",
+                "nombre": "dsfds",
+                "departamento": "456",
+                "municipio": "envigado",
+                "carrera": "32",
+                "calle": "43",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 5,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 6,
+                    "cantidad": 1
+                }
+            ],
+            "total": 210000.0
+        },
+        "cs_test_a1GXJJGKOs05HuP6SsxOjJQk4C2AIIKjM85hAEScFccO8zRZOXhH4DPh34": {
+            "cliente": {
+                "identificacion": "45654",
+                "telefono": "4564",
+                "nombre": "were",
+                "departamento": "trhrt",
+                "municipio": "bello",
+                "carrera": "32",
+                "calle": "54",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
         }
     }
 }
