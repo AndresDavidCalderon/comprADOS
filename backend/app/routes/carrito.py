@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 from backend.app.database.json_db import read_db, save_to_db
+from backend.app.utils.municipios import es_municipio_cercano
 import os
 import stripe
 import json
@@ -124,6 +125,16 @@ def confirmar_pago(payload: ConfirmarPagoRequest):
             raise HTTPException(status_code=400, detail="El pago no se ha completado")
 
         db = read_db()
+        # Verificar si la orden ya fue creada previamente para este session_id
+        pedidos_existentes = db.get("pedidos", [])
+        pedido_existente = next((p for p in pedidos_existentes if p.get("stripe_session_id") == payload.session_id), None)
+        if pedido_existente:
+            return {
+                "pedido_id": pedido_existente["id"],
+                "direccion_resumen": pedido_existente.get("direccion_resumen", ""),
+                "total": pedido_existente.get("total", 0),
+            }
+
         pendiente = db.get("pagos_pendientes", {}).get(payload.session_id)
         if pendiente:
             cliente = pendiente["cliente"]
@@ -212,15 +223,36 @@ def confirmar_pago(payload: ConfirmarPagoRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/validar-municipio/{municipio}")
+def validar_municipio(municipio: str, departamento: Optional[str] = None):
+    """Valida si un municipio es cercano o lejano."""
+    cercano = es_municipio_cercano(municipio, departamento)
+    return {
+        "municipio": municipio,
+        "departamento": departamento,
+        "tipo": "cercano" if cercano else "lejano",
+        "permite_contra_entrega": cercano
+    }
+
+
 @router.post("/checkout")
 def checkout(payload: CheckoutRequest):
     """Registrar un pedido provisional con los datos del cliente.
 
     - Valida los campos básicos usando Pydantic.
+    - Valida que el pago contra entrega solo sea permitido en municipios cercanos de Antioquia.
     - Guarda el pedido en `db.json` bajo la clave `pedidos` (se crea si no existe).
     - Devuelve un resumen de la dirección para que el frontend lo confirme.
     """
     cliente = payload.cliente.dict()
+    es_cercano = es_municipio_cercano(cliente.get("municipio", ""), cliente.get("departamento", ""))
+
+    if payload.metodo_pago == "efectivo" and not es_cercano:
+        raise HTTPException(
+            status_code=400,
+            detail="El pago contra entrega solo está disponible para municipios cercanos en el departamento de Antioquia (Bello, Medellín, Itagüí, Envigado)."
+        )
+
     items = [item.dict() for item in payload.items]
     db = read_db()
 
@@ -276,6 +308,7 @@ def checkout(payload: CheckoutRequest):
         "total": total_calculado if total_calculado > 0 else payload.total,
         "direccion_resumen": direccion,
         "metodo_pago": payload.metodo_pago,
+        "tipo_municipio": "cercano" if es_cercano else "lejano",
         "created_at": timestamp
     }
 

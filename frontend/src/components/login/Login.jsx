@@ -25,14 +25,14 @@ export default function Login({ onClose,onNavigate }) {
         if (response.ok) {
           const data = await response.json()
           console.log(data)
-          onNavigate('adverts')
-          onClose()
           auth.login()
+          onNavigate?.('adverts')
+          onClose()
         } else {
           alert("Usuario o contraseña incorrectos")
         }
       } catch (error) {
-        console.error(error)
+        console.error("Error en login:", error)
         alert("No se pudo conectar con el servidor. ¿Está corriendo el backend?")
       }
     }
@@ -69,11 +69,10 @@ export default function Login({ onClose,onNavigate }) {
               type="password"
               value={contrasena}
               onChange={(e) => setContrasena(e.target.value)}
-              onSubmit={handleSubmit}
             />
           </label>
           <div className="centerer"> 
-            <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
+            <button type="submit" className="enter btn-contrast">Entrar</button>
           </div>
         </form>
         </>

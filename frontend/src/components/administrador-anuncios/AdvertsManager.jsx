@@ -38,21 +38,27 @@ export default function AdvertsManager() {
         setCurrentPage('create')
     }
 
-    const switchShow = (advertId,show) => {
+    const switchShow = (advertId, show) => {
+        const advert = advertList.find(a => a.id === advertId)
+        const payload = { oculto: !show }
+        if (show && advert && advert.quantity <= 0) {
+            payload.quantity = 1
+        }
+
         fetch(`${apiUrl}/productos/${advertId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ oculto: !show })
+            body: JSON.stringify(payload)
         })
         .then(response => {
             fetchAdverts()
         })
     }
 
-    const VisibleAdverts = advertList.filter(advert => advert.quantity > 0 && !advert.oculto)
-    const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0 || advert.oculto)
+    const VisibleAdverts = advertList.filter(advert => !advert.oculto && advert.quantity > 0)
+    const nonVisibleAdverts = advertList.filter(advert => advert.oculto || advert.quantity <= 0)
     const page = () => {
         switch (currentPage) {
             case 'list':
@@ -63,14 +69,26 @@ export default function AdvertsManager() {
                         <h2>Visibles</h2>
                         <div className="advert-list">
                             {VisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onHide={()=> switchShow(advert.id, false)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard 
+                                    key={advert.id} 
+                                    advert={advert} 
+                                    onHide={() => switchShow(advert.id, false)} 
+                                    onShow={() => switchShow(advert.id, true)} 
+                                    onEdit={() => startEdit(advert)} 
+                                />
                             ))}
                             {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
                         </div>
                         <h2>Ocultos</h2>
                         <div className="advert-list">
                             {nonVisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onShow={() => switchShow(advert.id, true)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard 
+                                    key={advert.id} 
+                                    advert={advert} 
+                                    onHide={() => switchShow(advert.id, false)} 
+                                    onShow={() => switchShow(advert.id, true)} 
+                                    onEdit={() => startEdit(advert)} 
+                                />
                             ))}
                             {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}
                         </div>
