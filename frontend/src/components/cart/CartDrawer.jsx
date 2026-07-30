@@ -53,7 +53,6 @@ export default function CartDrawer({
                 <div className="cart-item-main">
                   <h3>{item.name}</h3>
                   <p className="cart-item-price">{formatCurrency(item.price)}</p>
-                  <p className="cart-item-color">Color: {item.color}</p>
                 </div>
                 <div className="quantity-controls" aria-label={`Cantidad de ${item.name}`}>
                   <button type="button" onClick={() => onDecrement(item.id)}>
