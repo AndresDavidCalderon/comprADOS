@@ -13,6 +13,7 @@ import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
 import Detalles from './components/detalles-producto/Detalles'
+import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -238,6 +239,7 @@ function App() {
         onCheckout={irACheckout}
       />
       <Detalles />
+      <WhatsAppButton />
       {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
     </>
   )
