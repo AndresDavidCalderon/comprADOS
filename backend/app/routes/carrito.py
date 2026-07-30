@@ -125,6 +125,16 @@ def confirmar_pago(payload: ConfirmarPagoRequest):
             raise HTTPException(status_code=400, detail="El pago no se ha completado")
 
         db = read_db()
+        # Verificar si la orden ya fue creada previamente para este session_id
+        pedidos_existentes = db.get("pedidos", [])
+        pedido_existente = next((p for p in pedidos_existentes if p.get("stripe_session_id") == payload.session_id), None)
+        if pedido_existente:
+            return {
+                "pedido_id": pedido_existente["id"],
+                "direccion_resumen": pedido_existente.get("direccion_resumen", ""),
+                "total": pedido_existente.get("total", 0),
+            }
+
         pendiente = db.get("pagos_pendientes", {}).get(payload.session_id)
         if pendiente:
             cliente = pendiente["cliente"]

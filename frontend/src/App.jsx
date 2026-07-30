@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -7,6 +7,7 @@ import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
+import ApiContext from './context/ApiContext'
 import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
@@ -18,6 +19,39 @@ function App() {
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [cartItems, setCartItems] = useState([])
+  const { apiUrl } = useContext(ApiContext)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const paymentStatus = params.get('payment');
+    const sessionId = params.get('session_id');
+
+    if (paymentStatus === 'success' && sessionId) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      fetch(`${apiUrl}/carrito/confirmar-pago`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId })
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Error al confirmar pago');
+          return res.json();
+        })
+        .then((data) => {
+          setCartItems([]);
+          alert(`¡Pago exitoso! Pedido #${data.pedido_id} creado.`);
+        })
+        .catch((err) => {
+          console.error(err);
+          setCartItems([]);
+          alert('¡Pago exitoso!');
+        });
+    } else if (paymentStatus === 'cancel') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      alert('El pago fue cancelado.');
+    }
+  }, [apiUrl]);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
