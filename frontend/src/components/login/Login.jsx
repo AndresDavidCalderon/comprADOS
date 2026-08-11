@@ -1,11 +1,13 @@
 import { useState,useContext } from "react"
 import './Login.css'
 import AuthContext from "../../context/AuthContext"
+import ApiContext from "../../context/ApiContext"
 
-export default function Login({ onClose }) {
+export default function Login({ onClose,onNavigate }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
   const auth = useContext(AuthContext)
+  const { apiUrl } = useContext(ApiContext);
 
   const handleSubmit = async () => {
     if (auth.isAuthenticated) {
@@ -14,7 +16,7 @@ export default function Login({ onClose }) {
       return
     } else {
       try {
-        const response = await fetch("http://localhost:8000/auth/login", {
+        const response = await fetch(`${apiUrl}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ usuario, contrasena })
@@ -23,13 +25,14 @@ export default function Login({ onClose }) {
         if (response.ok) {
           const data = await response.json()
           console.log(data)
-          onClose()
           auth.login()
+          onNavigate?.('adverts')
+          onClose()
         } else {
           alert("Usuario o contraseña incorrectos")
         }
       } catch (error) {
-        console.error(error)
+        console.error("Error en login:", error)
         alert("No se pudo conectar con el servidor. ¿Está corriendo el backend?")
       }
     }
@@ -66,11 +69,10 @@ export default function Login({ onClose }) {
               type="password"
               value={contrasena}
               onChange={(e) => setContrasena(e.target.value)}
-              onSubmit={handleSubmit}
             />
           </label>
           <div className="centerer"> 
-            <button className="enter btn-contrast" onClick={handleSubmit}>Entrar</button>
+            <button type="submit" className="enter btn-contrast">Entrar</button>
           </div>
         </form>
         </>

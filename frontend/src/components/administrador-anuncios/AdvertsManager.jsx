@@ -1,17 +1,19 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect,useContext } from "react"
 import square_placeholder from "../../assets/square_placeholder.jpeg"
 import "./AdvertsManager.css"
 import CreateAdvert from "./CreateAdvert";
 import AdvertCard from "./AdvertCard";
 import "../../buttons.css"
+import ApiContext from "../../context/ApiContext";
 
 export default function AdvertsManager() {
     const [currentPage, setCurrentPage] = useState('list')
     const [advertList, setAdvertList] = useState([])
     const [editingProduct, setEditingProduct] = useState(null)
+    const { apiUrl } = useContext(ApiContext);
 
     const fetchAdverts = () => {
-        fetch("http://localhost:8000/productos")
+        fetch(`${apiUrl}/productos`)
         .then(response => response.json())
         .then(data => setAdvertList(data))
     }
@@ -22,7 +24,7 @@ export default function AdvertsManager() {
 
 
     const deleteAdvert = (advertId) => {
-        fetch(`http://localhost:8000/productos/${advertId}`, {
+        fetch(`${apiUrl}/productos/${advertId}`, {
             method: "DELETE"
         })
         .then(response => {
@@ -36,21 +38,27 @@ export default function AdvertsManager() {
         setCurrentPage('create')
     }
 
-    const switchShow = (advertId,show) => {
-        fetch(`http://localhost:8000/productos/${advertId}`, {
+    const switchShow = (advertId, show) => {
+        const advert = advertList.find(a => a.id === advertId)
+        const payload = { oculto: !show }
+        if (show && advert && advert.quantity <= 0) {
+            payload.quantity = 1
+        }
+
+        fetch(`${apiUrl}/productos/${advertId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ oculto: !show })
+            body: JSON.stringify(payload)
         })
         .then(response => {
             fetchAdverts()
         })
     }
 
-    const VisibleAdverts = advertList.filter(advert => advert.quantity > 0 && !advert.oculto)
-    const nonVisibleAdverts = advertList.filter(advert => advert.quantity <= 0 || advert.oculto)
+    const VisibleAdverts = advertList.filter(advert => !advert.oculto && advert.quantity > 0)
+    const nonVisibleAdverts = advertList.filter(advert => advert.oculto || advert.quantity <= 0)
     const page = () => {
         switch (currentPage) {
             case 'list':
@@ -61,14 +69,26 @@ export default function AdvertsManager() {
                         <h2>Visibles</h2>
                         <div className="advert-list">
                             {VisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onHide={()=> switchShow(advert.id, false)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard 
+                                    key={advert.id} 
+                                    advert={advert} 
+                                    onHide={() => switchShow(advert.id, false)} 
+                                    onShow={() => switchShow(advert.id, true)} 
+                                    onEdit={() => startEdit(advert)} 
+                                />
                             ))}
                             {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
                         </div>
                         <h2>Ocultos</h2>
                         <div className="advert-list">
                             {nonVisibleAdverts.map(advert => (
-                                <AdvertCard key={advert.id} advert={advert} onShow={() => switchShow(advert.id, true)} onEdit={() => startEdit(advert)} />
+                                <AdvertCard 
+                                    key={advert.id} 
+                                    advert={advert} 
+                                    onHide={() => switchShow(advert.id, false)} 
+                                    onShow={() => switchShow(advert.id, true)} 
+                                    onEdit={() => startEdit(advert)} 
+                                />
                             ))}
                             {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}
                         </div>
@@ -78,7 +98,7 @@ export default function AdvertsManager() {
                 return (
                     <div>
                         <button className="btn-contrast" onClick={() => setCurrentPage('list')}>Volver a la lista</button>
-                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} />
+                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} switchShow={switchShow} />
                     </div>
                 )
             default:

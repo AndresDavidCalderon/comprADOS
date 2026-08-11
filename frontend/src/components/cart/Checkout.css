@@ -40,8 +40,6 @@
 }
 
 .btn-primary {
-  background:#5a2b8a;
-  color:white;
   border:none;
   padding:10px 14px;
   border-radius:6px;
@@ -89,3 +87,96 @@
   font-size:12px;
   color:#666;
 }
+
+/* ── Método de pago ── */
+.payment-methods {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.payment-option {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.payment-option.selected {
+  border-color: #800040;
+  background: #fdf2f8;
+}
+
+.payment-option input[type="radio"] {
+  accent-color: #800040;
+  width: 18px;
+  height: 18px;
+}
+
+.payment-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.payment-label small {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ── US07 Badges & Informational Boxes ── */
+.municipio-badge {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.municipio-badge.cercano {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.municipio-badge.lejano {
+  background-color: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffe0b2;
+}
+
+.far-municipality-notice {
+  background-color: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.far-municipality-notice p {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #5d4037;
+}
+
+.contra-entrega-info-box {
+  background-color: #f3e5f5;
+  border: 1px solid #e1bee7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.contra-entrega-info-box p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #4a148c;
+}
+

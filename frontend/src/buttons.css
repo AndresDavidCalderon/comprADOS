@@ -1,7 +1,7 @@
 .btn-primary {
   margin-top: 6px;
-  background: #f2a9a2;
-  color: #7b273f;
+  background: var(--salmon);
+  color: var(--unofficial-gray);
   padding: 10px 16px;
   border-radius: 20px;
   border: none;
@@ -10,7 +10,7 @@
 
 .btn-contrast{
   position:relative;
-  background: linear-gradient(135deg, #7a2d4f, #5a1f3d);
+  background: linear-gradient(135deg, var(--pop-violet), var(--lipstick-red));
   color: white;
   border: none;
   padding: 0.8rem 2.3rem;

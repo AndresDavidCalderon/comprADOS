@@ -2,31 +2,30 @@
     "ultimoProductoId": 7,
     "productos": [
         {
-            "name": "Gargantilla para hombre",
-            "description": "En materiales duraderos",
-            "quantity": 10,
+            "name": "Collar Nueva vida",
+            "description": "Un collar que expresa seguridad.",
+            "quantity": 7,
             "price": 50000,
             "tags": [
-                "gargantilla",
-                "ajustado",
-                "hombre",
-                "collar"
+                "Mostacilla",
+                "Estrecho"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783116433/productos/temporal/u8gieenqjfbckrrjdms6.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245398/productos/temporal/vbxrr5ryv9jnqpmwovwf.png",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245054/productos/temporal/i0vphqmce4c3kau6cnl4.jpg"
             ],
             "id": 1,
             "category": "collares",
             "size": "40cm de diametro",
             "materials": [
-                "Perlas"
+                "Mostacilla"
             ],
             "oculto": false
         },
         {
             "name": "Collar de perlas para hombre",
             "description": "Creemos que las piezas mas minimalistas pueden a veces ser las mas valiosas.",
-            "quantity": 10,
+            "quantity": 2,
             "price": 50000,
             "category": "collares",
             "tags": [
@@ -35,28 +34,31 @@
                 "perla"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783118696/productos/temporal/vnsyecrith3te34aob5v.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244838/productos/temporal/x6m0uacbwkndc5y7yrjt.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245124/productos/temporal/fvf5vcs3iw0qgkokbfvw.jpg"
             ],
             "id": 3,
-            "oculto": false
+            "oculto": false,
+            "materials": []
         },
         {
             "name": "prueba",
             "description": "dasfasdf",
-            "quantity": 2,
+            "quantity": 1,
             "size": "40cm de diametro",
             "materials": [
                 "cuero"
             ],
             "price": 50000,
-            "category": "manillas",
+            "category": "collares",
             "tags": [
                 "brazalete",
                 "verde",
                 "negro"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783468153/productos/temporal/oa9clmr8cifwub3dyjnt.gif",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784145369/productos/temporal/wcj7n8lyysicyfowngsu.jpg"
             ],
             "id": 4,
             "oculto": true
@@ -64,7 +66,7 @@
         {
             "name": "Pulseras para hombre en piedra natural",
             "description": "No sabemos si la piedra natural puede contener la capacidad de mentir, pero vale la pena intentar.",
-            "quantity": 5,
+            "quantity": 3,
             "size": "15cm de per\u00edmetro",
             "materials": [
                 "Piedra natural"
@@ -81,14 +83,19 @@
                 "azul"
             ],
             "photos": [
-                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783538884/productos/temporal/trxmvjavbydxom9dogs1.png"
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244296/productos/temporal/dmbqhhet8p80r7oatylp.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244304/productos/temporal/lr6sn9kfjagdx25wqbua.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244304/productos/temporal/qgyyjatlykdb2ys1nmil.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244305/productos/temporal/ymymvd02xnffapfczhj1.jpg",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784244306/productos/temporal/vycytwmzt1c0tqt4mbag.jpg"
             ],
-            "id": 5
+            "id": 5,
+            "oculto": false
         },
         {
             "name": "Aretes rodio con pedrer\u00eda",
             "description": "El rodio es un elemento qu\u00edmico de n\u00famero at\u00f3mico 45 situado en el grupo 9 de la tabla peri\u00f3dica de los elementos. Su s\u00edmbolo es Rh.",
-            "quantity": 20,
+            "quantity": 19,
             "size": "2.5cm de largo",
             "materials": [],
             "price": 90000,
@@ -100,12 +107,13 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783539502/productos/temporal/zefn1z5yrj1e8no3pyv2.jpg"
             ],
-            "id": 6
+            "id": 6,
+            "oculto": false
         },
         {
             "name": "Manilla de rodio estrella",
             "description": "Porque brillas para alguien",
-            "quantity": 10,
+            "quantity": 8,
             "size": "10 cm de perimetro",
             "materials": [
                 "Rodio",
@@ -123,7 +131,8 @@
             "photos": [
                 "https://res.cloudinary.com/ddb1yiioo/image/upload/v1783541923/productos/temporal/hlnkmqy5c9al7s0owjz4.jpg"
             ],
-            "id": 7
+            "id": 7,
+            "oculto": false
         }
     ],
     "etiquetas-existentes": [
@@ -142,6 +151,61 @@
             "password": "12345678"
         }
     ],
+    "reviews": {
+        "1": [
+            {
+                "id": 1,
+                "estrellas": 4,
+                "texto": "Muy lindo!!!"
+            },
+            {
+                "id": 3,
+                "estrellas": 3,
+                "texto": "El material es incre\u00edble!!"
+            },
+            {
+                "id": 6,
+                "estrellas": 4,
+                "texto": "Excelente material"
+            },
+            {
+                "id": 7,
+                "estrellas": 1,
+                "texto": "wd"
+            },
+            {
+                "id": 9,
+                "estrellas": 4,
+                "texto": "Lo volveria a comprar"
+            }
+        ],
+        "2": [
+            {
+                "id": 2,
+                "estrellas": 5,
+                "texto": "Me gusta ADOS me gusta :)"
+            }
+        ],
+        "5": [
+            {
+                "id": 4,
+                "estrellas": 5,
+                "texto": "Incre\u00edble!! Me encant\u00f3"
+            },
+            {
+                "id": 8,
+                "estrellas": 4,
+                "texto": "Muy bonito"
+            }
+        ],
+        "3": [
+            {
+                "id": 5,
+                "estrellas": 5,
+                "texto": "Fant\u00e1sticas perlas!!!"
+            }
+        ]
+    },
     "pedidos": [
         {
             "id": 1,
@@ -158,53 +222,287 @@
             "items": [
                 {
                     "producto_id": 1,
-                    "cantidad": 2
+                    "cantidad": 2,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 100000.0
                 }
             ],
+            "total": 100000.0,
             "direccion_resumen": "Cundinamarca, Bogot\u00e1, Carrera 10, Calle 50 (Detalles: Apto 203, Edificio Los Robles)",
-            "created_at": "2026-07-04T20:02:51.580833"
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-04T20:02:51.580833",
+            "estado": "Finalizado"
         },
         {
             "id": 2,
             "cliente": {
-                "identificacion": "213",
-                "telefono": "213",
-                "nombre": "Jeisson Steven",
-                "departamento": "sdfds",
-                "municipio": "sdgfds",
-                "carrera": "234",
-                "calle": "234",
-                "detalles_extra": ""
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "Juli\u00e1n Rodr\u00edguez",
+                "departamento": "Antioquia",
+                "municipio": "Medell\u00edn",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": "Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n"
             },
             "items": [
                 {
-                    "producto_id": 4,
-                    "cantidad": 1
+                    "producto_id": 5,
+                    "cantidad": 1,
+                    "precio_unitario": 20000.0,
+                    "subtotal": 20000.0
                 }
             ],
-            "direccion_resumen": "sdfds, sdgfds, 234, 234",
-            "created_at": "2026-07-09T02:54:03.032926"
+            "total": 20000.0,
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 3 (Detalles: Edificio/Conjunto: Calasania 1; Apto/Casa: 332; Observaciones: Entregar en recepci\u00f3n)",
+            "metodo_pago": "tarjeta",
+            "created_at": "2026-07-21T01:29:15.533253"
         },
         {
             "id": 3,
             "cliente": {
-                "identificacion": "jhkhj",
-                "telefono": "43433",
-                "nombre": "ergre",
-                "departamento": "ergr",
-                "municipio": "ergre",
-                "carrera": "45",
-                "calle": "dfhdf",
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "Alexander Olaya",
+                "departamento": "Antioquia",
+                "municipio": "Medell\u00edn",
+                "carrera": "32",
+                "calle": "123",
+                "detalles_extra": "Edificio/Conjunto: Calasania 1"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 100000.0,
+            "direccion_resumen": "Antioquia, Medell\u00edn, 32, 123 (Edificio/Conjunto: Calasania 1)",
+            "metodo_pago": "tarjeta",
+            "stripe_session_id": "cs_test_b13ttLnNaiiB4MA5UlekCSMg6nTqeaV8WJESxMRdGvCJ1hYLqlxIxPoq8s",
+            "created_at": "2026-07-26T18:15:07.911107"
+        },
+        {
+            "id": 4,
+            "cliente": {
+                "identificacion": "2122221321",
+                "telefono": "3155193851",
+                "nombre": "Andres David Calderon Jimenez",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "74",
+                "calle": "73",
+                "detalles_extra": "Edificio/Conjunto: MP2"
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1,
+                    "precio_unitario": 50000.0,
+                    "subtotal": 50000.0
+                }
+            ],
+            "total": 50000.0,
+            "direccion_resumen": "Antioquia, Medellin, 74, 73 (Detalles: Edificio/Conjunto: MP2)",
+            "metodo_pago": "efectivo",
+            "created_at": "2026-07-28T22:05:23.708211"
+        }
+    ],
+    "pagos_pendientes": {
+        "cs_test_a1mLvnS3phHHghFbatasH43fUWoC6y0iAZEVBw1GclermJM3JCKQxqwlYK": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "3135909864",
+                "nombre": "pruebita",
+                "dpruebitaepartamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
                 "detalles_extra": ""
             },
             "items": [
                 {
-                    "producto_id": 4,
+                    "producto_id": 1,
                     "cantidad": 1
                 }
             ],
-            "direccion_resumen": "ergr, ergre, 45, dfhdf",
-            "created_at": "2026-07-09T02:55:39.447471"
+            "total": 50000.0
+        },
+        "cs_test_a1wzRS5f7MSKnP80p1hxm45VjSaUzyStXo9wicXK0FJs77ks3zZ3W3xLNA": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "666",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1PYAhrrx5tzfxwWipJWtz6yDwyvl3QSkHPao0xeP0aYJFbYyQzMmNyNSX": {
+            "cliente": {
+                "identificacion": "3",
+                "telefono": "4226021",
+                "nombre": "jutobonv",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "a",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 2
+                }
+            ],
+            "total": 100000.0
+        },
+        "cs_test_b1NbmsLyyLtwVX5WKICvKGWyXR1lngrgXkFvl0SqqH3VHs3eABRWCne9ew": {
+            "cliente": {
+                "identificacion": "322332",
+                "telefono": "4226021",
+                "nombre": "prueba_dev",
+                "departamento": "Antioquia",
+                "municipio": "Medellin",
+                "carrera": "32",
+                "calle": "3",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 5,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 70000.0
+        },
+        "cs_test_a1wMSkHxINVhIYmldWuRQorzk6gWpWB4nVUhQajSfo2MdmeAop0ZhBR5mF": {
+            "cliente": {
+                "identificacion": "3443",
+                "telefono": "4343",
+                "nombre": "3fg",
+                "departamento": "fdg",
+                "municipio": "rgre",
+                "carrera": "34",
+                "calle": "54",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 7,
+                    "cantidad": 1
+                }
+            ],
+            "total": 90000.0
+        },
+        "cs_test_a1FJH5n5VAfo1hieQOpQnQgq4hW1R6t889WqHgJu5zRDntU9k70Mwt5VTf": {
+            "cliente": {
+                "identificacion": "567",
+                "telefono": "546",
+                "nombre": "ewrgre",
+                "departamento": "Antioquia",
+                "municipio": "itagui",
+                "carrera": "34",
+                "calle": "654",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_b1MoGH3VCWk5iaWUrmpMH7lpobOc1OXGowcl5xuMcC6GPy62cZMPHvYqhc": {
+            "cliente": {
+                "identificacion": "344",
+                "telefono": "3443",
+                "nombre": "dsfds",
+                "departamento": "456",
+                "municipio": "envigado",
+                "carrera": "32",
+                "calle": "43",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 5,
+                    "cantidad": 1
+                },
+                {
+                    "producto_id": 6,
+                    "cantidad": 1
+                }
+            ],
+            "total": 210000.0
+        },
+        "cs_test_a1GXJJGKOs05HuP6SsxOjJQk4C2AIIKjM85hAEScFccO8zRZOXhH4DPh34": {
+            "cliente": {
+                "identificacion": "45654",
+                "telefono": "4564",
+                "nombre": "were",
+                "departamento": "trhrt",
+                "municipio": "bello",
+                "carrera": "32",
+                "calle": "54",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
+        },
+        "cs_test_a1wiIdjwSkEFKezAe177tQFrkMgkMbsBx6dj6pXtSxQ94nrFvK4QDun35l": {
+            "cliente": {
+                "identificacion": "34534",
+                "telefono": "25345",
+                "nombre": "matias",
+                "departamento": "antioquia",
+                "municipio": "Bello",
+                "carrera": "32",
+                "calle": "88",
+                "detalles_extra": ""
+            },
+            "items": [
+                {
+                    "producto_id": 3,
+                    "cantidad": 1
+                }
+            ],
+            "total": 50000.0
         }
-    ]
+    }
 }

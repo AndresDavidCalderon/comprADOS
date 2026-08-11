@@ -4,6 +4,11 @@ import backend.app.routes.productos
 import backend.app.routes.carrito
 import backend.app.routes.auth
 import backend.app.routes.ordenes
+import backend.app.routes.reviews
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Crear aplicación FastAPI
 app = FastAPI(
@@ -26,6 +31,7 @@ app.include_router(backend.app.routes.productos.router)
 app.include_router(backend.app.routes.carrito.router)
 app.include_router(backend.app.routes.auth.router)
 app.include_router(backend.app.routes.ordenes.router)
+app.include_router(backend.app.routes.reviews.router)
 
 
 @app.get("/")

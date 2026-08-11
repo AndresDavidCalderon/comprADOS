@@ -30,9 +30,8 @@ Antes de empezar, asegúrate de contar con los siguientes componentes instalados
    pip install -r requirements.txt
    ```
 
-3. **Ejecuta la API:**
-   ```bash
-   cd ..
+3. Ejecutar la API (FastAPI/uvicorn):
+
    python -m backend.main
    ```
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
@@ -7,28 +7,52 @@ import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
+import ApiContext from './context/ApiContext'
 import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
 import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
+import Detalles from './components/detalles-producto/Detalles'
+import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const storedCart = localStorage.getItem('cartItems')
-      return storedCart ? JSON.parse(storedCart) : []
-    } catch (error) {
-      console.error('No se pudo cargar el carrito persistido:', error)
-      return []
-    }
-  })
+  const [cartItems, setCartItems] = useState([])
+  const { apiUrl } = useContext(ApiContext)
 
   useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems))
-  }, [cartItems])
+    const params = new URLSearchParams(window.location.search);
+    const paymentStatus = params.get('payment');
+    const sessionId = params.get('session_id');
+
+    if (paymentStatus === 'success' && sessionId) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      fetch(`${apiUrl}/carrito/confirmar-pago`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId })
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Error al confirmar pago');
+          return res.json();
+        })
+        .then((data) => {
+          setCartItems([]);
+          alert(`¡Pago exitoso! Pedido #${data.pedido_id} creado.`);
+        })
+        .catch((err) => {
+          console.error(err);
+          setCartItems([]);
+          alert('¡Pago exitoso!');
+        });
+    } else if (paymentStatus === 'cancel') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      alert('El pago fue cancelado.');
+    }
+  }, [apiUrl]);
 
   const addToCart = (product) => {
     setCartItems((prevItems) => {
@@ -81,10 +105,38 @@ function App() {
     )
   }
 
-  const finalizarCompra = () => {
-    setIsCartOpen(false)
-    setCurrentPage('checkout')
-  }
+  const finalizarCompra = async (datosCliente, metodoPago) => {
+
+  const venta = {
+    cliente: datosCliente,
+    productos: cartItems,
+    metodoPago,
+    fecha: new Date().toISOString(),
+    total: cartItems.reduce(
+      (acc, item) => acc + item.price * item.quantityOnCart,
+      0
+    )
+  };
+
+  console.log("Venta creada:", venta);
+
+    /*
+    //Después aquí irá el fetch al backend para el POST de la venta
+    //Sería algo así
+    await fetch("http://localhost:8000/ventas", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(venta)
+    });
+    */
+
+    setCartItems([]);
+    setIsCartOpen(false);
+    setCurrentPage('checkout');
+    alert("¡Compra realizada con éxito!");
+  };
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0)
   const auth = useContext(AuthContext)
@@ -102,7 +154,6 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.collares.title}
             subtitle={productCatalog.collares.subtitle}
-            title="Collares"
           />
         )
       case 'manillas':
@@ -112,14 +163,15 @@ function App() {
             onAddToCart={addToCart}
             title={productCatalog.manillas.title}
             subtitle={productCatalog.manillas.subtitle}
-            title="Manillas"
           />
         )
       case 'aretes':
         return (
           <Aretes
+            products={productCatalog.aretes.products}
             onAddToCart={addToCart}
-            title="Aretes"
+            title={productCatalog.aretes.title}
+            subtitle={productCatalog.aretes.subtitle}
           />
         )
       case 'checkout':
@@ -136,18 +188,38 @@ function App() {
         return <AdvertsManager />
       default:
         return (
-          <section className="home">
-            <div className="home-hero">
+          <div className="home-catalog">
+            <header className="home-header">
               <h1>Bienvenido a ADOS Me Gusta</h1>
               <p>Descubre nuestras colecciones exclusivas de joyería fina</p>
-              <button className="cta-btn" onClick={() => setCurrentPage('collares')}>
-                Explorar Ahora
-              </button>
-            </div>
-          </section>
+            </header>
+            <Collares
+              products={productCatalog.collares.products}
+              onAddToCart={addToCart}
+              title={productCatalog.collares.title}
+              subtitle={productCatalog.collares.subtitle}
+            />
+            <Manillas
+              products={productCatalog.manillas.products}
+              onAddToCart={addToCart}
+              title={productCatalog.manillas.title}
+              subtitle={productCatalog.manillas.subtitle}
+            />
+            <Aretes
+              products={productCatalog.aretes.products}
+              onAddToCart={addToCart}
+              title={productCatalog.aretes.title}
+              subtitle={productCatalog.aretes.subtitle}
+            />
+          </div>
         )
     }
   }
+
+  const irACheckout = () => {
+    setIsCartOpen(false);
+    setCurrentPage('checkout');
+  };
 
   return (
     <>
@@ -164,9 +236,11 @@ function App() {
         onClose={() => setIsCartOpen(false)}
         onIncrement={incrementQuantity}
         onDecrement={decrementQuantity}
-        onCheckout={finalizarCompra}
+        onCheckout={irACheckout}
       />
-      {showLogin && <Login onClose={() => setShowLogin(false)} />}
+      <Detalles />
+      <WhatsAppButton />
+      {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
     </>
   )
 }

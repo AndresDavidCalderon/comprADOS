@@ -1,6 +1,5 @@
 .catalog-page {
-  min-height: calc(100vh - 78px);
-  padding: 2rem;
+  padding-top: 2rem;
 }
 
 .catalog-header {
@@ -42,7 +41,7 @@
 }
 
 .product-card {
-  background: #efe8d5;
+  background: var(--unofficial-beige);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgb(34 23 17 / 25%);
@@ -147,6 +146,10 @@
   transform: translateY(-1px);
 }
 
+.add-to-cart-icon {
+  display: none;
+}
+
 @media (max-aspect-ratio:1/1) {
   .catalog-page {
     padding: 1rem;
@@ -183,11 +186,18 @@
   }
 
   .add-to-cart-btn {
-    font-size: 2vw;
+    font-size: 0vw;
+    position:absolute;
+    bottom: 0.5rem;
+    right: 1rem;
   }
 
   .product-price{
     font-size: 2vw;
+  }
+
+  .add-to-cart-icon {
+    display: block;
   }
 
 }
