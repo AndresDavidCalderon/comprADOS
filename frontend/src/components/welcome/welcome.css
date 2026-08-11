@@ -1,0 +1,40 @@
+
+.home-header {
+  display:flex;
+  flex-direction: column;
+  position: absolute;
+  text-align: center;
+  width:100%;
+  height:100%;
+  padding: 40px 20px 10px;
+  top: 30%;
+  left: 0;
+}
+
+.home-header > p {
+  color:white;
+}
+
+.home-header h1 {
+  font-size: 2.8rem;
+  color: #5a1f3d;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.home-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-video-container {
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  position: relative;
+  height: 90vh;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}

@@ -1,8 +1,5 @@
 import { useState, useContext, useEffect } from 'react'
 import Navbar from './components/navbar/Navbar'
-import Collares from './components/collares/Collares'
-import Manillas from './components/manillas/Manillas'
-import Aretes from './components/aretes/Aretes'
 import Login from './components/login/Login'
 import './App.css'
 import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
@@ -10,10 +7,10 @@ import AuthContext from './context/AuthContext'
 import ApiContext from './context/ApiContext'
 import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
-import { productCatalog } from './data/products'
 import NotiManager from './components/administrador-notificaciones/NotiManager'
 import Detalles from './components/detalles-producto/Detalles'
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
+import Welcome from './components/welcome/Welcome'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
@@ -188,30 +185,7 @@ function App() {
         return <AdvertsManager />
       default:
         return (
-          <div className="home-catalog">
-            <header className="home-header">
-              <h1>Bienvenido a ADOS Me Gusta</h1>
-              <p>Descubre nuestras colecciones exclusivas de joyería fina</p>
-            </header>
-            <Collares
-              products={productCatalog.collares.products}
-              onAddToCart={addToCart}
-              title={productCatalog.collares.title}
-              subtitle={productCatalog.collares.subtitle}
-            />
-            <Manillas
-              products={productCatalog.manillas.products}
-              onAddToCart={addToCart}
-              title={productCatalog.manillas.title}
-              subtitle={productCatalog.manillas.subtitle}
-            />
-            <Aretes
-              products={productCatalog.aretes.products}
-              onAddToCart={addToCart}
-              title={productCatalog.aretes.title}
-              subtitle={productCatalog.aretes.subtitle}
-            />
-          </div>
+          <Welcome onAddToCart={addToCart} />
         )
     }
   }
