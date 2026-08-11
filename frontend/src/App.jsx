@@ -11,13 +11,18 @@ import NotiManager from './components/administrador-notificaciones/NotiManager'
 import Detalles from './components/detalles-producto/Detalles'
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
 import Welcome from './components/welcome/Welcome'
+import cartContext from './context/CartContext.jsx'
+import Collares from './components/collares/Collares'
+import Manillas from './components/manillas/Manillas'
+import Aretes from './components/aretes/Aretes'
+import { productCatalog } from './data/products'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
-  const [cartItems, setCartItems] = useState([])
   const { apiUrl } = useContext(ApiContext)
+  const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity } = useContext(cartContext)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -50,57 +55,6 @@ function App() {
       alert('El pago fue cancelado.');
     }
   }, [apiUrl]);
-
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id)
-
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                quantityOnCart: item.quantityOnCart + 1,
-              }
-            : item,
-        )
-      }
-
-      return [...prevItems, { ...product, quantityOnCart: 1 }]
-    })
-    setIsCartOpen(true)
-  }
-
-  const incrementQuantity = (id) => {
-    const item = cartItems.find(item => item.id === id);
-    if (item.quantityOnCart < item.quantity) {
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantityOnCart: item.quantityOnCart + 1,
-              }
-            : item,
-      ))
-    }
-    
-  }
-
-  const decrementQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantityOnCart: Math.max(0, item.quantityOnCart - 1),
-              }
-            : item,
-        )
-        .filter((item) => item.quantityOnCart > 0),
-    )
-  }
 
   const finalizarCompra = async (datosCliente, metodoPago) => {
 
