@@ -41,7 +41,7 @@
 }
 
 .product-card {
-  background: var(--unofficial-beige);
+  background: var(--comfy-beige);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgb(34 23 17 / 25%);
