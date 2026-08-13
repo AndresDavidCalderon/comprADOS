@@ -23,42 +23,45 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
   return (
     <nav className={`navbar${menuOpen ? ' open' : ''}`}>
       <div className="navbar-container">
-        <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
-          <span className="logo-text">ADOS me gusta</span>
-        </button>
+        <div className="nav-left">
+          <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
+            <span className="logo-text">ADOS me gusta</span>
+          </button>
 
-        <div className="search-btn">
-          <img src={searchIcon} alt="Buscar" className="search-icon"onClick={() => setSearching((s) => !s)} />
-          {
-            searching &&
-            <TextField
-              type="text"
-              className="search-input"
-              placeholder="Buscar productos..."
-              onFocus={() => setSearching(true)}
-              onBlur={() => setSearching(false)}
-              onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
-              variant="standard"
-            />
-          }
-
-          
+          <div className={`search-btn${searching ? ' active' : ''}`}>
+            <img src={searchIcon} alt="Buscar" className="search-icon" onClick={() => setSearching((s) => !s)} />
+            {
+              searching &&
+              <TextField
+                type="text"
+                className="search-input"
+                placeholder="Buscar productos..."
+                onFocus={() => setSearching(true)}
+                onBlur={() => setSearching(false)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
+                variant="standard"
+                fullWidth
+              />
+            }
+          </div>
         </div>
 
         {
-          !searching &&
-          <div className="categories" id="nav-categories">
+          searching ? null :
+          <div className={`categories${searching ? ' hidden' : ''}`} id="nav-categories">
             <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>Collares</a>
             <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>Manillas</a>
             <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>Aretes</a>
             { auth.isAuthenticated &&
               <>
-              <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
               </>
             }
           </div>
+
         }
+
         <div className="nav-icons">
           <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
