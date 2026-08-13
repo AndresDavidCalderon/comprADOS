@@ -2,9 +2,12 @@ import { useState, useContext } from 'react'
 import './Navbar.css'
 import '../../context/AuthContext'
 import AuthContext from '../../context/AuthContext'
+import searchIcon from "../../assets/search.svg"
+import {TextField} from "@mui/material"
 
 export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0 }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searching, setSearching] = useState(false)
   const auth = useContext(AuthContext)
  
   // Navega y cierra el menú móvil
@@ -24,19 +27,38 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
           <span className="logo-text">ADOS me gusta</span>
         </button>
 
-        <div className="categories" id="nav-categories">
-          <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>Collares</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>Manillas</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>Aretes</a>
-          { auth.isAuthenticated &&
-            <>
-            <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
-            </>
+        <div className="search-btn">
+          <img src={searchIcon} alt="Buscar" className="search-icon"onClick={() => setSearching((s) => !s)} />
+          {
+            searching &&
+            <TextField
+              type="text"
+              className="search-input"
+              placeholder="Buscar productos..."
+              onFocus={() => setSearching(true)}
+              onBlur={() => setSearching(false)}
+              onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
+              variant="standard"
+            />
           }
 
+          
         </div>
 
+        {
+          !searching &&
+          <div className="categories" id="nav-categories">
+            <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>Collares</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>Manillas</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>Aretes</a>
+            { auth.isAuthenticated &&
+              <>
+              <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>Anuncios</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>Notificaciones</a>
+              </>
+            }
+          </div>
+        }
         <div className="nav-icons">
           <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

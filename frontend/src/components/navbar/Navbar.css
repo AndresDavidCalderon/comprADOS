@@ -5,7 +5,7 @@
 }
 
 .navbar {
-  background: linear-gradient(135deg, #7a2d4f 0%, #5a1f3d 100%);
+  background: var(--comfy-beige);
   padding: 1rem 0.2vw;
   position: sticky;
   top: 0;
@@ -27,6 +27,18 @@
 
 /* Logo */
 .logo-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.search-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -74,7 +86,7 @@
 }
 
 .categories a {
-  color: #ffffff;
+  color: black;
   text-decoration: none;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
@@ -202,6 +214,16 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
+}
+
+input{
+  border: none;
+  border-radius: 8px;
+  height:3vh;
+  font-size: 1rem;
+  width: 200px;
+  background-color: transparent;
+  color: #fff;
 }
 
 /* Mobile Responsive */
