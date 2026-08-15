@@ -171,10 +171,10 @@
 }
 
 .icon-btn {
+  color:black;
   background: rgba(255, 255, 255, 0.1);
   border: 1.5px solid rgba(255, 215, 0, 0.3);
   cursor: pointer;
-  color: #ffffff;
   padding: 0.6rem;
   display: flex;
   align-items: center;
@@ -246,7 +246,7 @@
 .nav-toggle span {
   display: block;
   width: 100%;
-  height: 2.5px;${
+  height: 2.5px;
   background: #ffd700;
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -272,7 +272,7 @@ input{
 }
 
 /* Mobile Responsive */
-@media (max-width: 768px) {
+@media (max-aspect-ratio: 1/1) {
   .navbar {
     padding: 1rem;
   }
@@ -305,6 +305,7 @@ input{
     transition: transform 0.3s ease;
     z-index: 1000;
     overflow-y: auto;
+    color:white;
   }
 
   .categories a {
