@@ -24,10 +24,10 @@ export function CartProvider({ children }) {
 
         return [...prevItems, { ...product, quantityOnCart: 1 }]
     })
-    setIsCartOpen(true)
     }
 
     const incrementQuantity = (id) => {
+        console.log('Decrementing quantity for item with id:', id);
         const item = cartItems.find(item => item.id === id);
         if (item.quantityOnCart < item.quantity) {
         setCartItems((prevItems) =>
@@ -44,6 +44,7 @@ export function CartProvider({ children }) {
     }
 
     const decrementQuantity = (id) => {
+        console.log('Decrementing quantity for item with id:', id);
         setCartItems((prevItems) =>
         prevItems
             .map((item) =>

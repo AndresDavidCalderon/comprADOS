@@ -3,6 +3,7 @@ import './CatalogPage.css'
 import ApiContext from '../../context/ApiContext'
 import DetallesContext from '../../context/DetallesContext'
 import cartAddIcon from "../../assets/cart-add.svg"
+import cartContext from '../../context/CartContext'
 
 const colorClassMap = {
   Verde: 'dot-green',
@@ -21,12 +22,13 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value)
 
-export default function CatalogPage({ title, subtitle, category, onAddToCart }) {
+export default function CatalogPage({ title, subtitle, category}) {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const { apiUrl } = useContext(ApiContext)
   const { openDetalles } = useContext(DetallesContext)
+  const {addToCart} = useContext(cartContext)
 
   useEffect(() => {
     if (!category) return
@@ -85,7 +87,7 @@ export default function CatalogPage({ title, subtitle, category, onAddToCart }) 
               type="button"
               onClick={(event) => {
                 event.stopPropagation()
-                onAddToCart?.(product)
+                addToCart(product)
               }}
             >
               Agregar al carrito

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useContext, useEffect, useRef } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Login from './components/login/Login'
 import './App.css'
@@ -21,6 +21,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [showLogin, setShowLogin] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const previousCartAmount = useRef(0)
   const { apiUrl } = useContext(ApiContext)
   const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity } = useContext(cartContext)
 
@@ -55,6 +56,7 @@ function App() {
       alert('El pago fue cancelado.');
     }
   }, [apiUrl]);
+
 
   const finalizarCompra = async (datosCliente, metodoPago) => {
 
@@ -148,6 +150,13 @@ function App() {
     setIsCartOpen(false);
     setCurrentPage('checkout');
   };
+
+  if (cartCount > previousCartAmount.current) {
+    previousCartAmount.current = cartItems.length 
+    setIsCartOpen(true);
+  }
+
+  previousCartAmount.current = cartItems.length;
 
   return (
     <>
