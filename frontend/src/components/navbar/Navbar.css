@@ -294,7 +294,9 @@ input{
   .categories {
     position: fixed;
     top: 0;
-    right: 0;
+    right:0;
+    margin: 0;
+    left: auto;
     height: 100vh;
     width: min(78vw, 300px);
     flex: none;
@@ -305,11 +307,11 @@ input{
     padding: 5rem 1.5rem 2rem;
     background: linear-gradient(135deg, #7a2d4f 0%, #5a1f3d 100%);
     box-shadow: -6px 0 20px rgba(0, 0, 0, 0.35);
-    transform: translateX(100%);
     transition: transform 0.3s ease;
     z-index: 1000;
     overflow-y: auto;
     color:white;
+    transform: translateX(100%);
   }
 
   .categories a {

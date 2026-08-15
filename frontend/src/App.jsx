@@ -151,12 +151,13 @@ function App() {
     setCurrentPage('checkout');
   };
 
-  if (cartCount > previousCartAmount.current) {
-    previousCartAmount.current = cartItems.length 
+  const newCartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0);
+  if (newCartCount > previousCartAmount.current) {
+    previousCartAmount.current = newCartCount;
     setIsCartOpen(true);
   }
 
-  previousCartAmount.current = cartItems.length;
+  previousCartAmount.current = newCartCount;
 
   return (
     <>
