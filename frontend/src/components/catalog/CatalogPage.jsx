@@ -83,7 +83,7 @@ export default function CatalogPage({ title, subtitle, category}) {
               )}
             </div>
             <button
-              className="add-to-cart-btn"
+              className="btn-pop"
               type="button"
               onClick={(event) => {
                 event.stopPropagation()
