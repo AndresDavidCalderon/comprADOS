@@ -1,5 +1,5 @@
 import "./AdvertCard.css"
-import square_placeholder from "../../assets/square_placeholder.jpeg"
+import square_placeholder from "@/assets/square_placeholder.jpeg"
 
 export default function AdvertCard({ advert,  onEdit, onHide,onShow }) {
     return (

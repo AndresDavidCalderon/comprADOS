@@ -1,10 +1,10 @@
 import { useState,useEffect,useContext } from "react"
-import square_placeholder from "../../assets/square_placeholder.jpeg"
+import square_placeholder from "@/assets/square_placeholder.jpeg"
 import "./AdvertsManager.css"
 import CreateAdvert from "./CreateAdvert";
 import AdvertCard from "./AdvertCard";
-import "../../buttons.css"
-import ApiContext from "../../context/ApiContext";
+import "@/buttons.css"
+import ApiContext from "@/context/ApiContext";
 
 export default function AdvertsManager() {
     const [currentPage, setCurrentPage] = useState('list')

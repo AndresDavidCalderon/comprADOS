@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo,useContext } from "react"
-import square_placeholder from "../../assets/square_placeholder.jpeg"
+import square_placeholder from "@/assets/square_placeholder.jpeg"
 import "./NotiDetails.css"
-import ApiContext from "../../context/ApiContext";
+import ApiContext from "@/context/ApiContext";
 
 export default function NotiDetails({ order, onEstadoChange }) {
     const { apiUrl } = useContext(ApiContext);

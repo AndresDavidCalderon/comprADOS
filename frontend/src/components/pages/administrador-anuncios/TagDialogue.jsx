@@ -1,6 +1,6 @@
 import { useEffect, useState,useContext } from "react";
 import "./TagDialogue.css";
-import ApiContext from "../../context/ApiContext";
+import ApiContext from "@/context/ApiContext";
 
 export default function TagDialogue({
   title = "Nueva Pieza • Palabras Clave",

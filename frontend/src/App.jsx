@@ -2,12 +2,12 @@ import { useState, useContext, useEffect, useRef } from 'react'
 import Navbar from './components/navbar/Navbar'
 import Login from './components/login/Login'
 import './App.css'
-import AdvertsManager from './components/administrador-anuncios/AdvertsManager'
+import AdvertsManager from './components/pages/administrador-anuncios/AdvertsManager'
 import AuthContext from './context/AuthContext'
 import ApiContext from './context/ApiContext'
 import CartDrawer from './components/cart/CartDrawer'
 import Checkout from './components/cart/Checkout'
-import NotiManager from './components/administrador-notificaciones/NotiManager'
+import NotiManager from './components/pages/administrador-notificaciones/NotiManager'
 import Detalles from './components/detalles-producto/Detalles'
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
 import Welcome from './components/welcome/Welcome'
@@ -24,6 +24,7 @@ function App() {
   const previousCartAmount = useRef(0)
   const { apiUrl } = useContext(ApiContext)
   const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity } = useContext(cartContext)
+  const {searchTerm, setSearchTerm} = useState('')
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -98,6 +99,11 @@ function App() {
     setCurrentPage('home')
   }
 
+  const searchProducts = (term) => {
+    setSearchTerm(term);
+    setCurrentPage('search');
+  }
+
   const renderPage = () => {
     switch(currentPage) {
       case 'collares':
@@ -139,6 +145,8 @@ function App() {
         return <NotiManager />
       case 'adverts':
         return <AdvertsManager />
+        case 'search':
+          return <Search></Search>
       default:
         return (
           <Welcome onAddToCart={addToCart} />

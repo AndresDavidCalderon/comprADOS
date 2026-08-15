@@ -1,8 +1,8 @@
 import TagDialogue from "./TagDialogue";
 import "./CreateAdvert.css";
 import { useState,useContext } from "react";
-import "../../buttons.css"
-import ApiContext from "../../context/ApiContext";
+import "@/buttons.css"
+import ApiContext from "@/context/ApiContext";
 
 const formatThousands = (digits) => {
   if (!digits) return "";

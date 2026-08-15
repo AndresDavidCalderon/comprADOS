@@ -10,5 +10,10 @@ export default defineConfig({
   ],
   server:{
     cors: true
+  },
+  resolve : {
+    alias: {
+      '@': '/src',
+    }
   }
 })
