@@ -13,25 +13,30 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid rgba(255, 215, 0, 0.2);
   width: 100%;
-  height: 60px;
 }
 
 .navbar-container {
+  display:flex;
+  flex-direction: column;
   max-width: 1400px;
   align-items: center;
   gap: 1vw;
   padding-right: 1vw;
+  padding-left: 1vw;
   justify-content: space-between;
 }
 
-.nav-left {
+.nav-right {
   position: absolute;
-  left: 1vw;
+  top: 10px;
+  right: 1vw;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  width: 85%;
+  gap: 1vw;
+  justify-content: flex-end;
+  width: 100%;
 }
+
 
 /* Logo */
 .logo-btn {
@@ -43,41 +48,6 @@
   gap: 0.5rem;
   transition: all 0.3s ease;
   border-radius: 8px;
-}
-
-.search-btn {
-  position: relative;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  flex-grow: 1;
-}
-
-.search-icon{
-  transform: translateY(3px);
-}
-
-.search-btn .search-input {
-  width:100%;
-}
-
-.search-btn .search-input .MuiInput-root {
-  color: #000;
-}
-
-.search-btn .search-input input {
-  color: #000;
-  padding: 0.25rem 0;
-}
-
-.search-btn .search-input .MuiInput-underline:before,
-.search-btn .search-input .MuiInput-underline:after {
-  border-bottom-color: rgba(122, 45, 79, 0.7);
 }
 
 .logo-btn:hover {
@@ -100,18 +70,15 @@
 }
 
 .logo-text {
-  color: #ffd700;
-  font-size: 1.3rem;
-  font-weight: 700;
+  color: var(--pop-violet);
+  font-size: min(2.5vw, 1.5rem);
+  font-weight: 900;
   letter-spacing: 1px;
+
 }
 
 /* Categories */
 .categories {
-  position:absolute;
-  top:10px;
-  left:50%;
-  transform: translateX(-50%);
   margin: 0 auto;
   display: flex;
   gap: 1vw;
@@ -135,7 +102,7 @@
   color: black;
   text-decoration: none;
   font-size: clamp(1rem, 2vw, 1.2rem);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.5px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -166,9 +133,6 @@
 
 /* Nav Icons */
 .nav-icons {
-  position:absolute;
-  top: 10px;
-  right: 1vw;
   display: flex;
   gap: 1.5vw;
   align-items: center;
