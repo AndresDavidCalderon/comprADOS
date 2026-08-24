@@ -4,6 +4,7 @@ import '../../context/AuthContext'
 import AuthContext from '../../context/AuthContext'
 import searchIcon from "../../assets/search.svg"
 import {TextField} from "@mui/material"
+import icono from "@/assets/icono.png"
 
 export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0 }) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -25,26 +26,24 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
       <div className="navbar-container">
         <div className="nav-top">
           <div className="nav-brand">
+            <img src={icono} alt="Logo" className="logo-img" />
             <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
               <span className="logo-text">ADOS me gusta</span>
             </button>
           </div>
           <div className="nav-right">
-            <div className={`search-btn${searching ? ' active' : ''}`}>
+            <div className="search-container">
               <img src={searchIcon} alt="Buscar" className="search-icon" onClick={() => setSearching((s) => !s)} />
-              {
-                searching &&
-                <TextField
-                  type="text"
-                  className="search-input"
-                  placeholder="Buscar productos..."
-                  onFocus={() => setSearching(true)}
-                  onBlur={() => setSearching(false)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
-                  variant="standard"
-                  fullWidth
-                />
-              }
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Buscar productos..."
+                onFocus={() => setSearching(true)}
+                onBlur={() => setSearching(false)}
+                onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
+                variant="standard"
+                fullWidth
+              />
             </div>
             <div className="nav-icons">
               <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
@@ -78,22 +77,17 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             </div>
           </div>
         </div>
-
-        {
-          searching ? null :
-          <div className={`categories${searching ? ' hidden' : ''}`} id="nav-categories">
-            <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>COLLARES</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>MANILLAS</a>
-            <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>ARETES</a>
-            { auth.isAuthenticated &&
-              <>
-                <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>ANUNCIOS</a>
-                <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>NOTIFICACIONES</a>
-              </>
-            }
-          </div>
-
-        }
+        <div className="categories" id="nav-categories">
+          <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>COLLARES</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>MANILLAS</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>ARETES</a>
+          { auth.isAuthenticated &&
+            <>
+              <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>ANUNCIOS</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>NOTIFICACIONES</a>
+            </>
+          }
+        </div>
 
 
       </div>
