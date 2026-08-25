@@ -1,4 +1,5 @@
 from fastapi import APIRouter, UploadFile, File
+from rapidfuzz import process, fuzz,utils
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
@@ -103,3 +104,16 @@ def get_productos_por_categoria(categoria: str):
     productos = read_db()["productos"]
     resultados = [producto for producto in productos if producto["category"] == categoria]
     return resultados
+
+@router.get("/search")
+def search_productos(query: str):
+    query = query.lower()
+    productos = read_db()["productos"]
+    buscables = [f"{producto['name']} {producto['description']} {producto['category']} {producto['tags']} {i}" for i, producto in enumerate(productos)]
+    rank=process.extract(query, buscables, limit=15, scorer=fuzz.WRatio, processor=utils.default_process)
+    rank.sort(key=lambda x: x[1], reverse=True)
+    def isAcceptableByToken(result):
+        return fuzz.partial_ratio(query, result[0]) > 50
+    rank = list(filter(isAcceptableByToken, rank))
+    print(rank)
+    return list(map(lambda x: productos[int(x[2])], rank))
