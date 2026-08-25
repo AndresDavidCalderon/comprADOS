@@ -5,9 +5,12 @@ import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from dotenv import load_dotenv
 import os
-from backend.app.database.json_db import read_db, save_to_db
-
+from sqlalchemy.orm import Session,Mapped
+from sqlalchemy import Column, Integer, String, Float, Boolean
+from backend.app.database.db import read_db, save_to_db,Base, engine
 load_dotenv()  # Load environment variables from .env file
+
+
 
 # Configuration       
 cloudinary.config( 
@@ -23,10 +26,26 @@ router = APIRouter(
     tags=["productos"]
 )
 
+class Product(Base):
+    __tablename__ = "products"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    price = Column(Float, nullable=False)
+    category = Column(String, nullable=False)
+    size = Column(String, nullable=False)
+    materials = Column(String, nullable=False)
+    is_hidden = Column(Boolean, nullable=False, default=False)
+
+
+#----- Endpoints -----#
+
 @router.get("/")
 def get_productos():
+    with Session(engine) as session:
+        productos = session.query(Product).all()
     """Endpoint para obtener todos los productos"""
-    return read_db()["productos"]
+    return productos
 
 # Las imagenes son primero subidas "temporalmente", huerfanas, y luego se asocian a un producto cuando este es creado.
 @router.post("/imagenes/temporales")
