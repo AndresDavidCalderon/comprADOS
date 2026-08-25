@@ -42,7 +42,6 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
                 onBlur={() => setSearching(false)}
                 onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
                 variant="standard"
-                fullWidth
               />
             </div>
             <div className="nav-icons">
