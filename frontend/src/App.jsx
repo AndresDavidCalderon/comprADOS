@@ -15,6 +15,7 @@ import cartContext from './context/CartContext.jsx'
 import Collares from './components/collares/Collares'
 import Manillas from './components/manillas/Manillas'
 import Aretes from './components/aretes/Aretes'
+import Search from '@/components/pages/search/Search'
 import { productCatalog } from './data/products'
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   const previousCartAmount = useRef(0)
   const { apiUrl } = useContext(ApiContext)
   const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity } = useContext(cartContext)
-  const {searchTerm, setSearchTerm} = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -146,7 +147,7 @@ function App() {
       case 'adverts':
         return <AdvertsManager />
         case 'search':
-          return <Search></Search>
+          return <Search term={searchTerm} />
       default:
         return (
           <Welcome onAddToCart={addToCart} />
@@ -167,6 +168,11 @@ function App() {
 
   previousCartAmount.current = newCartCount;
 
+  const search = (term) => {
+    setSearchTerm(term);
+    setCurrentPage('search');
+  }
+
   return (
     <>
       <Navbar
@@ -174,6 +180,7 @@ function App() {
         onNavigate={setCurrentPage}
         onCartClick={() => setIsCartOpen((prev) => !prev)}
         cartCount={cartCount}
+        search={search}
       />
       {renderPage()}
       <CartDrawer
@@ -186,7 +193,7 @@ function App() {
       />
       <Detalles />
       <WhatsAppButton />
-      {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage} />}
+      {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage}  />}
     </>
   )
 }

@@ -6,16 +6,19 @@ import searchIcon from "../../assets/search.svg"
 import {TextField} from "@mui/material"
 import icono from "@/assets/icono.png"
 
-export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0 }) {
+export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0, search}) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searching, setSearching] = useState(false)
   const auth = useContext(AuthContext)
+  const [searchTerm, setSearchTerm] = useState('')
  
   // Navega y cierra el menú móvil
   const go = (page) => {
     onNavigate(page)
     setMenuOpen(false)
   }
+
+
 
   const handleHome = () => {
     go('home')
@@ -35,12 +38,14 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             <div className="search-container">
               <img src={searchIcon} alt="Buscar" className="search-icon" onClick={() => setSearching((s) => !s)} />
               <input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 type="text"
                 className="search-input"
                 placeholder="Buscar productos..."
                 onFocus={() => setSearching(true)}
                 onBlur={() => setSearching(false)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { go('search') } }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { search(searchTerm) } }}
                 variant="standard"
               />
             </div>

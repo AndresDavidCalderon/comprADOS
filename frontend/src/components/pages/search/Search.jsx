@@ -1,4 +1,7 @@
 export default function Search({term}) {
-    return 
-    <h1>Resultados para {term}</h1>
+    return (
+    <div>
+        <h1>Resultados para "{term}"</h1>
+    </div>
+    )
 }
