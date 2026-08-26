@@ -53,7 +53,7 @@ export default function Detalles() {
                                 </div>
                             </div>
                         )}
-                        {selectedProduct.sizes && (
+                        {selectedProduct.size && (
                             <>
                                 <h4>Tamaño</h4>
                                 <div>{selectedProduct.size}</div>

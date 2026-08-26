@@ -40,7 +40,7 @@ export default function AdvertsManager() {
 
     const switchShow = (advertId, show) => {
         const advert = advertList.find(a => a.id === advertId)
-        const payload = { oculto: !show }
+        const payload = { is_hidden: !show }
         if (show && advert && advert.quantity <= 0) {
             payload.quantity = 1
         }
@@ -57,8 +57,8 @@ export default function AdvertsManager() {
         })
     }
 
-    const VisibleAdverts = advertList.filter(advert => !advert.oculto && advert.quantity > 0)
-    const nonVisibleAdverts = advertList.filter(advert => advert.oculto || advert.quantity <= 0)
+    const VisibleAdverts = advertList.filter(advert => !advert.is_hidden && advert.quantity > 0)
+    const nonVisibleAdverts = advertList.filter(advert => advert.is_hidden || advert.quantity <= 0)
     const page = () => {
         switch (currentPage) {
             case 'list':

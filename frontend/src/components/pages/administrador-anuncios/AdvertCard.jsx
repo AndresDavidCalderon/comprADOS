@@ -17,7 +17,7 @@ export default function AdvertCard({ advert,  onEdit, onHide,onShow }) {
                 <button type="button" className="btn btn-primary advert-edit-btn" onClick={onEdit}>
                     Editar
                 </button>{
-                advert.oculto ? (
+                advert.is_hidden ? (
                     <button type="button" className="btn btn-primary advert-edit-btn advert-show-btn" onClick={onShow}>
                         Mostrar
                     </button>
