@@ -56,6 +56,7 @@ class Product(Base):
         }
 
 
+
 #----- Endpoints -----#
 
 @router.get("/")

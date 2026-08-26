@@ -47,7 +47,7 @@ export default function Reviews({ productId }) {
             const res = await fetch(`${apiUrl}/reviews/${productId}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ estrellas, comentario }),
+                body: JSON.stringify({ stars: estrellas, comment: comentario }),
             })
             if (!res.ok) throw new Error("No se pudo enviar la reseña")
 
@@ -65,7 +65,7 @@ export default function Reviews({ productId }) {
 
     // Promedio de estrellas para mostrar un resumen
     const promedio = reviews.length
-        ? reviews.reduce((suma, r) => suma + (r.estrellas || 0), 0) / reviews.length
+        ? reviews.reduce((suma, r) => suma + (r.stars || 0), 0) / reviews.length
         : 0
 
     return (
@@ -118,10 +118,10 @@ export default function Reviews({ productId }) {
                 {reviews.map((r) => (
                     <div className="resena-item" key={r.id}>
                         <div className="resena-item-estrellas">
-                            {'★'.repeat(r.estrellas || 0)}
-                            {'☆'.repeat(5 - (r.estrellas || 0))}
+                            {'★'.repeat(r.stars || 0)}
+                            {'☆'.repeat(5 - (r.stars || 0))}
                         </div>
-                        <p className="resena-item-texto">{r.texto}</p>
+                        <p className="resena-item-texto">{r.comment}</p>
                     </div>
                 ))}
             </div>
