@@ -7,7 +7,7 @@ import {TextField} from "@mui/material"
 import icono from "@/assets/icono.png"
 import hamburguer from "@/assets/hamburguer.svg"
 
-export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0, search}) {
+export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0, search, currentPage}) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searching, setSearching] = useState(false)
   const auth = useContext(AuthContext)
@@ -78,7 +78,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
                 </svg>
                 <span className="cart-badge">{cartCount}</span>
               </button>
-              <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
+              <button className="icon-btn in-line-login" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
@@ -98,16 +98,17 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             </div>
           </div>
         </div>
-        <div className="categories" id="nav-categories">
-          <a href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>COLLARES</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>MANILLAS</a>
-          <a href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>ARETES</a>
+        <div className={`categories ${searching ? 'hide-on-search' : ''}`} id="nav-categories">
+          <a className={currentPage === 'collares' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>COLLARES</a>
+          <a className={currentPage === 'manillas' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>MANILLAS</a>
+          <a className={currentPage === 'aretes' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>ARETES</a>
           { auth.isAuthenticated &&
             <>
-              <a href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>ANUNCIOS</a>
-              <a href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>NOTIFICACIONES</a>
+              <a className={currentPage === 'adverts' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('adverts') }}>ANUNCIOS</a>
+              <a className={currentPage === 'notice' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>NOTIFICACIONES</a>
             </>
           }
+          <a href="#" onClick={(e) => { e.preventDefault(); onLoginClick(); setMenuOpen(false); }}>SOY PARTE DE ADOS</a>
         </div>
 
 

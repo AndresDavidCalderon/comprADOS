@@ -181,6 +181,7 @@ function App() {
         onCartClick={() => setIsCartOpen((prev) => !prev)}
         cartCount={cartCount}
         search={search}
+        currentPage={currentPage}
       />
       {renderPage()}
       <CartDrawer

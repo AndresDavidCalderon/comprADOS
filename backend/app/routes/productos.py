@@ -15,9 +15,9 @@ load_dotenv()  # Load environment variables from .env file
 
 # Configuration       
 cloudinary.config( 
-    cloud_name = "ddb1yiioo", 
-    api_key = "668374212469359", 
-    api_secret = os.getenv("API_SECRET"), # Se que la seguridad no es la prioridad, pero para conseguir esta clave,
+    cloud_name = "oltirrkj", 
+    api_key = "168195489512692", 
+    api_secret = os.getenv("CLOUDINARY_API_SECRET"), # Se que la seguridad no es la prioridad, pero para conseguir esta clave,
     # escribanme a whatsapp para que la puedan poner en el .env. es mamón pero el repo es público creo.
     secure=True
 )

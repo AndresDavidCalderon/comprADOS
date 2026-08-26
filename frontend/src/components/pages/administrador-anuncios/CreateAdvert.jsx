@@ -198,7 +198,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(producto)
+            body: JSON.stringify(payload)
           });
           if (response.ok) {
             alert("Producto publicado exitosamente");
