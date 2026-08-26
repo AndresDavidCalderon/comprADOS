@@ -7,8 +7,8 @@ export default function NotiDetails({ order, onEstadoChange }) {
     const { apiUrl } = useContext(ApiContext);
 
     const [catalogProducts, setCatalogProducts] = useState([])
-    const [updatingEstado, setUpdatingEstado] = useState(false)
-    const [estadoError, setEstadoError] = useState(null)
+    const [updatingStatus, setUpdatingStatus] = useState(false)
+    const [statusError, setStatusError] = useState(null)
 
     useEffect(() => {
         if (!order?.items?.length) {
@@ -21,7 +21,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
                 setCatalogProducts(data)
             })
             .catch(err => console.error("error trayendo productos:", err))
-    }, [order])
+    }, [order, apiUrl])
 
     const productList = useMemo(() => {
         if (!order?.items?.length) {
@@ -29,7 +29,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
         }
 
         return order.items.map((item) => {
-            const product = catalogProducts.find((p) => Number(p.id) === Number(item.producto_id))
+            const product = catalogProducts.find((p) => Number(p.id) === Number(item.product_id))
             return {
                 ...item,
                 producto: product || null,
@@ -43,32 +43,32 @@ export default function NotiDetails({ order, onEstadoChange }) {
         return total + (price * quantity)
     }, 0)
 
-    const montoGuardado = Number(order?.total)
+    const montoGuardado = Number(order?.total_price)
     const monto = Number.isFinite(montoGuardado) && montoGuardado > 0 ? montoGuardado : montoCalculado
 
-    const estadoActual = order.estado || "Pendiente"
-    const handleFinalizar = async () => {
-            setUpdatingEstado(true)
-            setEstadoError(null)
+    const currentStatus = order.status || "pending"
+    const handleComplete = async () => {
+            setUpdatingStatus(true)
+            setStatusError(null)
             if (!window.confirm("¿La venta ya fue finalizada?")) {
-                setUpdatingEstado(false)
-                setEstadoError("Actualización cancelada por el usuario.")
+                setUpdatingStatus(false)
+                setStatusError("Actualización cancelada por el usuario.")
                 return;
             }
             try {
-                const res = await fetch(`${apiUrl}/ordenes/${order.id}/estado`, {
+                const res = await fetch(`${apiUrl}/orders/${order.id}/status`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ estado: 'Finalizado' }),
+                    body: JSON.stringify({ status: 'completed' }),
                 })
                 if (!res.ok) throw new Error('Error actualizando el estado')
                 const updatedOrder = await res.json()
                 if (onEstadoChange) onEstadoChange(updatedOrder)
             } catch (err) {
                 console.error(err)
-                setEstadoError('No se pudo actualizar el estado. Intenta de nuevo.')
+                setStatusError('No se pudo actualizar el estado. Intenta de nuevo.')
             } finally {
-                setUpdatingEstado(false)
+                setUpdatingStatus(false)
             }
         }
 
@@ -82,7 +82,7 @@ export default function NotiDetails({ order, onEstadoChange }) {
                     ? item.producto.photos[0]
                     : square_placeholder
                 return (
-                    <div key={item.producto ? item.producto.id : item.producto_id} className="noti-obj-group">
+                    <div key={ item.product_id} className="noti-obj-group">
                         <img className="noti-obj-img" src={foto} alt={item.producto ? item.producto.name : "producto"} />
                         <div>
                             <h2 className="noti-obj">{item.producto ? item.producto.name : "Cargando..."}</h2>
@@ -102,53 +102,54 @@ export default function NotiDetails({ order, onEstadoChange }) {
 
             <div className="noti-info">
                 <h2 className="noti-subtitle">Documento de Identidad:</h2>
-                <h2 className="noti-text">{order.cliente.identificacion}</h2>
+                <h2 className="noti-text">{order.client.dni}</h2>
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Nombre:</h2>
-                <h2 className="noti-text">{order.cliente.nombre}</h2>
+                <h2 className="noti-text">{order.client.name}</h2>
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Teléfono:</h2>
-                <h2 className="noti-text">{order.cliente.telefono}</h2>
+                <h2 className="noti-text">{order.client.phone}</h2>
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Dirección:</h2>
-                <h2 className="noti-text">{order.cliente.departamento}, {order.cliente.municipio}, {order.cliente.calle} con {order.cliente.carrera}</h2>
+                <h2 className="noti-text">{order.client.department}, {order.client.municipality}, {order.client.street} con {order.client.race}</h2>
             </div>
             <div className="noti-info">
                 <h2 className="noti-subtitle">Monto:</h2>
                 <h2 className="noti-text">{monto}</h2>
             </div>
             <div className="noti-info">
-                <h2 className="noti-subtitle">Modo de Pago:  
-                    {order.metodo_pago === 'efectivo' ? ' Efectivo' : 
-                    order.metodo_pago === 'tarjeta' ? ' Tarjeta' : 
-                    order.metodo_pago || 'No especificado'}
+                <h2 className="noti-subtitle">Modo de Pago: </h2>
+                <h2 className="noti-text">  
+                    {order.payment_method === 'cash' ? ' Efectivo' : 
+                    order.payment_method === 'card' ? ' Tarjeta' : 
+                    order.payment_method || 'No especificado'}
                 </h2>
             </div>
 
             <div className="noti-info">
                 <h2 className="noti-subtitle">Detalles:</h2>
-                <h2 className="noti-text">{order.cliente.detalles_extra}</h2>
+                <h2 className="noti-text">{order.client.extra_details}</h2>
             </div>
 
             <div className="estado-container">
             <div className="noti-info estado-part">
                 <h2 className="noti-subtitle">Estado:</h2>
-                <h2 className="noti-text">{estadoActual}</h2>
+                <h2 className="noti-text">{{"completed":"completado","pending":"pendiente"}[currentStatus]}</h2>
             </div>
 
-            {estadoActual !== 'Finalizado' && (
+            {currentStatus !== 'completed' && (
                 <div className="estado-btn-container">
                     <button
                         className="botonPequeño"
-                        onClick={handleFinalizar}
-                        disabled={updatingEstado}
+                        onClick={handleComplete}
+                        disabled={updatingStatus}
                     >
-                        {updatingEstado ? 'Actualizando...' : 'Marcar como finalizado'}
+                        {updatingStatus ? 'Actualizando...' : 'Marcar como finalizado'}
                     </button>
-                    {estadoError && <span className="error">{estadoError}</span>}
+                    {statusError && <span className="error">{statusError}</span>}
                 </div>
             )}
             </div>
