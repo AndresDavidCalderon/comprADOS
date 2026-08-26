@@ -29,14 +29,27 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
     <nav className={`navbar${menuOpen ? ' open' : ''}`}>
       <div className="navbar-container">
         <div className="nav-top">
-          <div className="nav-brand" onClick={handleHome}>
+          <div className={`nav-brand ${searching ? 'hide-on-search' : ''}`} onClick={handleHome}>
             <img src={icono} alt="Logo" className="logo-img" />
             <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
               <span className="logo-text">ADOS me gusta</span>
             </button>
           </div>
-          <div className="nav-right">
-            <div className="search-container">
+          <div className={`mobile-search ${searching ? 'mobile-search-active' : 'mobile-search-inactive'}`}>
+            <img src={searchIcon} alt="Buscar" className="search-icon" onClick={() => setSearching((s) => !s)} />
+            {searching && (
+              <input
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                type="text"
+                className="search-input-mobile"
+                placeholder="Buscar productos..."
+                onKeyDown={(e) => { if (e.key === 'Enter') { search(searchTerm) } }}
+              />
+            )}
+          </div>
+          <div className={`nav-right ${searching ? 'hide-on-search' : ''}`}>
+            <div className="search-container-desktop">
               <img src={searchIcon} alt="Buscar" className="search-icon" onClick={() => setSearching((s) => !s)} />
               <input
                 value={searchTerm}
