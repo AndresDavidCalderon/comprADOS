@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Datos from "../formulario-cliente/Datos";
 import './CartDrawer.css'
 
 const formatCurrency = (value) =>
