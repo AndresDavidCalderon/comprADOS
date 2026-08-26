@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from backend.app.database.json_db import read_db, save_to_db
+from backend.app.database.db import read_db, save_to_db
 
 router = APIRouter(
     prefix="/auth",

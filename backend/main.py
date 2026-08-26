@@ -12,18 +12,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 # Crear motor de base de datos
-engine = create_engine(engine.url.URL.create(
-    'postgresql',
-    username='postgres',
-    password='6920',
-    host='localhost',
-    port=54668,
-    database='ados'
-)
-)
-
-class Base(DeclarativeBase):
-    pass
 
 # Crear aplicación FastAPI
 app = FastAPI(

@@ -6,7 +6,7 @@ from cloudinary.utils import cloudinary_url
 from dotenv import load_dotenv
 import os
 from sqlalchemy.orm import Session,Mapped
-from sqlalchemy import Column, Integer, String, Float, Boolean
+from sqlalchemy import Column, Integer, String, Float, Boolean, ARRAY
 from backend.app.database.db import read_db, save_to_db,Base, engine
 load_dotenv()  # Load environment variables from .env file
 
@@ -28,14 +28,32 @@ router = APIRouter(
 
 class Product(Base):
     __tablename__ = "products"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True,autoincrement=True)
     name = Column(String, nullable=False)
     description = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     category = Column(String, nullable=False)
     size = Column(String, nullable=False)
-    materials = Column(String, nullable=False)
+    materials = Column(ARRAY(String), nullable=True)
     is_hidden = Column(Boolean, nullable=False, default=False)
+    quantity = Column(Integer, nullable=False, default=0)
+    photos = Column(ARRAY(String), nullable=True)  
+    tags = Column(ARRAY(String), nullable=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "price": self.price,
+            "category": self.category,
+            "size": self.size,
+            "materials": self.materials,
+            "is_hidden": self.is_hidden,
+            "quantity": self.quantity,
+            "photos": self.photos,
+            "tags": self.tags
+        }
 
 
 #----- Endpoints -----#
@@ -44,8 +62,8 @@ class Product(Base):
 def get_productos():
     with Session(engine) as session:
         productos = session.query(Product).all()
-    """Endpoint para obtener todos los productos"""
-    return productos
+        """Endpoint para obtener todos los productos"""
+        return [producto.to_dict() for producto in productos]
 
 # Las imagenes son primero subidas "temporalmente", huerfanas, y luego se asocian a un producto cuando este es creado.
 @router.post("/imagenes/temporales")
@@ -59,21 +77,23 @@ def upload_temporary_image(files :list[UploadFile]):
 
 @router.post("/")
 def create_producto(producto: dict):
-    """Endpoint para crear un nuevo producto"""
-    if "id" not in producto:
-        producto["id"] = read_db()["ultimoProductoId"] + 1  # Asignar un ID único
-        save_to_db({**read_db(), "ultimoProductoId": producto["id"]})
-    else:
-        # Verificar si el ID ya existe
-        existing_productos = read_db()["productos"]
-        if any(p["id"] == producto["id"] for p in existing_productos):
-            return {"error": "El ID del producto ya existe. Por favor, elija un ID único o no lo incluya."}
-    
-    db = read_db()
-    db["productos"].append(producto)
-    
-    save_to_db(db)
-    return {"message": "Producto creado exitosamente"}
+    with Session(engine) as session:
+        nuevo_producto = Product(
+            name=producto["name"],
+            description=producto["description"],
+            price=producto["price"],
+            category=producto["category"],
+            size=getattr(producto, "size", None),
+            materials=producto.get("materials", []),
+            is_hidden=producto.get("is_hidden", False),
+            quantity=producto.get("quantity", 0),
+            photos=producto.get("photos", []),
+            tags = producto.get("tags", [])
+        )
+        session.add(nuevo_producto)
+        session.commit()
+        session.refresh(nuevo_producto)
+    return nuevo_producto
 
 @router.patch("/{producto_id}")
 def update_producto(producto_id: int, producto_actualizado: dict):
@@ -120,8 +140,8 @@ def get_producto(ids: list[int]):
 @router.get("/categorias/{categoria}")
 def get_productos_por_categoria(categoria: str):
     """Endpoint para obtener productos por categoría"""
-    productos = read_db()["productos"]
-    resultados = [producto for producto in productos if producto["category"] == categoria]
+    productos = get_productos()
+    resultados = [producto for producto in productos if producto.get("category","") == categoria]
     return resultados
 
 @router.get("/search")

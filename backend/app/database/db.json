@@ -1,5 +1,5 @@
 {
-    "ultimoProductoId": 7,
+    "ultimoProductoId": 11,
     "productos": [
         {
             "name": "Collar Nueva vida",
@@ -133,6 +133,69 @@
             ],
             "id": 7,
             "oculto": false
+        },
+        {
+            "cliente": {
+                "identificacion": "1",
+                "departamento": "Antioquia",
+                "telefono": "3155193851",
+                "municipio": "medellin",
+                "carrera": "73",
+                "calle": "74",
+                "detalles_extra": "Apto 201",
+                "nombre": "Andres David"
+            },
+            "items": [
+                {
+                    "producto_id": 1,
+                    "cantidad": 2
+                }
+            ],
+            "id": 8
+        },
+        {
+            "name": "Collar nueva vida",
+            "description": "Un collar que expresa seguridad",
+            "quantity": 7,
+            "tags": [
+                "mostacilla",
+                "estrecho"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245398/productos/temporal/vbxrr5ryv9jnqpmwovwf.png",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245054/productos/temporal/i0vphqmce4c3kau6cnl4.jpg"
+            ],
+            "id": 9
+        },
+        {
+            "name": "Collar nueva vida",
+            "description": "Un collar que expresa seguridad",
+            "quantity": 7,
+            "tags": [
+                "mostacilla",
+                "estrecho"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245398/productos/temporal/vbxrr5ryv9jnqpmwovwf.png",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245054/productos/temporal/i0vphqmce4c3kau6cnl4.jpg"
+            ],
+            "category": "collares",
+            "id": 10
+        },
+        {
+            "name": "Collar nueva vida",
+            "description": "Un collar que expresa seguridad",
+            "quantity": 7,
+            "tags": [
+                "mostacilla",
+                "estrecho"
+            ],
+            "photos": [
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245398/productos/temporal/vbxrr5ryv9jnqpmwovwf.png",
+                "https://res.cloudinary.com/ddb1yiioo/image/upload/v1784245054/productos/temporal/i0vphqmce4c3kau6cnl4.jpg"
+            ],
+            "category": "collares",
+            "id": 11
         }
     ],
     "etiquetas-existentes": [

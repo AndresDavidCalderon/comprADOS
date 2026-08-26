@@ -42,7 +42,7 @@ app/
 ├── schemas/             # 📋 Esquemas Pydantic
 │   └── schemas.py      # Definiciones de datos
 ├── database/            # 💾 Gestión de datos
-│   └── json_db.py      # Base de datos JSON
+│   └── db.py           # Base de datos JSON
 └── utils/               # 🛠️ Funciones auxiliares
     └── auth.py         # Hash, tokens, verificación
 
