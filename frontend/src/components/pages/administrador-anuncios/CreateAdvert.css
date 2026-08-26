@@ -230,3 +230,8 @@
   height: 20px;
   accent-color: #7b273f;
 }
+
+.text-input{
+  color:black;
+  width:100%
+}
