@@ -151,24 +151,27 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
     }
 
     if (editingProduct) {
-      const producto = editingProduct;
-      producto.name = name;
-      producto.description = description;
-      producto.quantity = quantity;
-      producto.size = size;
-      producto.materials = materials;
-      producto.price = price;
-      producto.category = category;
-      producto.tags = selectedTags;
-      producto.photos = photoURLs;
-      producto.oculto = visibilidadAnuncio === "oculto";
+      const payload = {
+        producto: editingProduct,
+        token: localStorage.getItem('token')
+      };
+      payload.producto.name = name;
+      payload.producto.description = description;
+      payload.producto.quantity = quantity;
+      payload.producto.size = size;
+      payload.producto.materials = materials;
+      payload.producto.price = price;
+      payload.producto.category = category;
+      payload.producto.tags = selectedTags;
+      payload.producto.photos = photoURLs;
+      payload.producto.oculto = visibilidadAnuncio === "oculto";
       
-      const response = await fetch(`${apiUrl}/productos/${producto.id}`, {
+      const response = await fetch(`${apiUrl}/productos/${payload.producto.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(producto)
+        body: JSON.stringify(payload)
       });
       if (response.ok) {
         alert("Producto actualizado exitosamente");
@@ -176,18 +179,21 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
       }
     }
     else{
-      const producto = {
-            name,
-            description,
-            quantity,
-            size,
-            materials,
-            price,
-            category,
-            tags: selectedTags,
-            photos: photoURLs,
+      const payload = {
+            producto: {
+              name,
+              description,
+              quantity,
+              size,
+              materials,
+              price,
+              category,
+              tags: selectedTags,
+              photos: photoURLs,
+            },
+            token: localStorage.getItem('token')
           }
-          const response = await fetch(`${apiUrl}/productos/`,{
+          const response = await fetch(`${apiUrl}/productos`,{
             method: "POST",
             headers: {
               "Content-Type": "application/json"

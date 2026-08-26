@@ -19,17 +19,24 @@ export default function Login({ onClose,onNavigate }) {
         const response = await fetch(`${apiUrl}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario, contrasena })
+          body: JSON.stringify({ "username": usuario, "password": contrasena })
         })
 
         if (response.ok) {
           const data = await response.json()
           console.log(data)
-          auth.login()
+          auth.login(data.token)
           onNavigate?.('adverts')
           onClose()
         } else {
-          alert("Usuario o contraseña incorrectos")
+          switch (response.status) {
+            case 401:
+              alert("Usuario o contraseña incorrectos")
+              break
+            default:
+              alert("Error en el inicio de sesión")
+            }
+            
         }
       } catch (error) {
         console.error("Error en login:", error)

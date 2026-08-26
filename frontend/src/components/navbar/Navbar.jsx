@@ -5,6 +5,7 @@ import AuthContext from '../../context/AuthContext'
 import searchIcon from "../../assets/search.svg"
 import {TextField} from "@mui/material"
 import icono from "@/assets/icono.png"
+import hamburguer from "@/assets/hamburguer.svg"
 
 export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCount = 0, search}) {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -50,12 +51,6 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
               />
             </div>
             <div className="nav-icons">
-              <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </button>
               <button
                 type="button"
                 className="icon-btn cart"
@@ -70,13 +65,22 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
                 </svg>
                 <span className="cart-badge">{cartCount}</span>
               </button>
+              <button className="icon-btn" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </button>
               <button
-                className="nav-toggle"
+                className="nav-toggle icon-btn"
                 aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
                 aria-expanded={menuOpen}
                 aria-controls="nav-categories"
                 onClick={() => setMenuOpen((o) => !o)}
               >
+                <span class="material-symbols-outlined">
+                menu
+                </span>
               </button>
             </div>
           </div>

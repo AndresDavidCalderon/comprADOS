@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, HTTPException
 from rapidfuzz import process, fuzz,utils
 import cloudinary
 import cloudinary.uploader
@@ -8,6 +8,7 @@ import os
 from sqlalchemy.orm import Session,Mapped
 from sqlalchemy import Column, Integer, String, Float, Boolean, ARRAY
 from backend.app.database.db import read_db, save_to_db,Base, engine
+from .auth import verifyToken
 load_dotenv()  # Load environment variables from .env file
 
 
@@ -77,19 +78,21 @@ def upload_temporary_image(files :list[UploadFile]):
     return {"urls": urls}
 
 @router.post("/")
-def create_producto(producto: dict):
+def create_producto(body: dict):
+    if not verifyToken(body["token"]):
+        raise HTTPException(status_code=401, detail="Token inválido o expirado.")
     with Session(engine) as session:
         nuevo_producto = Product(
-            name=producto["name"],
-            description=producto["description"],
-            price=producto["price"],
-            category=producto["category"],
-            size=getattr(producto, "size", None),
-            materials=producto.get("materials", []),
-            is_hidden=producto.get("is_hidden", False),
-            quantity=producto.get("quantity", 0),
-            photos=producto.get("photos", []),
-            tags = producto.get("tags", [])
+            name=body["producto"]["name"],
+            description=body["producto"]["description"],
+            price=body["producto"]["price"],
+            category=body["producto"]["category"],
+            size=getattr(body["producto"], "size", None),
+            materials=body["producto"].get("materials", []),
+            is_hidden=body["producto"].get("is_hidden", False),
+            quantity=body["producto"].get("quantity", 0),
+            photos=body["producto"].get("photos", []),
+            tags = body["producto"].get("tags", [])
         )
         session.add(nuevo_producto)
         session.commit()
@@ -97,14 +100,16 @@ def create_producto(producto: dict):
     return nuevo_producto
 
 @router.patch("/{producto_id}")
-def update_producto(producto_id: int, producto_actualizado: dict):
+def update_producto(producto_id: int,body:dict):
+    if not verifyToken(body["token"]):
+        raise HTTPException(status_code=401, detail="Token inválido o expirado.")
     """Endpoint para actualizar un producto por su ID"""
     with Session(engine) as session:
         producto = session.query(Product).filter(Product.id == producto_id).first()
         if not producto:
             return {"error": "Producto no encontrado"}
         
-        for key, value in producto_actualizado.items():
+        for key, value in body["producto"].items():
             if hasattr(producto, key):
                 setattr(producto, key, value)
         
@@ -113,7 +118,9 @@ def update_producto(producto_id: int, producto_actualizado: dict):
     return producto.to_dict()
 
 @router.delete("/{producto_id}")
-def delete_producto(producto_id: int):
+def delete_producto(producto_id: int, body: dict):
+    if not verifyToken(body["token"]):
+        raise HTTPException(status_code=401, detail="Token inválido o expirado.")
     """Endpoint para eliminar un producto por su ID"""
     db = read_db()
     productos = db["productos"]

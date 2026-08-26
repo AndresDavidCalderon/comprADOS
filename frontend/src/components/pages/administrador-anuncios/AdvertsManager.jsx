@@ -40,12 +40,12 @@ export default function AdvertsManager() {
 
     const switchShow = (advertId, show) => {
         const advert = advertList.find(a => a.id === advertId)
-        const payload = { is_hidden: !show }
+        const payload = { producto: { is_hidden: !show }, token: localStorage.getItem('token') }
         if (show && advert && advert.quantity <= 0) {
             payload.quantity = 1
         }
 
-        fetch(`${apiUrl}/productos/${advertId}`, {
+        fetch(`${apiUrl}/productos/${advertId}?token=${localStorage.getItem('token')}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
