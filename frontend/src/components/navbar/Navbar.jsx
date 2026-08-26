@@ -28,7 +28,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
     <nav className={`navbar${menuOpen ? ' open' : ''}`}>
       <div className="navbar-container">
         <div className="nav-top">
-          <div className="nav-brand">
+          <div className="nav-brand" onClick={handleHome}>
             <img src={icono} alt="Logo" className="logo-img" />
             <button className="logo-btn" onClick={handleHome} title="Ir al Inicio">
               <span className="logo-text">ADOS me gusta</span>
