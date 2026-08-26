@@ -98,14 +98,18 @@ def create_producto(producto: dict):
 @router.patch("/{producto_id}")
 def update_producto(producto_id: int, producto_actualizado: dict):
     """Endpoint para actualizar un producto por su ID"""
-    db = read_db()
-    productos = db["productos"]
-    for i, p in enumerate(productos):
-        if p["id"] == producto_id:
-            productos[i] = {**p, **producto_actualizado}
-            save_to_db(db)
-            return {"message": "Producto actualizado exitosamente"}
-    return {"error": "Producto no encontrado"}
+    with Session(engine) as session:
+        producto = session.query(Product).filter(Product.id == producto_id).first()
+        if not producto:
+            return {"error": "Producto no encontrado"}
+        
+        for key, value in producto_actualizado.items():
+            if hasattr(producto, key):
+                setattr(producto, key, value)
+        
+        session.commit()
+        session.refresh(producto)
+    return producto.to_dict()
 
 @router.delete("/{producto_id}")
 def delete_producto(producto_id: int):
