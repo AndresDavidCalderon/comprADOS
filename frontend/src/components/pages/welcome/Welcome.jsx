@@ -3,17 +3,18 @@ import Collares from '../../collares/Collares'
 import Manillas from '../../manillas/Manillas'
 import Aretes from '../../aretes/Aretes'
 import { productCatalog } from '@/data/products'
+import IntroVideo from '@/assets/video-intro-web.mp4'
 
 export default function Welcome({addToCart}) {
     return (
         <>
             <div className="home-video-container">
                 <video autoPlay muted loop className="home-video">
-                    <source src="blob:https://www.canva.com/2746e294-548b-442a-bdba-b437fcdab2d4" type="video/mp4" />
+                    <source src={IntroVideo} type="video/mp4" />
                 </video>
                 <header className="home-header">
-                    <h1>Bienvenido a ADOS Me Gusta</h1>
-                    <p>Inspirados por tí</p>
+                    <h1>Bienvenidos a <span>ADOS Me Gusta</span></h1>
+                    <p>Inspirados en tí</p>
                 </header>
             </div>
             <Collares
