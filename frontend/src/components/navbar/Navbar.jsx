@@ -108,7 +108,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
               <a className={currentPage === 'notice' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('notice') }}>NOTIFICACIONES</a>
             </>
           }
-          <a href="#" onClick={(e) => { e.preventDefault(); onLoginClick(); setMenuOpen(false); }}>SOY PARTE DE ADOS</a>
+          <a className="hidden-login" href="#" onClick={(e) => { e.preventDefault(); onLoginClick(); setMenuOpen(false); }}>SOY PARTE DE ADOS</a>
         </div>
 
 

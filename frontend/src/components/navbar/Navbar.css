@@ -94,7 +94,7 @@
 
 .logo-text {
   color: var(--pop-violet);
-  font-size: max(min(2.5vw, 2rem),1.25rem);
+  font-size: max(min(2.5vw, 2rem),1.7rem);
   font-weight: 900;
   letter-spacing: 1px;
 
@@ -272,6 +272,10 @@ input{
   display:flex;
 }
 
+.hidden-login{
+  display:none;
+}
+
 /* Mobile Responsive */
 @media (max-aspect-ratio: 1/1) {
   .navbar {
@@ -393,6 +397,10 @@ input{
 
   .in-line-login{
     display:none;
+  }
+
+  .hidden-login{
+    display:block;
   }
 }
 
