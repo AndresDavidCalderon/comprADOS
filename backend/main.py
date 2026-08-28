@@ -2,11 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy import create_engine,engine
 from sqlalchemy.orm import DeclarativeBase
 from fastapi.middleware.cors import CORSMiddleware
-import backend.app.routes.productos
-import backend.app.routes.carrito
-import backend.app.routes.auth
-import backend.app.routes.ordenes
-import backend.app.routes.reviews
+from app.routes import auth, carrito, ordenes, productos, reviews
 from dotenv import load_dotenv
 
 
@@ -30,11 +26,11 @@ app.add_middleware(
 )
 
 # Incluir rutas
-app.include_router(backend.app.routes.productos.router)
-app.include_router(backend.app.routes.carrito.router)
-app.include_router(backend.app.routes.auth.router)
-app.include_router(backend.app.routes.ordenes.router)
-app.include_router(backend.app.routes.reviews.router)
+app.include_router(productos.router)
+app.include_router(carrito.router)
+app.include_router(auth.router)
+app.include_router(ordenes.router)
+app.include_router(reviews.router)
 
 
 @app.get("/")
