@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 import os
 from sqlalchemy.orm import Session,Mapped
 from sqlalchemy import Column, Integer, String, Float, Boolean, ARRAY
-from backend.app.database.db import read_db, save_to_db,Base, engine
+from app.database.db import read_db, save_to_db,Base, engine
 from .auth import verifyToken
 load_dotenv()  # Load environment variables from .env file
 

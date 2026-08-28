@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
-from backend.app.database.db import read_db, save_to_db
-from backend.app.utils.municipios import es_municipio_cercano
+from app.database.db import read_db, save_to_db
+from app.utils.municipios import es_municipio_cercano
 import os
 import stripe
 import json

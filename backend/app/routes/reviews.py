@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
-from backend.app.database.db import save_to_db, read_db, engine, Base
+from app.database.db import save_to_db, read_db, engine, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import Session
 

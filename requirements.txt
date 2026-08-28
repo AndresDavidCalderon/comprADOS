@@ -1,7 +1,0 @@
-cloudinary==1.44.2
-fastapi==0.139.0
-pydantic==2.13.4
-python-dotenv==1.2.2
-uvicorn==0.51.0
-python-multipart==0.0.32
-stripe==15.3.1
