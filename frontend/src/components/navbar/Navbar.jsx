@@ -99,6 +99,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
           </div>
         </div>
         <div className={`categories ${searching ? 'hide-on-search' : ''}`} id="nav-categories">
+          <a className="super-thin-search" href="#" onClick={(e) => { e.preventDefault(); setMenuOpen(false); setSearching((s) => !s); }}>BUSCAR</a>
           <a className={currentPage === 'collares' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('collares') }}>COLLARES</a>
           <a className={currentPage === 'manillas' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('manillas') }}>MANILLAS</a>
           <a className={currentPage === 'aretes' ? 'active-category' : ''} href="#" onClick={(e) => { e.preventDefault(); go('aretes') }}>ARETES</a>
@@ -109,6 +110,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
             </>
           }
           <a className="hidden-login" href="#" onClick={(e) => { e.preventDefault(); onLoginClick(); setMenuOpen(false); }}>SOY PARTE DE ADOS</a>
+          
         </div>
 
 

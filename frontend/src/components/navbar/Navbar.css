@@ -276,6 +276,10 @@ input{
   display:none;
 }
 
+.super-thin-search{
+  display:none;
+}
+
 /* Mobile Responsive */
 @media (max-aspect-ratio: 1/1) {
   .navbar {
@@ -404,7 +408,7 @@ input{
   }
 }
 
-@media (max-width: 480px) {
+@media (max-aspect-ratio: 1/2) {
   .navbar {
     padding: 0.75rem;
   }
@@ -433,5 +437,18 @@ input{
   .icon-btn svg {
     width: 18px;
     height: 18px;
+  }
+
+  .mobile-search-inactive{
+    display:none;
+  }
+
+  .navbar-container{
+    justify-content: flex-start;
+    align-items:start;
+  }
+
+  .super-thin-search{
+    display:block;
   }
 }
