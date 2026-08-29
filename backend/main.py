@@ -4,7 +4,7 @@ from sqlalchemy.orm import DeclarativeBase
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import auth, carrito, ordenes, productos, reviews
 from dotenv import load_dotenv
-
+import os
 
 load_dotenv()
 # Crear motor de base de datos
@@ -51,4 +51,4 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
