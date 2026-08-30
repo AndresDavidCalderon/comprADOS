@@ -3,14 +3,13 @@ import Collares from '../../collares/Collares'
 import Manillas from '../../manillas/Manillas'
 import Aretes from '../../aretes/Aretes'
 import { productCatalog } from '@/data/products'
-import IntroVideo from '@/assets/video-intro-web.mp4'
 
 export default function Welcome({addToCart}) {
     return (
         <>
             <div className="home-video-container">
                 <video autoPlay muted loop className="home-video">
-                    <source src={IntroVideo} type="video/mp4" />
+                    <source src="/video-intro-web.mp4" type="video/mp4" />
                 </video>
                 <header className="home-header">
                     <h1>Bienvenidos a <span>ADOS Me Gusta</span></h1>
