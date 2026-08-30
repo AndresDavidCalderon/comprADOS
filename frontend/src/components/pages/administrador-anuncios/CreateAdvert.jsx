@@ -193,7 +193,7 @@ export default function CreateAdvert({onPublish,editingProduct,switchShow}) {
             },
             token: localStorage.getItem('token')
           }
-          const response = await fetch(`${apiUrl}/productos`,{
+          const response = await fetch(`${apiUrl}/productos/`,{
             method: "POST",
             headers: {
               "Content-Type": "application/json"

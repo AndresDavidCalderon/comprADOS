@@ -35,7 +35,7 @@ class Order(Base):
             "created_at": self.created_at.isoformat()
         }
 
-@router.post("")
+@router.post("/")
 def create_order(order_data:dict):
     with Session(engine) as session:
         order = Order(
@@ -50,7 +50,7 @@ def create_order(order_data:dict):
         session.commit()
         return {"message": "Order created successfully", "order_id": order.id}
 
-@router.get("")
+@router.get("/")
 def get_orders():
     with Session(engine) as session:
         orders = session.query(Order).all()
