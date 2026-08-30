@@ -6,7 +6,7 @@ const ApiContext = createContext({
 });
 
 export function ApiProvider({ children }) {
-    const apiUrl = 'http://localhost:8000';
+    const apiUrl = import.meta.env.VITE_API_URL;
     return <ApiContext.Provider value={{ apiUrl }}>{children}</ApiContext.Provider>;
 }
 
