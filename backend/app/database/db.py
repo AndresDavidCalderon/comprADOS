@@ -2,6 +2,7 @@
 import json
 from sqlalchemy import create_engine,engine
 from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.pool import NullPool
 import os
 
 filepath="backend/app/database/db.json"
@@ -18,14 +19,17 @@ if not os.getenv("DATABASE_PORT"):
 if not os.getenv("DATABASE_NAME"):
     raise ValueError("DATABASE_NAME environment variable is not set.")
 
+if not os.getenv("DATABASE_USER"):
+    raise ValueError("DATABASE_USER environment variable is not set.")
+
 engine = create_engine(engine.url.URL.create(
     drivername="postgresql",
-    username="postgres",
+    username=os.getenv("DATABASE_USER", "postgres"),
     password=os.getenv("DATABASE_PASSWORD"),
     host=os.getenv("DATABASE_HOST", "localhost"),
     port=int(os.getenv("DATABASE_PORT", "54668")),
     database=os.getenv("DATABASE_NAME", "postgres")
-))
+), poolclass=NullPool)
 
 class Base(DeclarativeBase):
     pass

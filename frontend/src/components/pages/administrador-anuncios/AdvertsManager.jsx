@@ -13,7 +13,7 @@ export default function AdvertsManager() {
     const { apiUrl } = useContext(ApiContext);
 
     const fetchAdverts = () => {
-        fetch(`${apiUrl}/productos`)
+        fetch(`${apiUrl}/productos/`)
         .then(response => response.json())
         .then(data => setAdvertList(data))
     }
