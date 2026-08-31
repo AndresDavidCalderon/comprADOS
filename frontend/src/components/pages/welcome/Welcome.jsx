@@ -9,7 +9,7 @@ export default function Welcome({addToCart}) {
         <>
             <div className="home-video-container">
                 <video autoPlay muted loop className="home-video">
-                    <source src="/video-intro-web-optimized.mp4" type="video/mp4" />
+                    <source src="https://f005.backblazeb2.com/file/ados-video-bucker/hero-video.webm" type="video/webm" />
                 </video>
                 <header className="home-header">
                     <h1>Bienvenidos a <span>ADOS Me Gusta</span></h1>
