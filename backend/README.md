@@ -15,7 +15,37 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Ejecutar servidor
+### 3. Configurar variables de entorno
+
+Crea un archivo `.env` dentro de `backend/` antes de iniciar la API:
+
+```env
+# PostgreSQL (obligatorias)
+DATABASE_USER=postgres
+DATABASE_PASSWORD=tu contraseña
+DATABASE_HOST=localhost
+DATABASE_PORT=puerto expuesto de la base de datos
+DATABASE_NAME=postgres
+
+# Integraciones
+CLOUDINARY_API_SECRET=tu secreto de Cloudinary
+STRIPE_SECRET_KEY=sk_test_tu_clave
+
+# Opcionales
+FRONTEND_URL=http://localhost:5173
+PORT=8000
+```
+
+Las variables `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_HOST`, `DATABASE_PORT` y
+`DATABASE_NAME` son obligatorias: el backend no inicia si falta alguna. `CLOUDINARY_API_SECRET`
+es necesaria para subir imágenes y `STRIPE_SECRET_KEY` para crear sesiones de pago. Usa claves
+de prueba de Stripe (`sk_test_...`) durante el desarrollo. `FRONTEND_URL` permite configurar el
+origen adicional de CORS y, si no se define, se usa `http://localhost:5173`; `PORT` define el
+puerto HTTP y, si no se define, se usa `8000`.
+
+No subas el archivo `.env` al repositorio ni compartas sus secretos.
+
+### 4. Ejecutar servidor
 ```bash
 python main.py
 # o
