@@ -6,6 +6,7 @@ import ApiContext from "../../context/ApiContext"
 export default function Login({ onClose,onNavigate }) {
   const [usuario, setUsuario] = useState('')
   const [contrasena, setContrasena] = useState('')
+  const [mostrarContrasena, setMostrarContrasena] = useState(false)
   const auth = useContext(AuthContext)
   const { apiUrl } = useContext(ApiContext);
 
@@ -69,15 +70,27 @@ export default function Login({ onClose,onNavigate }) {
             />
           </label>
 
-          <label className="form-label">
-            Contraseña
-            <input
-              className="text-input"
-              type="password"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-            />
-          </label>
+          <div className="form-label">
+            <label htmlFor="login-password">Contraseña</label>
+            <div className="password-input-wrap">
+              <input
+                id="login-password"
+                className="text-input"
+                type={mostrarContrasena ? "text" : "password"}
+                value={contrasena}
+                onChange={(e) => setContrasena(e.target.value)}
+              />
+              <button
+                type="button"
+                className="password-visibility-btn"
+                aria-label={mostrarContrasena ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-pressed={mostrarContrasena}
+                onClick={() => setMostrarContrasena(!mostrarContrasena)}
+              >
+                {mostrarContrasena ? "Ocultar" : "Mostrar"}
+              </button>
+            </div>
+          </div>
           <div className="centerer"> 
             <button type="submit" className="enter btn-contrast">Entrar</button>
           </div>

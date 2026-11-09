@@ -1,0 +1,1 @@
+INSERT INTO public."credentials" (username, password_hash) VALUES ('ados', '$2b$12$Fe8EiHT/5ZEzzjz6bpKwHej//UCKZ4Y.GeoUHf6QecXMtvci8x/3K');

@@ -1,2 +1,4 @@
 .env
 .vscode/settings.json
+test-env.fish
+.envrc

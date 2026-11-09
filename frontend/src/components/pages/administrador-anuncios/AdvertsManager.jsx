@@ -57,6 +57,11 @@ export default function AdvertsManager() {
         })
     }
 
+    const afterPublish = () => {
+        setCurrentPage('list')
+        fetchAdverts()
+    }
+
     const VisibleAdverts = advertList.filter(advert => !advert.is_hidden && advert.quantity > 0)
     const nonVisibleAdverts = advertList.filter(advert => advert.is_hidden || advert.quantity <= 0)
     const page = () => {
@@ -98,7 +103,7 @@ export default function AdvertsManager() {
                 return (
                     <div>
                         <button className="btn-contrast" onClick={() => setCurrentPage('list')}>Volver a la lista</button>
-                        <CreateAdvert onPublish={() => setCurrentPage('list')} editingProduct={editingProduct} switchShow={switchShow} />
+                        <CreateAdvert onPublish={() => afterPublish()} editingProduct={editingProduct} switchShow={switchShow} />
                     </div>
                 )
             default:
