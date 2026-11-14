@@ -24,7 +24,7 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const previousCartAmount = useRef(0)
   const { apiUrl } = useContext(ApiContext)
-  const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity } = useContext(cartContext)
+  const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity, checkOutEnabled } = useContext(cartContext)
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
@@ -184,14 +184,16 @@ function App() {
         currentPage={currentPage}
       />
       {renderPage()}
-      <CartDrawer
-        isOpen={isCartOpen}
-        items={cartItems}
-        onClose={() => setIsCartOpen(false)}
-        onIncrement={incrementQuantity}
-        onDecrement={decrementQuantity}
-        onCheckout={irACheckout}
-      />
+      {checkOutEnabled && (
+        <CartDrawer
+          isOpen={isCartOpen}
+          items={cartItems}
+          onClose={() => setIsCartOpen(false)}
+          onIncrement={incrementQuantity}
+          onDecrement={decrementQuantity}
+          onCheckout={irACheckout}
+        />
+      )}
       <Detalles />
       <WhatsAppButton />
       {showLogin && <Login onClose={() => setShowLogin(false)} onNavigate={setCurrentPage}  />}

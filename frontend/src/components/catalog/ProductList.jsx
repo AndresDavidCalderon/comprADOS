@@ -23,7 +23,7 @@ const formatCurrency = (value) =>
 const getProductImage = (product) => product.photos?.[0] || product.image || ''
 
 export default function ProductList({ products }) {
-  const { addToCart } = useContext(cartContext)
+  const { addToCart, checkOutEnabled } = useContext(cartContext)
   const { openDetalles } = useContext(DetallesContext)
 
   return (
@@ -43,17 +43,19 @@ export default function ProductList({ products }) {
               </div>
             )}
           </div>
-          <button
-            className="btn-pop add-to-cart-btn"
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation()
-              addToCart(product)
-            }}
-          >
-            Agregar al carrito
-            <img src={cartAddIcon} alt="Agregar al carrito" className="add-to-cart-icon" />
-          </button>
+          {checkOutEnabled && (
+            <button
+              className="btn-pop add-to-cart-btn"
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation()
+                addToCart(product)
+              }}
+            >
+              Agregar al carrito
+              <img src={cartAddIcon} alt="Agregar al carrito" className="add-to-cart-icon" />
+            </button>
+          )}
         </article>
       ))}
     </div>

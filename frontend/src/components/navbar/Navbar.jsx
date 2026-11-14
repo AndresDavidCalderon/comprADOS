@@ -2,6 +2,7 @@ import { useState, useContext } from 'react'
 import './Navbar.css'
 import '../../context/AuthContext'
 import AuthContext from '../../context/AuthContext'
+import cartContext from '../../context/CartContext'
 import searchIcon from "../../assets/search.svg"
 import {TextField} from "@mui/material"
 import icono from "@/assets/icono.png"
@@ -11,6 +12,7 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
   const [menuOpen, setMenuOpen] = useState(false)
   const [searching, setSearching] = useState(false)
   const auth = useContext(AuthContext)
+  const { checkOutEnabled } = useContext(cartContext)
   const [searchTerm, setSearchTerm] = useState('')
  
   // Navega y cierra el menú móvil
@@ -64,20 +66,22 @@ export default function Navbar({ onLoginClick, onNavigate, onCartClick, cartCoun
               />
             </div>
             <div className="nav-icons">
-              <button
-                type="button"
-                className="icon-btn cart"
-                aria-label={`Carrito (${cartCount} items)`}
-                title={`Carrito (${cartCount} items)`}
-                onClick={onCartClick}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="9" cy="21" r="1"></circle>
-                  <circle cx="20" cy="21" r="1"></circle>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span className="cart-badge">{cartCount}</span>
-              </button>
+              {checkOutEnabled && (
+                <button
+                  type="button"
+                  className="icon-btn cart"
+                  aria-label={`Carrito (${cartCount} items)`}
+                  title={`Carrito (${cartCount} items)`}
+                  onClick={onCartClick}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                  <span className="cart-badge">{cartCount}</span>
+                </button>
+              )}
               <button className="icon-btn in-line-login" aria-label="Mi cuenta" title="Mi cuenta" onClick={onLoginClick}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>

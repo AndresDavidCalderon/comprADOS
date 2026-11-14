@@ -14,7 +14,7 @@ const formatCurrency = (value) =>
 
 export default function Detalles() {
     const { selectedProduct, closeDetalles } = useContext(DetallesContext)
-    const { addToCart } = useContext(cartContext)
+    const { addToCart, checkOutEnabled } = useContext(cartContext)
 
     if (!selectedProduct) {
         return null
@@ -38,9 +38,11 @@ export default function Detalles() {
                         <div className="detalles-price">
                             <h4>{formatCurrency(selectedProduct.price)}</h4>
                         </div>
-                        <button className="btn-pop" onClick={() => addToCart(selectedProduct)}>
-                            Agregar al carrito
-                        </button>
+                        {checkOutEnabled && (
+                            <button className="btn-pop" onClick={() => addToCart(selectedProduct)}>
+                                Agregar al carrito
+                            </button>
+                        )}
                         {selectedProduct.materials && selectedProduct.materials.length > 0 && (
                             <div>
                                 <h4>Materiales</h4>
