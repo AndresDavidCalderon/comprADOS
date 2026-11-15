@@ -2,8 +2,10 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
-from app.database.db import read_db, save_to_db
+from app.database.db import read_db, save_to_db, engine
+from app.routes.productos import Product, ProductVariant
 from app.utils.municipios import es_municipio_cercano
+from sqlalchemy.orm import Session, selectinload
 import os
 import stripe
 import json
@@ -31,7 +33,8 @@ class Cliente(BaseModel):
 
 
 class Item(BaseModel):
-    producto_id: int
+    producto_id: Optional[int] = None
+    variant_id: Optional[int] = None
     cantidad: int
 
 
@@ -49,32 +52,59 @@ class CrearSesionRequest(BaseModel):
 class ConfirmarPagoRequest(BaseModel):
     session_id: str
 
+
+def _resolve_variant(session, item):
+    variant_id = item.get("variant_id")
+    if variant_id is not None:
+        variant = session.query(ProductVariant).filter(ProductVariant.id == variant_id).first()
+    else:
+        product_id = item.get("producto_id")
+        product = session.query(Product).options(selectinload(Product.variants)).filter(Product.id == product_id).first()
+        variant = next((candidate for candidate in product.variants if candidate.is_showcase), None) if product else None
+        if variant is None and product and product.variants:
+            variant = product.variants[0]
+
+    if not variant or not variant.product or variant.product.is_hidden:
+        raise HTTPException(status_code=400, detail="La variante seleccionada ya no está disponible.")
+    return variant
+
+
+def _variant_price(variant):
+    return float(variant.price_override if variant.price_override is not None else variant.product.price)
+
+
+def _validate_quantity(variant, quantity):
+    if quantity <= 0:
+        raise HTTPException(status_code=400, detail="La cantidad debe ser mayor que cero.")
+    if quantity > variant.quantity:
+        raise HTTPException(status_code=400, detail="No hay suficientes unidades disponibles de esta variante.")
+
+
+def _item_data(item):
+    return item.model_dump() if isinstance(item, Item) else item
+
 @router.post("/create-checkout-session")
 def create_checkout_session(payload: CrearSesionRequest):
     """Crear sesión de pago de Stripe en modo sandbox."""
     try:
-        db = read_db()
-        productos_por_id = {p["id"]: p for p in db.get("productos", [])}
-
+        items = [_item_data(item) for item in payload.items]
         line_items = []
-        for item in payload.items:
-            producto = productos_por_id.get(item.producto_id)
-            if not producto:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Producto #{item.producto_id} ya no existe. El pedido no puede completarse."
-                )
-            nombre = producto.get("name", f"Producto #{item.producto_id}")
-            precio = float(producto.get("price", 0))
-
-            line_items.append({
-                "price_data": {
-                    "currency": "cop",           # Pesos colombianos
-                    "product_data": {"name": nombre},
-                    "unit_amount": int(precio * 100),  # Stripe usa centavos
-                },
-                "quantity": item.cantidad,
-            })
+        total = 0
+        with Session(engine) as db_session:
+            for item in items:
+                variant = _resolve_variant(db_session, item)
+                quantity = int(item.get("cantidad", 0))
+                _validate_quantity(variant, quantity)
+                price = _variant_price(variant)
+                total += price * quantity
+                line_items.append({
+                    "price_data": {
+                        "currency": "cop",
+                        "product_data": {"name": f"{variant.product.name} - {variant.variant_type}"},
+                        "unit_amount": int(price * 100),
+                    },
+                    "quantity": quantity,
+                })
 
         # Guardar temporalmente los datos del pedido en metadata
         session = stripe.checkout.Session.create(
@@ -92,18 +122,19 @@ def create_checkout_session(payload: CrearSesionRequest):
                 "cliente_carrera": payload.cliente.carrera,
                 "cliente_calle": payload.cliente.calle,
                 "cliente_detalles_extra": payload.cliente.detalles_extra or "",
-                "items_json": json.dumps([i.dict() for i in payload.items]),
-                "total": str(payload.total),
+                "items_json": json.dumps(items),
+                "total": str(total),
             },
         )
 
+        db = read_db()
         if "pagos_pendientes" not in db:
             db["pagos_pendientes"] = {}
 
         db["pagos_pendientes"][session.id] = {
             "cliente": payload.cliente.dict(),
-            "items": [item.dict() for item in payload.items],
-            "total": payload.total,
+            "items": items,
+            "total": total,
         }
         save_to_db(db)
 
@@ -155,31 +186,24 @@ def confirmar_pago(payload: ConfirmarPagoRequest):
             }
             total_pendiente = float(metadata.get("total", 0) or 0)
 
-        productos_por_id = {p["id"]: p for p in db.get("productos", [])}
-
         total_calculado = 0
         items_con_precio = []
-        for item in items:
-            producto = productos_por_id.get(item["producto_id"])
-            if not producto:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"Producto #{item['producto_id']} ya no existe. No se puede confirmar el pedido."
-                )
-            precio = float(producto.get("price", 0))
-            cantidad = int(item.get("cantidad", 0))
-
-            producto["quantity"] -= cantidad
-            if producto["quantity"] <= 0:
-                producto["quantity"] = 0
-                producto["oculto"] = True
-
-            total_calculado += precio * cantidad
-            items_con_precio.append({
-                **item,
-                "precio_unitario": precio,
-                "subtotal": precio * cantidad,
-            })
+        with Session(engine) as db_session:
+            for item in items:
+                variant = _resolve_variant(db_session, item)
+                cantidad = int(item.get("cantidad", 0))
+                _validate_quantity(variant, cantidad)
+                precio = _variant_price(variant)
+                variant.quantity -= cantidad
+                total_calculado += precio * cantidad
+                items_con_precio.append({
+                    **item,
+                    "producto_nombre": variant.product.name,
+                    "variant_type": variant.variant_type,
+                    "precio_unitario": precio,
+                    "subtotal": precio * cantidad,
+                })
+            db_session.commit()
 
         if "pedidos" not in db:
             db["pedidos"] = []
@@ -253,37 +277,27 @@ def checkout(payload: CheckoutRequest):
             detail="El pago contra entrega solo está disponible para municipios cercanos en el departamento de Antioquia (Bello, Medellín, Itagüí, Envigado)."
         )
 
-    items = [item.dict() for item in payload.items]
+    items = [_item_data(item) for item in payload.items]
     db = read_db()
 
-    productos_por_id = {producto["id"]: producto for producto in db.get("productos", [])}
     total_calculado = 0
     items_con_precio = []
-
-    for item in items:
-        producto = productos_por_id.get(item["producto_id"])
-        if not producto:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Producto #{item['producto_id']} ya no existe. No se puede registrar el pedido."
-            )
-        precio = float(producto.get("price", 0))
-        cantidad = int(item.get("cantidad", 0))
-
-        # Descontar del inventario
-        producto["quantity"] -= cantidad
-
-        # Si se agotó, ocultarlo
-        if producto["quantity"] <= 0:
-            producto["quantity"] = 0
-            producto["oculto"] = True
-
-        total_calculado += precio * cantidad
-        items_con_precio.append({
-            **item,
-            "precio_unitario": precio,
-            "subtotal": precio * cantidad,
-        })
+    with Session(engine) as db_session:
+        for item in items:
+            variant = _resolve_variant(db_session, item)
+            cantidad = int(item.get("cantidad", 0))
+            _validate_quantity(variant, cantidad)
+            precio = _variant_price(variant)
+            variant.quantity -= cantidad
+            total_calculado += precio * cantidad
+            items_con_precio.append({
+                **item,
+                "producto_nombre": variant.product.name,
+                "variant_type": variant.variant_type,
+                "precio_unitario": precio,
+                "subtotal": precio * cantidad,
+            })
+        db_session.commit()
 
     if "pedidos" not in db:
         db["pedidos"] = []

@@ -90,6 +90,12 @@
   color: #5d5650;
 }
 
+.cart-item-variant {
+  margin: 0 0 0.2rem;
+  color: var(--unofficial-gray);
+  font-size: 0.85rem;
+}
+
 .quantity-controls {
   display: inline-flex;
   align-items: center;

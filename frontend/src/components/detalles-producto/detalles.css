@@ -61,6 +61,42 @@
     margin-top: 10px;
 }
 
+.detalles-variant-list{
+    margin: 18px 0;
+}
+
+.detalles-variant-options{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.detalles-variant-option{
+    min-height: 38px;
+    padding: 8px 12px;
+    border: 1px solid var(--salmon);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--unofficial-gray);
+    cursor: pointer;
+}
+
+.detalles-variant-option.is-selected{
+    background: var(--pop-violet);
+    color: var(--unofficial-beige);
+}
+
+.detalles-variant-stock{
+    color: var(--unofficial-gray);
+    font-size: 0.9rem;
+}
+
+.detalles-lado-a-lado .btn-pop:disabled{
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .material-container {
     display: flex;
     flex-wrap: wrap;

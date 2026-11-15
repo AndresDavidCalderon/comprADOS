@@ -98,7 +98,11 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
     detalles_extra: detalles.join('; ')
   }
 
-  const items_payload = items.map((it) => ({ producto_id: it.id, cantidad: it.quantityOnCart }))
+  const items_payload = items.map((it) => ({
+    producto_id: it.product_id ?? it.id,
+    variant_id: it.variant_id ?? null,
+    cantidad: it.quantityOnCart,
+  }))
   const total = items.reduce((acc, item) => acc + item.price * item.quantityOnCart, 0)
 
   // ─── Flujo TARJETA → Stripe (Obligatorio en municipios lejanos u opcional en cercanos) ───
@@ -322,4 +326,4 @@ export default function Checkout({ items = [], onSuccess = () => {}, onCancel = 
       </form>
     </div>
   )
-}
+}
