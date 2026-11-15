@@ -5,6 +5,7 @@ import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from dotenv import load_dotenv
 import os
+import re
 from sqlalchemy.orm import Session, relationship, selectinload
 from sqlalchemy import Column, BigInteger, Integer, String, Boolean, ARRAY, ForeignKey, Numeric
 from app.database.db import read_db, save_to_db,Base, engine
@@ -34,6 +35,7 @@ class Product(Base):
     description = Column(String, nullable=False)
     price = Column(Numeric(12, 2), nullable=False)
     category = Column(String, nullable=False)
+    variant_kind = Column(String, nullable=True)
     materials = Column(ARRAY(String), nullable=True)
     is_hidden = Column(Boolean, nullable=False, default=False)
     tags = Column(ARRAY(String), nullable=True)
@@ -53,6 +55,7 @@ class Product(Base):
             "description": self.description,
             "price": float(self.price),
             "category": self.category,
+            "variant_kind": self.variant_kind,
             "materials": self.materials or [],
             "is_hidden": self.is_hidden,
             "quantity": sum(variant["quantity"] for variant in variants),
@@ -70,6 +73,7 @@ class ProductVariant(Base):
     product_id = Column(BigInteger, ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
     variant_type = Column(String, nullable=False, default="Unica")
     quantity = Column(Integer, nullable=False, default=0)
+    quantity_override = Column(Boolean, nullable=False, default=True)
     photos = Column(ARRAY(String), nullable=False, default=list)
     description_override = Column(String, nullable=True)
     price_override = Column(Numeric(12, 2), nullable=True)
@@ -84,6 +88,7 @@ class ProductVariant(Base):
             "product_id": self.product_id,
             "variant_type": self.variant_type,
             "quantity": self.quantity,
+            "quantity_override": self.quantity_override,
             "photos": self.photos or [],
             "description_override": self.description_override,
             "price_override": float(self.price_override) if self.price_override is not None else None,
@@ -111,16 +116,35 @@ def _normalized_variants(variants):
             **variant,
             "variant_type": (variant.get("variant_type") or "Unica").strip(),
             "quantity": quantity,
+            "quantity_override": bool(variant.get("quantity_override", True)),
             "photos": variant.get("photos") or [],
             "is_showcase": bool(variant.get("is_showcase")) or (not has_showcase and index == 0),
         })
     return normalized
 
 
+def _normalized_variant_kind(variant_kind, variants):
+    if len(variants) < 2:
+        return None
+    if variant_kind in ("color", "name"):
+        normalized_kind = variant_kind
+    else:
+        first_variant_type = variants[0].get("variant_type", "")
+        normalized_kind = "color" if re.fullmatch(r"#[0-9a-fA-F]{6}", first_variant_type) else "name"
+
+    if normalized_kind == "color" and any(
+        not re.fullmatch(r"#[0-9a-fA-F]{6}", variant["variant_type"])
+        for variant in variants
+    ):
+        raise HTTPException(status_code=400, detail="Todas las variantes deben usar un color válido.")
+    return normalized_kind
+
+
 def _new_variant(data):
     return ProductVariant(
         variant_type=data["variant_type"],
         quantity=data["quantity"],
+        quantity_override=data["quantity_override"],
         photos=data["photos"],
         description_override=data.get("description_override"),
         price_override=data.get("price_override"),
@@ -163,6 +187,7 @@ def create_producto(body: dict):
             "is_showcase": True,
         }]
     variant_data = _normalized_variants(variant_data)
+    variant_kind = _normalized_variant_kind(product_data.get("variant_kind"), variant_data)
 
     with Session(engine) as session:
         nuevo_producto = Product(
@@ -170,6 +195,7 @@ def create_producto(body: dict):
             description=product_data["description"],
             price=product_data["price"],
             category=product_data["category"],
+            variant_kind=variant_kind,
             materials=product_data.get("materials", []),
             is_hidden=product_data.get("is_hidden", False),
             tags=product_data.get("tags", []),
@@ -197,6 +223,7 @@ def update_producto(producto_id: int,body:dict):
 
         if "variants" in product_data:
             variant_data = _normalized_variants(product_data["variants"])
+            producto.variant_kind = _normalized_variant_kind(product_data.get("variant_kind"), variant_data)
             existing_variants = {variant.id: variant for variant in producto.variants}
             for variant in producto.variants:
                 variant.is_showcase = False
@@ -214,6 +241,7 @@ def update_producto(producto_id: int,body:dict):
                     retained_ids.add(variant.id)
                     variant.variant_type = data["variant_type"]
                     variant.quantity = data["quantity"]
+                    variant.quantity_override = data["quantity_override"]
                     variant.photos = data["photos"]
                     variant.description_override = data.get("description_override")
                     variant.price_override = data.get("price_override")
@@ -223,6 +251,8 @@ def update_producto(producto_id: int,body:dict):
             for variant_id, variant in existing_variants.items():
                 if variant_id not in retained_ids:
                     session.delete(variant)
+        elif "variant_kind" in product_data:
+            producto.variant_kind = product_data["variant_kind"]
         elif "quantity" in product_data or "photos" in product_data:
             showcase = next((variant for variant in producto.variants if variant.is_showcase), None)
             if showcase:

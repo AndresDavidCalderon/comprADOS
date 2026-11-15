@@ -10,7 +10,7 @@ export default function TagDialogue({
 
 
   const [query, setQuery] = useState("");
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState(initialSelectedTags);
   const [existingTags, setExistingTags] = useState([]);
   const { apiUrl } = useContext(ApiContext);
 
@@ -18,11 +18,7 @@ export default function TagDialogue({
     fetch(`${apiUrl}/productos/etiquetas`)
       .then((response) => response.json())
       .then((data) => setExistingTags(data));
-  }, []);
-
-  useEffect(() => {
-    setSelectedTags(initialSelectedTags);
-  }, [initialSelectedTags]);
+  }, [apiUrl]);
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleTags = existingTags.filter((tag) =>
@@ -50,7 +46,7 @@ export default function TagDialogue({
           {selectedTags.map((tag) => (
             <span className="tag-chip" key={tag}>
               <span>{tag}</span>
-              <button type="button" className="tag-chip-remove" aria-label={`Quitar ${tag}`} onClick={() => setSelectedTags(selectedTags.filter((t) => t !== tag))} >
+              <button type="button" className="tag-chip-remove" aria-label={`Quitar ${tag}`} title={`Quitar la palabra clave ${tag}`} onClick={() => setSelectedTags(selectedTags.filter((t) => t !== tag))} >
                 ×
               </button>
             </span>
@@ -66,6 +62,7 @@ export default function TagDialogue({
           onChange={(event) => setQuery(event.target.value)}
           className="tag-dialogue-input"
           placeholder="Escribe o elige una opción"
+          title="Busca una palabra clave o escribe una nueva para crearla."
         />
       </label>
 
@@ -73,7 +70,7 @@ export default function TagDialogue({
         <p className="tag-dialogue-panel-label">Etiquetas existentes</p>
         <div className="tag-dialogue-suggestions">
           {visibleTags.filter((tag) => !selectedTags.includes(tag)).map((tag) => (
-            <button type="button" className="tag-dialogue-suggestion" key={tag} onClick={() => addTag(tag)}>
+            <button type="button" className="tag-dialogue-suggestion" key={tag} onClick={() => addTag(tag)} title={`Agrega la palabra clave ${tag}.`}>
               <span className="tag-dialogue-suggestion-mark">+</span>
               <span>{tag}</span>
             </button>
@@ -83,14 +80,14 @@ export default function TagDialogue({
         {shouldShowCreateTag && (
           <>
             <div className="tag-dialogue-divider" />
-            <button type="button" className="tag-dialogue-create" onClick={() => addTag(query.trim())}>
+            <button type="button" className="tag-dialogue-create" onClick={() => addTag(query.trim())} title={`Crea y agrega la palabra clave ${query.trim()}.`}>
               + Crea etiqueta "{query.trim()}"
             </button>
           </>
         )}
       </div>
 
-      <button type="button" className="tag-dialogue-apply" onClick={() => {
+      <button type="button" className="tag-dialogue-apply" title="Confirma las palabras clave seleccionadas." onClick={() => {
         onConfirm(selectedTags)
         setSelectedTags([]);
       }}>

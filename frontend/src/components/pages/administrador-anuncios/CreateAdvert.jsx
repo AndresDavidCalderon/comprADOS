@@ -11,25 +11,54 @@ const formatThousands = (digits) => {
 
 
 export default function CreateAdvert({onPublish,editingProduct}) {
+  const singleExistingVariant = editingProduct?.variants?.length === 1 ? editingProduct.variants[0] : null;
   const [selectingTags, setSelectingTags] = useState(false);
   const [selectedTags, setSelectedTags] = useState(editingProduct ? editingProduct.tags : []);
   const [name, setName] = useState(editingProduct ? editingProduct.name : "");
-  const [description, setDescription] = useState(editingProduct ? editingProduct.description : "");
+  const [description, setDescription] = useState(singleExistingVariant?.description ?? editingProduct?.description ?? "");
   const [materialInput, setMaterialInput] = useState("");
   const [materials, setMaterials] = useState(
-    editingProduct ? (editingProduct.materials ? 
-      editingProduct.materials : []) :
-     []
+    singleExistingVariant?.materials ?? editingProduct?.materials ?? []
   );
-  const [price, setPrice] = useState(editingProduct ? editingProduct.price : 0);
-  const [priceInput, setPriceInput] = useState(editingProduct ? formatThousands(editingProduct.price.toString()) : "");
+  const [price, setPrice] = useState(singleExistingVariant?.price ?? editingProduct?.price ?? 0);
+  const [priceInput, setPriceInput] = useState(singleExistingVariant || editingProduct
+    ? formatThousands(String(singleExistingVariant?.price ?? editingProduct.price))
+    : "");
   const [category, setCategory] = useState(editingProduct ? editingProduct.category : "");
   const [variants, setVariants] = useState(() => editingProduct?.variants?.length
-    ? editingProduct.variants.map((variant) => ({ ...variant }))
-    : [{ variant_type: "Unica", quantity: 0, photos: [], description_override: null, price_override: null, materials_override: null, is_showcase: true }]
+    ? editingProduct.variants.map((variant) => ({
+      ...variant,
+      quantity_override: editingProduct.variants.length === 1 ? false : variant.quantity_override ?? true,
+      description_override: editingProduct.variants.length === 1 ? null : variant.description_override ?? null,
+      price_override: editingProduct.variants.length === 1 ? null : variant.price_override ?? null,
+      materials_override: editingProduct.variants.length === 1 ? null : variant.materials_override ?? null,
+    }))
+    : [{ variant_type: "Unica", quantity: 0, quantity_override: false, photos: [], description_override: null, price_override: null, materials_override: null, is_showcase: true }]
   );
+  const [baseQuantity, setBaseQuantity] = useState(() => Number(
+    singleExistingVariant?.quantity ??
+    editingProduct?.variants?.find((variant) => variant.quantity_override === false)?.quantity ??
+    0
+  ));
+  const [variantKind, setVariantKind] = useState(() => {
+    if ((editingProduct?.variants?.length ?? 0) < 2) return null;
+    if (editingProduct.variant_kind === "color" || editingProduct.variant_kind === "name") {
+      return editingProduct.variant_kind;
+    }
+    const firstVariantType = editingProduct?.variants?.[0]?.variant_type ?? "";
+    if (/^#[0-9a-f]{6}$/i.test(firstVariantType)) return "color";
+    return "name";
+  });
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(() => {
+    const showcaseIndex = editingProduct?.variants?.findIndex((variant) => variant.is_showcase) ?? -1;
+    return showcaseIndex >= 0 ? showcaseIndex : 0;
+  });
+  const [choosingVariantKind, setChoosingVariantKind] = useState(false);
   const [visibilidadAnuncio, setVisibilidadAnuncio] = useState(editingProduct?.is_hidden ? "oculto" : "visible");
   const { apiUrl } = useContext(ApiContext);
+  const selectedVariant = variants[selectedVariantIndex] ?? variants[0];
+  const activeVariantIndex = variants[selectedVariantIndex] ? selectedVariantIndex : 0;
+  const hasMultipleVariants = variants.length > 1;
 
   const handlePriceChange = (event) => {
     const rawValue = event.target.value.replace(/[^\d]/g, "");
@@ -68,13 +97,19 @@ export default function CreateAdvert({onPublish,editingProduct}) {
   }
 
   const uploadVariantPhotos = async (index, event) => {
-    const files = event.target.files;
+    const input = event.currentTarget;
+    const files = input.files;
     if (!files || files.length === 0) return;
-    const urls = await uploadPhotos(files);
-    setVariants((current) => current.map((variant, currentIndex) =>
-      currentIndex === index ? { ...variant, photos: [...variant.photos, ...urls] } : variant
-    ));
-    event.target.value = "";
+    try {
+      const urls = await uploadPhotos(files);
+      setVariants((current) => current.map((variant, currentIndex) =>
+        currentIndex === index ? { ...variant, photos: [...variant.photos, ...urls] } : variant
+      ));
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "No se pudieron subir las imágenes.");
+    } finally {
+      input.value = "";
+    }
   }
 
   const removeVariantPhoto = (variantIndex, photoIndex) => {
@@ -84,28 +119,96 @@ export default function CreateAdvert({onPublish,editingProduct}) {
     ));
   }
 
-  const addVariant = () => {
-    setVariants((current) => [...current, {
-      variant_type: "",
-      quantity: 0,
+  const setPrimaryVariantPhoto = (variantIndex, photoIndex) => {
+    setVariants((current) => current.map((variant, index) => {
+      if (index !== variantIndex) return variant;
+      const photos = [...variant.photos];
+      photos.unshift(...photos.splice(photoIndex, 1));
+      return { ...variant, photos };
+    }));
+  }
+
+  const createVariant = (kind) => {
+    const newVariant = {
+      variant_type: kind === "color" ? "#d9d9d9" : "",
+      quantity: baseQuantity,
+      quantity_override: false,
       photos: [],
       description_override: null,
       price_override: null,
       materials_override: null,
       is_showcase: false,
-    }]);
+    };
+    const newIndex = variants.length;
+    setVariants((current) => {
+      const currentVariants = current.map((variant, index) => {
+        if (index !== 0) return variant;
+        if (kind === "color") {
+          return {
+            ...variant,
+            variant_type: /^#[0-9a-f]{6}$/i.test(variant.variant_type) ? variant.variant_type : "#d9d9d9",
+          };
+        }
+        return { ...variant, variant_type: variant.variant_type === "Unica" ? "" : variant.variant_type };
+      });
+      return [...currentVariants, newVariant];
+    });
+    setSelectedVariantIndex(newIndex);
+  }
+
+  const addVariant = () => {
+    if (variants.length === 1 || !variantKind) {
+      setChoosingVariantKind(true);
+      return;
+    }
+    createVariant(variantKind);
+  }
+
+  const chooseVariantKind = (kind) => {
+    setVariantKind(kind);
+    setChoosingVariantKind(false);
+    createVariant(kind);
   }
 
   const removeVariant = (index) => {
-    setVariants((current) => {
-      if (current.length === 1) return current;
-      const remaining = current.filter((_, currentIndex) => currentIndex !== index);
-      if (!remaining.some((variant) => variant.is_showcase)) remaining[0].is_showcase = true;
-      return remaining;
+    if (variants.length === 1) return;
+    let remaining = variants.filter((_, currentIndex) => currentIndex !== index);
+    if (!remaining.some((variant) => variant.is_showcase)) {
+      remaining = remaining.map((variant, currentIndex) => ({ ...variant, is_showcase: currentIndex === 0 }));
+    }
+    if (remaining.length === 1) {
+      const [onlyVariant] = remaining;
+      const nextPrice = onlyVariant.price_override ?? price;
+      setPrice(nextPrice);
+      setPriceInput(formatThousands(String(nextPrice)));
+      setDescription(onlyVariant.description_override ?? description);
+      setMaterials(onlyVariant.materials_override ?? materials);
+      setBaseQuantity(onlyVariant.quantity);
+      remaining[0] = {
+        ...onlyVariant,
+        variant_type: "Unica",
+        quantity_override: false,
+        description_override: null,
+        price_override: null,
+        materials_override: null,
+      };
+      setVariantKind(null);
+    }
+    setVariants(remaining);
+    setSelectedVariantIndex((current) => {
+      if (current === index) return Math.max(0, index - 1);
+      return current > index ? current - 1 : current;
     });
   }
 
   const toggleOverride = (index, field, enabled) => {
+    if (field === "quantity_override") {
+      updateVariant(index, {
+        quantity_override: enabled,
+        quantity: enabled ? variants[index].quantity : baseQuantity,
+      });
+      return;
+    }
     const defaults = {
       description_override: description,
       price_override: price,
@@ -114,20 +217,41 @@ export default function CreateAdvert({onPublish,editingProduct}) {
     updateVariant(index, { [field]: enabled ? defaults[field] : null });
   }
 
+  const updateBaseQuantity = (quantity) => {
+    const nextQuantity = Number(quantity);
+    setBaseQuantity(nextQuantity);
+    setVariants((current) => current.map((variant) => variant.quantity_override
+      ? variant
+      : { ...variant, quantity: nextQuantity }
+    ));
+  }
+
   const removeTag = (tagToRemove) => {
     setSelectedTags((currentTags) => currentTags.filter((tag) => tag !== tagToRemove));
   }
 
   const addMaterial = () => {
     const nextMaterial = materialInput.trim();
-    if (!nextMaterial || materials.includes(nextMaterial)) return;
+    const variantMaterials = selectedVariant?.materials_override;
+    const currentMaterials = variantMaterials ?? materials;
+    if (!nextMaterial || currentMaterials.includes(nextMaterial)) return;
 
-    setMaterials((currentMaterials) => [...currentMaterials, nextMaterial]);
+    if (variantMaterials !== null && variantMaterials !== undefined) {
+      updateVariant(activeVariantIndex, { materials_override: [...variantMaterials, nextMaterial] });
+    } else {
+      setMaterials((current) => [...current, nextMaterial]);
+    }
     setMaterialInput("");
   }
 
   const removeMaterial = (materialToRemove) => {
-    setMaterials((currentMaterials) => currentMaterials.filter((material) => material !== materialToRemove));
+    if (selectedVariant?.materials_override !== null && selectedVariant?.materials_override !== undefined) {
+      updateVariant(activeVariantIndex, {
+        materials_override: selectedVariant.materials_override.filter((material) => material !== materialToRemove),
+      });
+    } else {
+      setMaterials((current) => current.filter((material) => material !== materialToRemove));
+    }
   }
 
   const handleMaterialKeyDown = (event) => {
@@ -143,8 +267,8 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       return;
     }
 
-    if (variants.some((variant) => !variant.variant_type.trim() || variant.quantity < 0 || variant.photos.length === 0)) {
-      alert("Cada variante debe tener un nombre o color, una cantidad válida y al menos una foto.");
+      if (variants.some((variant) => !variant.variant_type.trim() || variant.quantity < 0 || variant.photos.length === 0)) {
+        alert("Cada variante debe tener un nombre o color, una cantidad válida y al menos una foto.");
       return;
     }
 
@@ -158,6 +282,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
       description,
       price,
       category,
+      variant_kind: hasMultipleVariants ? variantKind : null,
       materials,
       is_hidden: visibilidadAnuncio === "oculto",
       tags: selectedTags,
@@ -179,193 +304,349 @@ export default function CreateAdvert({onPublish,editingProduct}) {
     }
   }
 
+  const variantMaterials = selectedVariant?.materials_override ?? materials;
+  const quantityIsOwn = selectedVariant?.quantity_override ?? false;
+  const priceIsOwn = (selectedVariant?.price_override ?? null) !== null;
+  const descriptionIsOwn = (selectedVariant?.description_override ?? null) !== null;
+  const materialsAreOwn = (selectedVariant?.materials_override ?? null) !== null;
+  const variantPhotos = selectedVariant?.photos ?? [];
+
+  const changeVariantPrice = (event) => {
+    const value = event.target.value;
+    updateVariant(activeVariantIndex, { price_override: value === "" ? null : Number(value) });
+  }
+
+  const changeVariantDescription = (value) => {
+    updateVariant(activeVariantIndex, { description_override: value });
+  }
+
   return (
     <div className="create-advert-container">
-      <div className="create-right-card">
-        <h2 className="create-title">{editingProduct ? "Editar Pieza" : "Nueva Pieza"}</h2>
-          <label className="form-label">
-            Nombre *
-            <input className="text-input" type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+      <section className="create-image-column" aria-label="Fotos de la variante seleccionada">
+        <div className="image-heading-row">
+          <h2 className="image-section-title">
+            <span className="material-symbols-outlined" aria-hidden="true">alt_route</span>
+            Imagen de referencia
+          </h2>
+          <label className="image-upload-button" title="Agrega fotos a la variante seleccionada.">
+            <span className="material-symbols-outlined" aria-hidden="true">alt_route</span>
+            <span>Agregar fotos</span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(event) => uploadVariantPhotos(activeVariantIndex, event)}
+              aria-label="Agregar fotos a la variante seleccionada"
+            />
           </label>
-
-          <label className="form-label">
-            Descripción del producto *
-            <textarea className="textarea-input" name="description" rows="4" value={description} onChange={(e) => setDescription(e.target.value)} />
-          </label>
-
-          <label className="form-label">
-            Precio base *
-            <input className="text-input" type="text" inputMode="decimal" name="price" value={priceInput} onChange={handlePriceChange} />
-          </label>
-          <label className="form-label">
-            Materiales
-            <div className="materials-input-row">
-              <input
-                className="text-input materials-input"
-                type="text"
-                name="materials"
-                value={materialInput}
-                onChange={(e) => setMaterialInput(e.target.value)}
-                onKeyDown={handleMaterialKeyDown}
-                placeholder="Escribe un material y agrégalo"
-              />
-              <button type="button" className="materials-add-btn" onClick={addMaterial}>
-                Agregar
+        </div>
+        <div className="reference-image-frame">
+          {variantPhotos.length > 0 ? (
+            <>
+              <img className="reference-img" src={variantPhotos[0]} alt={`Imagen principal de ${name || "la pieza"}`} />
+              <button
+                type="button"
+                className="photo-remove-button primary-photo-remove"
+                onClick={() => removeVariantPhoto(activeVariantIndex, 0)}
+                title="Quitar la imagen de referencia"
+                aria-label="Quitar la imagen de referencia"
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">delete</span>
+              </button>
+            </>
+          ) : (
+            <p className="empty-image-message">Agrega fotos para esta variante con el botón «Agregar fotos».</p>
+          )}
+        </div>
+        <div className="other-images-heading">
+          <h3 className="image-section-title">
+            <span className="material-symbols-outlined" aria-hidden="true">alt_route</span>
+            Otras imágenes
+          </h3>
+          <span className="image-count">{variantPhotos.length} {variantPhotos.length === 1 ? "foto" : "fotos"}</span>
+        </div>
+        <div className="reference-thumbnails">
+          {variantPhotos.slice(1).map((photo, photoIndex) => (
+            <div className="reference-thumbnail-wrap" key={`${photo}-${photoIndex + 1}`}>
+              <button
+                type="button"
+                className="reference-thumbnail"
+                onClick={() => setPrimaryVariantPhoto(activeVariantIndex, photoIndex + 1)}
+                title="Usar esta foto como imagen de referencia"
+                aria-label={`Usar foto ${photoIndex + 2} como imagen de referencia`}
+              >
+                <img src={photo} alt={`Foto ${photoIndex + 2} de ${name || "la pieza"}`} />
+              </button>
+              <button
+                type="button"
+                className="photo-remove-button thumbnail-photo-remove"
+                onClick={() => removeVariantPhoto(activeVariantIndex, photoIndex + 1)}
+                title={`Quitar foto ${photoIndex + 2}`}
+                aria-label={`Quitar foto ${photoIndex + 2}`}
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">close</span>
               </button>
             </div>
-          </label>
-          <div className="materials-list">
-            {materials.map((material) => (
-              <span className="selected-tag-chip" key={material}>
-                <span>{material}</span>
-                <button
-                  type="button"
-                  className="selected-tag-remove"
-                  aria-label={`Quitar ${material}`}
-                  onClick={() => removeMaterial(material)}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-          <label className="form-label">
-            Categoría *
-            <select className="text-input category-select" name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value="">Selecciona una categoría</option>
-              <option value="collares">Collares</option>
-              <option value="manillas">Manillas</option>
-              <option value="aretes">Aretes</option>
-            </select>
-          </label>
+          ))}
+          {variantPhotos.length === 0 && (
+            <p className="empty-thumbnails-message">Las fotos de esta variante aparecerán aquí.</p>
+          )}
+        </div>
+      </section>
 
-          <div className="variant-editor-list">
-            <div className="variant-editor-list-heading">
-              <h3>Variantes</h3>
-              <button type="button" className="materials-add-btn" onClick={addVariant}>Agregar variante</button>
+      <div className="create-right-card">
+        <h2 className="create-title">{editingProduct ? "Editar Pieza" : "Nueva Pieza"}</h2>
+        <label className="form-label">
+          <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">sell</span>Nombre *</span>
+          <input className="text-input" type="text" name="name" value={name} onChange={(event) => setName(event.target.value)} title="Escribe el nombre con el que se mostrará la pieza." />
+        </label>
+
+        <label className="form-label">
+          <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">category</span>Categoría *</span>
+          <select className="text-input category-select" name="category" value={category} onChange={(event) => setCategory(event.target.value)} title="Selecciona la categoría donde aparecerá la pieza.">
+            <option value="">Selecciona una categoría</option>
+            <option value="collares">Collares</option>
+            <option value="manillas">Manillas</option>
+            <option value="aretes">Aretes</option>
+          </select>
+        </label>
+
+        <section className="variant-editor-list" aria-label="Ajustes de variantes">
+          <div className="variant-editor-list-heading">
+            {hasMultipleVariants && <h3>Variantes</h3>}
+            <button type="button" className="materials-add-btn" onClick={addVariant} title="Añade otra variante.">
+              <span className="material-symbols-outlined" aria-hidden="true">add</span>
+              Añadir variante
+            </button>
+          </div>
+          {hasMultipleVariants && (
+            <div className="variant-selector" aria-label="Selecciona una variante para editar">
+              {variants.map((variant, index) => (
+                <button
+                  key={variant.id ?? `new-${index}`}
+                  type="button"
+                  className={`variant-selector-option ${index === activeVariantIndex ? "is-selected" : ""} ${variantKind === "color" ? "is-color" : ""}`}
+                  onClick={() => setSelectedVariantIndex(index)}
+                  title={`Editar variante ${variant.variant_type || index + 1}`}
+                  aria-label={`Editar variante ${variant.variant_type || index + 1}`}
+                  aria-pressed={index === activeVariantIndex}
+                >
+                  {variantKind === "color" ? (
+                    <span className="variant-color-dot" style={{ backgroundColor: variant.variant_type || "#d9d9d9" }} />
+                  ) : (
+                    variant.variant_type || `Variante ${index + 1}`
+                  )}
+                </button>
+              ))}
             </div>
-            {variants.map((variant, index) => (
-              <section className="variant-editor" key={variant.id ?? `new-${index}`}>
-                <div className="variant-editor-heading">
-                  <h4>Variante {index + 1}</h4>
-                  <label className="showcase-choice">
-                    <input
-                      type="radio"
-                      name="showcase-variant"
-                      checked={variant.is_showcase}
-                      onChange={() => setVariants((current) => current.map((item, itemIndex) => ({ ...item, is_showcase: itemIndex === index })))}
-                    />
-                    Foto de escaparate
+          )}
+
+          {selectedVariant && (
+            <div className="variant-editor">
+              {hasMultipleVariants && (
+                <>
+                  <div className="variant-editor-heading">
+                    <h4>Variante {activeVariantIndex + 1}</h4>
+                  <button
+                    type="button"
+                    className="icon-action-button"
+                    onClick={() => removeVariant(activeVariantIndex)}
+                    title={`Eliminar variante ${activeVariantIndex + 1}`}
+                    aria-label={`Eliminar variante ${activeVariantIndex + 1}`}
+                  >
+                    <span className="material-symbols-outlined" aria-hidden="true">delete</span>
+                  </button>
+                  </div>
+
+                  <label className="form-label">
+                    <span className="field-title">
+                      <span className="material-symbols-outlined" aria-hidden="true">{variantKind === "color" ? "format_color_fill" : "sell"}</span>
+                      {variantKind === "color" ? "Color de la variante *" : "Nombre de la variante *"}
+                    </span>
+                    {variantKind === "color" ? (
+                      <div className="color-input-row">
+                        <input
+                          className="color-input"
+                          type="color"
+                          value={selectedVariant.variant_type || "#d9d9d9"}
+                          onChange={(event) => updateVariant(activeVariantIndex, { variant_type: event.target.value })}
+                          title="Elige el color de esta variante."
+                        />
+                        <span>{selectedVariant.variant_type}</span>
+                      </div>
+                    ) : (
+                      <input
+                        className="text-input"
+                        value={selectedVariant.variant_type}
+                        onChange={(event) => updateVariant(activeVariantIndex, { variant_type: event.target.value })}
+                        title="Escribe el nombre que identifica esta variante."
+                      />
+                    )}
                   </label>
-                  {variants.length > 1 && (
-                    <button type="button" className="selected-tag-remove" aria-label={`Eliminar variante ${index + 1}`} onClick={() => removeVariant(index)}>×</button>
+                </>
+              )}
+
+              <div className="variant-field">
+                <div className="variant-field-heading">
+                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">inventory_2</span>Cantidad disponible *</span>
+                  {hasMultipleVariants && (
+                    <label className="variant-own-toggle" title="Activa para asignar una cantidad propia a esta variante.">
+                      <input type="checkbox" checked={quantityIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "quantity_override", event.target.checked)} aria-label="Usar cantidad propia" />
+                      <span className="material-symbols-outlined" aria-hidden="true">{quantityIsOwn ? "check_box" : "check_box_outline_blank"}</span>
+                    </label>
                   )}
                 </div>
-                <label className="form-label">
-                  Nombre o color *
-                  <input className="text-input" value={variant.variant_type} onChange={(event) => updateVariant(index, { variant_type: event.target.value })} />
-                </label>
-                <label className="form-label">
-                  Cantidad disponible *
-                  <input className="text-input" type="number" min="0" value={variant.quantity} onChange={(event) => updateVariant(index, { quantity: Number(event.target.value) })} />
-                </label>
-                <label className="form-label">
-                  Fotos de la variante *
-                  <input className="text-input" type="file" accept="image/*" multiple onChange={(event) => uploadVariantPhotos(index, event)} />
-                </label>
-                <div className="additional-photos">
-                  {variant.photos.map((photo, photoIndex) => (
-                    <div className="additional-photo-btn" key={`${photo}-${photoIndex}`}>
-                      <img src={photo} alt={`Variante ${index + 1}, foto ${photoIndex + 1}`} className="additional-img" />
-                      <button type="button" className="additional-photo-remove" aria-label={`Eliminar foto ${photoIndex + 1}`} onClick={() => removeVariantPhoto(index, photoIndex)}>×</button>
-                    </div>
+                <input
+                  className="text-input"
+                  type="number"
+                  min="0"
+                  value={quantityIsOwn ? selectedVariant.quantity : baseQuantity}
+                  onChange={(event) => quantityIsOwn
+                    ? updateVariant(activeVariantIndex, { quantity: Number(event.target.value) })
+                    : updateBaseQuantity(event.target.value)}
+                  title={quantityIsOwn ? "Indica la cantidad disponible de esta variante." : "Indica la cantidad base compartida por las variantes."}
+                />
+              </div>
+
+              <div className="variant-field">
+                <div className="variant-field-heading">
+                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">payments</span>Precio *</span>
+                  {hasMultipleVariants && (
+                    <label className="variant-own-toggle" title="Activa para asignar un precio propio a esta variante.">
+                      <input type="checkbox" checked={priceIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "price_override", event.target.checked)} aria-label="Usar precio propio" />
+                      <span className="material-symbols-outlined" aria-hidden="true">{priceIsOwn ? "check_box" : "check_box_outline_blank"}</span>
+                    </label>
+                  )}
+                </div>
+                {priceIsOwn ? (
+                  <input className="text-input" type="number" min="0" step="1" value={selectedVariant.price_override} onChange={changeVariantPrice} title="Indica el precio de esta variante en pesos colombianos." />
+                ) : (
+                  <input className="text-input" type="text" inputMode="decimal" value={priceInput} onChange={handlePriceChange} title="Indica el precio base en pesos colombianos." />
+                )}
+              </div>
+
+              <div className="variant-field">
+                <div className="variant-field-heading">
+                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">description</span>Descripción *</span>
+                  {hasMultipleVariants && (
+                    <label className="variant-own-toggle" title="Activa para escribir una descripción propia para esta variante.">
+                      <input type="checkbox" checked={descriptionIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "description_override", event.target.checked)} aria-label="Usar descripción propia" />
+                      <span className="material-symbols-outlined" aria-hidden="true">{descriptionIsOwn ? "check_box" : "check_box_outline_blank"}</span>
+                    </label>
+                  )}
+                </div>
+                <textarea
+                  className="textarea-input"
+                  rows="3"
+                  value={descriptionIsOwn ? selectedVariant.description_override : description}
+                  onChange={(event) => descriptionIsOwn ? changeVariantDescription(event.target.value) : setDescription(event.target.value)}
+                  title={descriptionIsOwn ? "Escribe la descripción de esta variante." : "Escribe la descripción base compartida por las variantes."}
+                />
+              </div>
+
+              <div className="variant-field">
+                <div className="variant-field-heading">
+                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">shopping_cart</span>Materiales</span>
+                  {hasMultipleVariants && (
+                    <label className="variant-own-toggle" title="Activa para indicar materiales propios para esta variante.">
+                      <input type="checkbox" checked={materialsAreOwn} onChange={(event) => toggleOverride(activeVariantIndex, "materials_override", event.target.checked)} aria-label="Usar materiales propios" />
+                      <span className="material-symbols-outlined" aria-hidden="true">{materialsAreOwn ? "check_box" : "check_box_outline_blank"}</span>
+                    </label>
+                  )}
+                </div>
+                <div className="materials-list">
+                  {variantMaterials.map((material) => (
+                    <span className="selected-tag-chip" key={material}>
+                      <span>{material}</span>
+                      <button
+                        type="button"
+                        className="selected-tag-remove"
+                        onClick={() => removeMaterial(material)}
+                        aria-label={`Quitar ${material}`}
+                        title={`Quitar el material ${material}`}
+                      >
+                        ×
+                      </button>
+                    </span>
                   ))}
                 </div>
-                <label className="variant-override-toggle">
-                  <input type="checkbox" checked={variant.description_override !== null} onChange={(event) => toggleOverride(index, "description_override", event.target.checked)} />
-                  Usar descripción propia
+                <div className="materials-input-row">
+                  <input
+                    className="text-input materials-input"
+                    type="text"
+                    value={materialInput}
+                    onChange={(event) => setMaterialInput(event.target.value)}
+                    onKeyDown={handleMaterialKeyDown}
+                    placeholder="Agregar material"
+                    title="Escribe un material y presiona Enter o el botón Agregar."
+                  />
+                  <button type="button" className="materials-add-btn" onClick={addMaterial} title="Agrega este material a la variante.">
+                    <span className="material-symbols-outlined" aria-hidden="true">add</span>
+                  </button>
+                </div>
+              </div>
+
+              {hasMultipleVariants && (
+                <label className="showcase-choice" title="Usa esta variante como la imagen y opción de muestra del anuncio.">
+                  <input
+                    type="checkbox"
+                    checked={selectedVariant.is_showcase}
+                    onChange={(event) => setVariants((current) => current.map((variant, index) => ({
+                      ...variant,
+                      is_showcase: event.target.checked && index === activeVariantIndex,
+                    })))}
+                  />
+                  <span className="material-symbols-outlined" aria-hidden="true">{selectedVariant.is_showcase ? "check_box" : "check_box_outline_blank"}</span>
+                  Variante de muestra
                 </label>
-                {variant.description_override !== null && (
-                  <label className="form-label">
-                    Descripción de la variante
-                    <textarea className="textarea-input" rows="3" value={variant.description_override} onChange={(event) => updateVariant(index, { description_override: event.target.value })} />
-                  </label>
-                )}
-                <label className="variant-override-toggle">
-                  <input type="checkbox" checked={variant.price_override !== null} onChange={(event) => toggleOverride(index, "price_override", event.target.checked)} />
-                  Usar precio propio
-                </label>
-                {variant.price_override !== null && (
-                  <label className="form-label">
-                    Precio de la variante
-                    <input className="text-input" type="number" min="0" step="1" value={variant.price_override} onChange={(event) => updateVariant(index, { price_override: event.target.value === "" ? null : Number(event.target.value) })} />
-                  </label>
-                )}
-                <label className="variant-override-toggle">
-                  <input type="checkbox" checked={variant.materials_override !== null} onChange={(event) => toggleOverride(index, "materials_override", event.target.checked)} />
-                  Usar materiales propios
-                </label>
-                {variant.materials_override !== null && (
-                  <label className="form-label">
-                    Materiales de la variante (separados por coma)
-                    <input
-                      className="text-input"
-                      value={variant.materials_override.join(", ")}
-                      onChange={(event) => updateVariant(index, { materials_override: event.target.value.split(",").map((material) => material.trim()).filter(Boolean) })}
-                    />
-                  </label>
-                )}
-              </section>
-            ))}
+              )}
+            </div>
+          )}
+        </section>
+
+        <div className="advert-settings">
+          <div className="advert-visibility">
+            <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">visibility</span>Visibilidad del anuncio *</span>
+            <label>
+              <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "visible"} onChange={() => setVisibilidadAnuncio("visible")} title="El anuncio será visible en el catálogo." />
+              Visible
+            </label>
+            <label>
+              <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "oculto"} onChange={() => setVisibilidadAnuncio("oculto")} title="El anuncio quedará oculto para los clientes." />
+              Oculto
+            </label>
           </div>
 
-          <label className="form-label"> 
-          Visibilidad del Anuncio *
-          </label>
-          <label className="radio-input form-label">
-            <input  className="radio-btn"
-                type="radio"
-                name="visibilidad"
-                value="visible"
-                checked={visibilidadAnuncio === "visible"}
-                onChange={() => setVisibilidadAnuncio("visible")}
-            />
-            Visible
-            <input  className="radio-btn"
-                type="radio"
-                name="visibilidad"
-                value="oculto"
-                checked={visibilidadAnuncio === "oculto"}
-                onChange={() => setVisibilidadAnuncio("oculto")}
-            />
-            Oculto
-          </label>
-          <label className="form-label">
-            Palabras Clave
-          </label>
-          <div className="selected-tags-list">
-            {selectedTags.map((tag) => (
-              <span className="selected-tag-chip" key={tag}>
-                <span>{tag}</span>
-                <button
-                  type="button"
-                  className="selected-tag-remove"
-                  aria-label={`Quitar ${tag}`}
-                  onClick={() => removeTag(tag)}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
+          <div className="tag-field">
+            <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">sell</span>Palabras clave</span>
+            <div className="selected-tags-list">
+              {selectedTags.map((tag) => (
+                <span className="selected-tag-chip" key={tag}>
+                  <span>{tag}</span>
+                  <button type="button" className="selected-tag-remove" aria-label={`Quitar ${tag}`} title={`Quitar la palabra clave ${tag}`} onClick={() => removeTag(tag)}>×</button>
+                </span>
+              ))}
+            </div>
+            <button onClick={() => setSelectingTags(true)} className="select-tags-btn" title="Abre el selector para agregar palabras clave al anuncio.">
+              Agregar palabras clave
+            </button>
           </div>
-          <button onClick={() => setSelectingTags(true)} className="select-tags-btn">
-            Agregar palabras clave
-          </button>
-          {selectingTags && <TagDialogue initialSelectedTags={selectedTags} onConfirm={confirmTags} />}
-          <button onClick={publish} className={"btn btn-primary publish-btn"}>
-            {editingProduct ? "Guardar Cambios" : "Publicar Pieza"}
-          </button>
+        </div>
+
+        {selectingTags && <TagDialogue initialSelectedTags={selectedTags} onConfirm={confirmTags} />}
+        <button onClick={publish} className="btn btn-primary publish-btn" title={editingProduct ? "Guarda los cambios del anuncio." : "Publica la pieza en el catálogo."}>
+          {editingProduct ? "Guardar Cambios" : "Publicar Pieza"}
+        </button>
       </div>
+      {choosingVariantKind && (
+        <div className="variant-type-backdrop">
+          <section className="variant-type-dialogue" role="dialog" aria-modal="true" aria-labelledby="variant-type-title">
+            <h2 id="variant-type-title">¿Cómo quieres que se presenten las variantes de este producto?</h2>
+            <button type="button" className="materials-add-btn" onClick={() => chooseVariantKind("color")} title="Crea variantes seleccionando un color.">Por color</button>
+            <button type="button" className="materials-add-btn" onClick={() => chooseVariantKind("name")} title="Crea variantes con un nombre personalizado.">Por nombre</button>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

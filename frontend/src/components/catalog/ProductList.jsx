@@ -3,16 +3,6 @@ import cartAddIcon from '../../assets/cart-add.svg'
 import cartContext from '../../context/CartContext'
 import DetallesContext from '../../context/DetallesContext'
 
-const colorClassMap = {
-  Verde: 'dot-green',
-  Vino: 'dot-wine',
-  Naranja: 'dot-orange',
-  Miel: 'dot-honey',
-  Perla: 'dot-pearl',
-  Dorado: 'dot-gold',
-  Negro: 'dot-black',
-}
-
 const formatCurrency = (value) =>
   new Intl.NumberFormat('es-CO', {
     style: 'currency',
@@ -32,7 +22,6 @@ export default function ProductList({ products }) {
         const showcaseVariant = getShowcaseVariant(product)
         const image = showcaseVariant?.photos?.[0] || product.photos?.[0] || product.image || ''
         const price = showcaseVariant?.price ?? product.price
-        const variantType = showcaseVariant?.variant_type
         const cartItem = showcaseVariant
           ? { ...product, ...showcaseVariant, id: showcaseVariant.id, product_id: product.id, variant_id: showcaseVariant.id, name: product.name }
           : product
@@ -45,12 +34,6 @@ export default function ProductList({ products }) {
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-price">{formatCurrency(price)}</p>
               </div>
-              {variantType && (
-                <div className="product-colors" aria-label={`Variante: ${variantType}`}>
-                  <span className={`color-dot ${colorClassMap[variantType] || 'dot-neutral'}`}></span>
-                  <span className="color-text">{variantType}</span>
-                </div>
-              )}
             </div>
             {checkOutEnabled && (
               <button

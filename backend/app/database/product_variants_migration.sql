@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS product_variants (
     product_id BIGINT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     variant_type TEXT NOT NULL DEFAULT 'Unica',
     quantity INTEGER NOT NULL DEFAULT 0 CHECK (quantity >= 0),
+    quantity_override BOOLEAN NOT NULL DEFAULT TRUE,
     photos TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[],
     description_override TEXT,
     price_override NUMERIC(12, 2),
@@ -13,6 +14,29 @@ CREATE TABLE IF NOT EXISTS product_variants (
     CONSTRAINT product_variants_price_override_nonnegative
         CHECK (price_override IS NULL OR price_override >= 0)
 );
+
+ALTER TABLE product_variants
+    ADD COLUMN IF NOT EXISTS quantity_override BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE products
+    ADD COLUMN IF NOT EXISTS variant_kind TEXT;
+
+UPDATE products AS product
+SET variant_kind = CASE
+    WHEN variant_summary.variant_count < 2 THEN NULL
+    WHEN variant_summary.all_colors THEN 'color'
+    ELSE 'name'
+END
+FROM (
+    SELECT
+        product_id,
+        COUNT(*) AS variant_count,
+        BOOL_AND(variant_type ~ '^#[0-9A-Fa-f]{6}$') AS all_colors
+    FROM product_variants
+    GROUP BY product_id
+) AS variant_summary
+WHERE product.id = variant_summary.product_id
+  AND product.variant_kind IS NULL;
 
 CREATE INDEX IF NOT EXISTS product_variants_product_id_idx ON product_variants(product_id);
 CREATE UNIQUE INDEX IF NOT EXISTS product_variants_one_showcase_per_product_idx
