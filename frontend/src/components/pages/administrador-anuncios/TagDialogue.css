@@ -1,5 +1,5 @@
 .tag-dialogue {
-    position: absolute;
+    position: fixed;
     top: 25vh;
     left: 30vw;
     width: 40vw;
@@ -156,4 +156,12 @@
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+@media (max-width: 768px) {
+  .tag-dialogue {
+    top: 20vh;
+    left: 5vw;
+    width: 90vw;
+  }
 }

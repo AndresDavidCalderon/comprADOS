@@ -3,6 +3,7 @@ import "./CreateAdvert.css";
 import { useState,useContext } from "react";
 import "@/buttons.css"
 import ApiContext from "@/context/ApiContext";
+import FieldTitle from "./FieldTitle";
 
 const formatThousands = (digits) => {
   if (!digits) return "";
@@ -487,15 +488,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
               )}
 
               <div className="variant-field">
-                <div className="variant-field-heading">
-                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">inventory_2</span>Cantidad disponible *</span>
-                  {hasMultipleVariants && (
-                    <label className="variant-own-toggle" title="Activa para asignar una cantidad propia a esta variante.">
-                      <input type="checkbox" checked={quantityIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "quantity_override", event.target.checked)} aria-label="Usar cantidad propia" />
-                      <span className="material-symbols-outlined" aria-hidden="true">{quantityIsOwn ? "check_box" : "check_box_outline_blank"}</span>
-                    </label>
-                  )}
-                </div>
+                <FieldTitle icon="inventory_2" title="Cantidad disponible" onSetOverride={hasMultipleVariants ? () => toggleOverride(activeVariantIndex, "quantity_override", true) : undefined} required={true} />
                 <input
                   className="text-input"
                   type="number"
@@ -509,15 +502,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
               </div>
 
               <div className="variant-field">
-                <div className="variant-field-heading">
-                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">payments</span>Precio *</span>
-                  {hasMultipleVariants && (
-                    <label className="variant-own-toggle" title="Activa para asignar un precio propio a esta variante.">
-                      <input type="checkbox" checked={priceIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "price_override", event.target.checked)} aria-label="Usar precio propio" />
-                      <span className="material-symbols-outlined" aria-hidden="true">{priceIsOwn ? "check_box" : "check_box_outline_blank"}</span>
-                    </label>
-                  )}
-                </div>
+                <FieldTitle icon="payments" title="Precio (COP)" onSetOverride={hasMultipleVariants ? () => toggleOverride(activeVariantIndex, "price_override", true) : undefined} required={true} />
                 {priceIsOwn ? (
                   <input className="text-input" type="number" min="0" step="1" value={selectedVariant.price_override} onChange={changeVariantPrice} title="Indica el precio de esta variante en pesos colombianos." />
                 ) : (
@@ -526,15 +511,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
               </div>
 
               <div className="variant-field">
-                <div className="variant-field-heading">
-                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">description</span>Descripción *</span>
-                  {hasMultipleVariants && (
-                    <label className="variant-own-toggle" title="Activa para escribir una descripción propia para esta variante.">
-                      <input type="checkbox" checked={descriptionIsOwn} onChange={(event) => toggleOverride(activeVariantIndex, "description_override", event.target.checked)} aria-label="Usar descripción propia" />
-                      <span className="material-symbols-outlined" aria-hidden="true">{descriptionIsOwn ? "check_box" : "check_box_outline_blank"}</span>
-                    </label>
-                  )}
-                </div>
+                <FieldTitle icon="description" title="Descripción" onSetOverride={hasMultipleVariants ? () => toggleOverride(activeVariantIndex, "description_override", true) : undefined} required={true} />
                 <textarea
                   className="textarea-input"
                   rows="3"
@@ -545,15 +522,7 @@ export default function CreateAdvert({onPublish,editingProduct}) {
               </div>
 
               <div className="variant-field">
-                <div className="variant-field-heading">
-                  <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">shopping_cart</span>Materiales</span>
-                  {hasMultipleVariants && (
-                    <label className="variant-own-toggle" title="Activa para indicar materiales propios para esta variante.">
-                      <input type="checkbox" checked={materialsAreOwn} onChange={(event) => toggleOverride(activeVariantIndex, "materials_override", event.target.checked)} aria-label="Usar materiales propios" />
-                      <span className="material-symbols-outlined" aria-hidden="true">{materialsAreOwn ? "check_box" : "check_box_outline_blank"}</span>
-                    </label>
-                  )}
-                </div>
+                <FieldTitle icon="garden_cart" title="Materiales" onSetOverride={hasMultipleVariants ? () => toggleOverride(activeVariantIndex, "materials_override", true) : undefined} />
                 <div className="materials-list">
                   {variantMaterials.map((material) => (
                     <span className="selected-tag-chip" key={material}>
@@ -607,14 +576,16 @@ export default function CreateAdvert({onPublish,editingProduct}) {
         <div className="advert-settings">
           <div className="advert-visibility">
             <span className="field-title"><span className="material-symbols-outlined" aria-hidden="true">visibility</span>Visibilidad del anuncio *</span>
-            <label>
-              <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "visible"} onChange={() => setVisibilidadAnuncio("visible")} title="El anuncio será visible en el catálogo." />
-              Visible
-            </label>
-            <label>
-              <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "oculto"} onChange={() => setVisibilidadAnuncio("oculto")} title="El anuncio quedará oculto para los clientes." />
-              Oculto
-            </label>
+            <div>
+              <label>
+                <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "visible"} onChange={() => setVisibilidadAnuncio("visible")} title="El anuncio será visible en el catálogo." />
+                Visible
+              </label>
+              <label>
+                <input type="radio" name="visibilidad" checked={visibilidadAnuncio === "oculto"} onChange={() => setVisibilidadAnuncio("oculto")} title="El anuncio quedará oculto para los clientes." />
+                Oculto
+              </label>
+            </div>
           </div>
 
           <div className="tag-field">

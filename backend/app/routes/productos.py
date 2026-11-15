@@ -65,6 +65,10 @@ class Product(Base):
             "showcase_variant": showcase_variant,
         }
 
+class Tag(Base):
+    __tablename__ = "tags"
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False, unique=True)
 
 class ProductVariant(Base):
     __tablename__ = "product_variants"
@@ -152,7 +156,14 @@ def _new_variant(data):
         is_showcase=data["is_showcase"],
     )
 
-
+def insert_tags(tag_list):
+    with Session(engine) as session:
+        for tag_name in tag_list:
+            existing_tag = session.query(Tag).filter(Tag.name == tag_name).first()
+            if not existing_tag:
+                new_tag = Tag(name=tag_name)
+                session.add(new_tag)
+        session.commit()
 
 #----- Endpoints -----#
 
@@ -200,6 +211,7 @@ def create_producto(body: dict):
             is_hidden=product_data.get("is_hidden", False),
             tags=product_data.get("tags", []),
         )
+        insert_tags(nuevo_producto.tags)
         nuevo_producto.variants = [_new_variant(variant) for variant in variant_data]
         session.add(nuevo_producto)
         session.commit()
@@ -260,7 +272,7 @@ def update_producto(producto_id: int,body:dict):
                     showcase.quantity = max(int(product_data["quantity"]), 0)
                 if "photos" in product_data:
                     showcase.photos = product_data["photos"] or []
-
+        insert_tags(producto.tags)
         session.commit()
         session.refresh(producto)
         session.expire(producto, ["variants"])
@@ -282,7 +294,9 @@ def delete_producto(producto_id: int, body: dict):
 @router.get("/etiquetas")
 def get_etiquetas():
     """Endpoint para obtener todas las etiquetas existentes"""
-    return read_db()["etiquetas-existentes"]
+    with Session(engine) as session:
+        etiquetas = session.query(Tag).all()
+        return [etiqueta.name for etiqueta in etiquetas]
 
 @router.get("/listaProductos")
 def get_producto(ids: list[int]):
