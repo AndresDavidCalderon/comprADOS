@@ -10,6 +10,7 @@
   border-radius: 14px;
   background: #fff7db;
   box-shadow: 0 10px 30px rgba(123, 39, 63, 0.08);
+  z-index: 1000;
 }
 
 .tag-dialogue-title {

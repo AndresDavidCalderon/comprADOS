@@ -22,11 +22,19 @@ export default function Detalles() {
     }
 
     const variants = selectedProduct.variants || []
-    const showcaseVariant = selectedProduct.showcase_variant || variants.find((variant) => variant.is_showcase) || variants[0]
+    const showcaseVariant = Number.isInteger(selectedProduct.showcase_variant)
+        ? variants[selectedProduct.showcase_variant] || variants.find((variant) => variant.is_showcase) || variants[0]
+        : variants.find((variant) => variant.is_showcase) || variants[0]
     const selectedVariant = variantSelection?.productId === selectedProduct.id
         ? variants.find((variant) => variant.id === variantSelection.variantId) || showcaseVariant
         : showcaseVariant
-    const displayedProduct = selectedVariant ? { ...selectedProduct, ...selectedVariant } : selectedProduct
+    const displayedProduct = selectedVariant
+        ? {
+            ...selectedProduct,
+            ...selectedVariant,
+            description: selectedVariant.description_override ?? selectedProduct.description,
+        }
+        : selectedProduct
     const selectedCartItem = selectedVariant
         ? { ...selectedProduct, ...selectedVariant, id: selectedVariant.id, product_id: selectedProduct.id, variant_id: selectedVariant.id, name: selectedProduct.name }
         : selectedProduct

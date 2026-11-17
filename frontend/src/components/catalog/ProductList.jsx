@@ -10,7 +10,13 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value)
 
-const getShowcaseVariant = (product) => product.showcase_variant || product.variants?.find((variant) => variant.is_showcase) || product.variants?.[0]
+const getShowcaseVariant = (product) => {
+  const variants = product.variants || []
+  if (Number.isInteger(product.showcase_variant)) {
+    return variants[product.showcase_variant] ?? variants.find((variant) => variant.is_showcase) ?? variants[0]
+  }
+  return variants.find((variant) => variant.is_showcase) || variants[0]
+}
 
 export default function ProductList({ products }) {
   const { addToCart, checkOutEnabled } = useContext(cartContext)

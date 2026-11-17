@@ -47,3 +47,8 @@
 .advert-hide-btn{
     background-color: #f2e1c2;
 }
+
+.advert-delete-btn{
+    background-color: #b4233e;
+    color: #fff;
+}

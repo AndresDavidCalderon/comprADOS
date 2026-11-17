@@ -109,11 +109,6 @@
   font-size: 1.15em;
 }
 
-.image-count{
-  color: #63676c;
-  font-size: 13px;
-}
-
 .create-right-card{
   display: flex;
   flex-direction: column;

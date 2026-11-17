@@ -1,7 +1,6 @@
 import "./AdvertCard.css"
-import square_placeholder from "@/assets/square_placeholder.jpeg"
 
-export default function AdvertCard({ advert,  onEdit, onHide,onShow }) {
+export default function AdvertCard({ advert, onEdit, onHide, onShow, onDelete }) {
     return (
         <div className="advert-card">
             <div>
@@ -27,6 +26,9 @@ export default function AdvertCard({ advert,  onEdit, onHide,onShow }) {
                     </button>
                 )
                 }
+                <button type="button" className="btn btn-primary advert-edit-btn advert-delete-btn" onClick={onDelete}>
+                    Eliminar
+                </button>
             </div>
         </div>
     )

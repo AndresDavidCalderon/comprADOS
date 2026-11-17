@@ -1,5 +1,4 @@
 import { useState,useEffect,useContext } from "react"
-import square_placeholder from "@/assets/square_placeholder.jpeg"
 import "./AdvertsManager.css"
 import CreateAdvert from "./CreateAdvert";
 import AdvertCard from "./AdvertCard";
@@ -23,14 +22,27 @@ export default function AdvertsManager() {
     }, [])
 
 
-    const deleteAdvert = (advertId) => {
-        fetch(`${apiUrl}/productos/${advertId}`, {
-            method: "DELETE"
-        })
-        .then(response => {
-            fetchAdverts()
+    const deleteAdvert = async (advert) => {
+        if (!window.confirm(`¿Eliminar el anuncio "${advert.name}"? Esta acción no se puede deshacer.`)) {
+            return
         }
-        )
+
+        try {
+            const response = await fetch(`${apiUrl}/productos/${advert.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ token: localStorage.getItem("token") })
+            })
+            if (!response.ok) {
+                const error = await response.json()
+                throw new Error(error.detail || "No se pudo eliminar el anuncio.")
+            }
+            fetchAdverts()
+        } catch (error) {
+            alert(error.message || "No se pudo eliminar el anuncio.")
+        }
     }
 
     const startEdit = (advert) => {
@@ -52,9 +64,7 @@ export default function AdvertsManager() {
             },
             body: JSON.stringify(payload)
         })
-        .then(response => {
-            fetchAdverts()
-        })
+        .then(() => fetchAdverts())
     }
 
     const afterPublish = () => {
@@ -80,6 +90,7 @@ export default function AdvertsManager() {
                                     onHide={() => switchShow(advert.id, false)} 
                                     onShow={() => switchShow(advert.id, true)} 
                                     onEdit={() => startEdit(advert)} 
+                                    onDelete={() => deleteAdvert(advert)}
                                 />
                             ))}
                             {VisibleAdverts.length === 0 && <p>No hay anuncios visibles</p>}
@@ -93,6 +104,7 @@ export default function AdvertsManager() {
                                     onHide={() => switchShow(advert.id, false)} 
                                     onShow={() => switchShow(advert.id, true)} 
                                     onEdit={() => startEdit(advert)} 
+                                    onDelete={() => deleteAdvert(advert)}
                                 />
                             ))}
                             {nonVisibleAdverts.length === 0 && <p>No hay anuncios ocultos o sin disponibilidad</p>}

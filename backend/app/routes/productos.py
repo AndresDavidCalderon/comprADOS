@@ -48,7 +48,10 @@ class Product(Base):
 
     def to_dict(self):
         variants = [variant.to_dict(self) for variant in self.variants]
-        showcase_variant = next((variant for variant in variants if variant["is_showcase"]), None)
+        showcase_variant_index = next(
+            (index for index, variant in enumerate(variants) if variant["is_showcase"]),
+            None,
+        )
         return {
             "id": self.id,
             "name": self.name,
@@ -59,10 +62,10 @@ class Product(Base):
             "materials": self.materials or [],
             "is_hidden": self.is_hidden,
             "quantity": sum(variant["quantity"] for variant in variants),
-            "photos": showcase_variant["photos"] if showcase_variant else [],
+            "photos": variants[showcase_variant_index]["photos"] if showcase_variant_index is not None else [],
             "tags": self.tags or [],
             "variants": variants,
-            "showcase_variant": showcase_variant,
+            "showcase_variant": showcase_variant_index,
         }
 
 class Tag(Base):
@@ -77,7 +80,6 @@ class ProductVariant(Base):
     product_id = Column(BigInteger, ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
     variant_type = Column(String, nullable=False, default="Unica")
     quantity = Column(Integer, nullable=False, default=0)
-    quantity_override = Column(Boolean, nullable=False, default=True)
     photos = Column(ARRAY(String), nullable=False, default=list)
     description_override = Column(String, nullable=True)
     price_override = Column(Numeric(12, 2), nullable=True)
@@ -92,12 +94,10 @@ class ProductVariant(Base):
             "product_id": self.product_id,
             "variant_type": self.variant_type,
             "quantity": self.quantity,
-            "quantity_override": self.quantity_override,
             "photos": self.photos or [],
             "description_override": self.description_override,
             "price_override": float(self.price_override) if self.price_override is not None else None,
             "materials_override": self.materials_override,
-            "description": self.description_override if self.description_override is not None else product.description,
             "price": float(self.price_override if self.price_override is not None else product.price),
             "materials": self.materials_override if self.materials_override is not None else (product.materials or []),
             "is_showcase": self.is_showcase,
@@ -117,11 +117,13 @@ def _normalized_variants(variants):
         if quantity < 0:
             raise HTTPException(status_code=400, detail="La cantidad de una variante no puede ser negativa.")
         normalized.append({
-            **variant,
+            "id": variant.get("id"),
             "variant_type": (variant.get("variant_type") or "Unica").strip(),
             "quantity": quantity,
-            "quantity_override": bool(variant.get("quantity_override", True)),
             "photos": variant.get("photos") or [],
+            "description_override": variant.get("description_override"),
+            "price_override": variant.get("price_override"),
+            "materials_override": variant.get("materials_override"),
             "is_showcase": bool(variant.get("is_showcase")) or (not has_showcase and index == 0),
         })
     return normalized
@@ -148,7 +150,6 @@ def _new_variant(data):
     return ProductVariant(
         variant_type=data["variant_type"],
         quantity=data["quantity"],
-        quantity_override=data["quantity_override"],
         photos=data["photos"],
         description_override=data.get("description_override"),
         price_override=data.get("price_override"),
@@ -253,7 +254,6 @@ def update_producto(producto_id: int,body:dict):
                     retained_ids.add(variant.id)
                     variant.variant_type = data["variant_type"]
                     variant.quantity = data["quantity"]
-                    variant.quantity_override = data["quantity_override"]
                     variant.photos = data["photos"]
                     variant.description_override = data.get("description_override")
                     variant.price_override = data.get("price_override")
