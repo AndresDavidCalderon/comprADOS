@@ -22,6 +22,7 @@ export default function Detalles() {
     }
 
     const variants = selectedProduct.variants || []
+    const isColorVariant = selectedProduct.variant_kind === "color"
     const showcaseVariant = Number.isInteger(selectedProduct.showcase_variant)
         ? variants[selectedProduct.showcase_variant] || variants.find((variant) => variant.is_showcase) || variants[0]
         : variants.find((variant) => variant.is_showcase) || variants[0]
@@ -59,11 +60,21 @@ export default function Detalles() {
                                         <button
                                             key={variant.id}
                                             type="button"
-                                            className={`detalles-variant-option ${selectedVariant?.id === variant.id ? "is-selected" : ""}`}
+                                            className={`detalles-variant-option ${isColorVariant ? "is-color" : ""} ${selectedVariant?.id === variant.id ? "is-selected" : ""}`}
                                             aria-pressed={selectedVariant?.id === variant.id}
+                                            aria-label={isColorVariant ? `Color ${variant.variant_type}` : variant.variant_type}
+                                            title={isColorVariant ? `Color ${variant.variant_type}` : variant.variant_type}
                                             onClick={() => setVariantSelection({ productId: selectedProduct.id, variantId: variant.id })}
                                         >
-                                            {variant.variant_type}
+                                            {isColorVariant ? (
+                                                <span
+                                                    className="detalles-color-swatch"
+                                                    style={{ backgroundColor: variant.variant_type }}
+                                                    aria-hidden="true"
+                                                />
+                                            ) : (
+                                                variant.variant_type
+                                            )}
                                         </button>
                                     ))}
                                 </div>
@@ -92,7 +103,7 @@ export default function Detalles() {
                                 </div>
                             </div>
                         )}
-                        {selectedVariant && <p className="detalles-variant-stock">{selectedVariant.variant_type} · {selectedVariant.quantity} disponibles</p>}
+                        {selectedVariant && <p className="detalles-variant-stock">{selectedVariant.quantity} disponibles</p>}
                         <h4>Reseñas</h4>
                         <Reviews productId={selectedProduct.id} />
                     </div>

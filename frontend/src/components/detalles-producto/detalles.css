@@ -82,9 +82,31 @@
     cursor: pointer;
 }
 
+.detalles-variant-option.is-color{
+    width: 38px;
+    height: 38px;
+    min-height: 38px;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.detalles-color-swatch{
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(0 0 0 / 25%);
+    border-radius: 50%;
+}
+
 .detalles-variant-option.is-selected{
     background: var(--pop-violet);
     color: var(--unofficial-beige);
+}
+
+.detalles-variant-option.is-color.is-selected{
+    background: transparent;
+    outline: 2px solid var(--pop-violet);
+    outline-offset: 2px;
 }
 
 .detalles-variant-stock{
