@@ -2,10 +2,11 @@ import { createContext, useState } from 'react'
 
 const cartContext = createContext({
     apiUrl: 'http://localhost:8000',
-    checkOutEnabled: false,
+    checkOutEnabled: true,
+    formEnabled: false,
 })
 
-export function CartProvider({ children, checkOutEnabled = false }) {
+export function CartProvider({ children, checkOutEnabled = true, formEnabled = false }) {
     const [cartItems, setCartItems] = useState([])
     const addToCart = (product) => {
     if (!checkOutEnabled) return
@@ -60,7 +61,7 @@ export function CartProvider({ children, checkOutEnabled = false }) {
             .filter((item) => item.quantityOnCart > 0),
         )
     }
-    return <cartContext.Provider value={{ cartItems, addToCart, incrementQuantity, decrementQuantity, checkOutEnabled }}>{children}</cartContext.Provider>
+    return <cartContext.Provider value={{ cartItems, addToCart, incrementQuantity, decrementQuantity, checkOutEnabled, formEnabled }}>{children}</cartContext.Provider>
 }
 
 export default cartContext;

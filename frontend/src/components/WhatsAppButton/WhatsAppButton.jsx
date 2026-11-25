@@ -1,8 +1,7 @@
 import { useContext } from 'react'
 import DetallesContext from '../../context/DetallesContext'
+import { WHATSAPP_NUMBER } from '../../utils/whatsapp'
 import './WhatsAppButton.css'
-
-const WHATSAPP_NUMBER = '573135909864'
 
 const DEFAULT_MESSAGE = '¡Hola! Me gustaría consultar sobre sus productos de ADOS Me Gusta.'
 

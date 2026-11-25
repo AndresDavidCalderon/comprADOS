@@ -10,6 +10,7 @@ import Checkout from './components/cart/Checkout'
 import NotiManager from './components/pages/administrador-notificaciones/NotiManager'
 import Detalles from './components/detalles-producto/Detalles'
 import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton'
+import { WHATSAPP_NUMBER } from './utils/whatsapp'
 import Welcome from '@/components/pages/welcome/Welcome'
 import cartContext from './context/CartContext.jsx'
 import Collares from './components/collares/Collares'
@@ -24,7 +25,7 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const previousCartAmount = useRef(0)
   const { apiUrl } = useContext(ApiContext)
-  const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity, checkOutEnabled } = useContext(cartContext)
+  const { cartItems, setCartItems, addToCart, incrementQuantity, decrementQuantity, checkOutEnabled, formEnabled } = useContext(cartContext)
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
@@ -160,6 +161,20 @@ function App() {
     setCurrentPage('checkout');
   };
 
+  const continuarPorWhatsApp = () => {
+    const productsMessage = cartItems.map((item) => {
+      const variantLine = item.variant_type ? `  Variante: ${item.variant_type}` : null
+      return [
+        `- Producto: ${item.name}`,
+        variantLine,
+        `  Cantidad: ${item.quantityOnCart}`,
+      ].filter(Boolean).join('\n')
+    }).join('\n')
+    const message = `¡Hola! Quiero realizar este pedido:\n${productsMessage}`
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
   const newCartCount = cartItems.reduce((acc, item) => acc + item.quantityOnCart, 0);
   if (newCartCount > previousCartAmount.current) {
     previousCartAmount.current = newCartCount;
@@ -192,6 +207,8 @@ function App() {
           onIncrement={incrementQuantity}
           onDecrement={decrementQuantity}
           onCheckout={irACheckout}
+          formEnabled={formEnabled}
+          onWhatsApp={continuarPorWhatsApp}
         />
       )}
       <Detalles />

@@ -17,6 +17,8 @@ export default function CartDrawer({
   onIncrement,
   onDecrement,
   onCheckout,
+  formEnabled = true,
+  onWhatsApp,
 }) {
   if (!isOpen) {
     return null
@@ -72,8 +74,13 @@ export default function CartDrawer({
 
         <footer className="cart-footer">
           <p className="cart-total">Total: {formatCurrency(total)}</p>
-          <button type="button" className="checkout-btn" disabled={items.length === 0} onClick={() => onCheckout && onCheckout()}>
-            Continuar
+          <button
+            type="button"
+            className="checkout-btn"
+            disabled={items.length === 0}
+            onClick={() => formEnabled ? onCheckout?.() : onWhatsApp?.()}
+          >
+            {formEnabled ? 'Continuar' : 'Continuar en WhatsApp'}
           </button>
         </footer>
       </aside>
