@@ -53,7 +53,9 @@ export default function CartDrawer({
                 <img src={getItemImage(item)} alt={item.name} className="cart-item-image" />
                 <div className="cart-item-main">
                   <h3>{item.name}</h3>
-                  {item.variant_type && <p className="cart-item-variant">{item.variant_type}</p>}
+                  {item.variants?.length > 1 && item.variant_type && (
+                    <p className="cart-item-variant">{item.variant_type}</p>
+                  )}
                   <p className="cart-item-price">{formatCurrency(item.price)}</p>
                 </div>
                 <div className="quantity-controls" aria-label={`Cantidad de ${item.name}`}>

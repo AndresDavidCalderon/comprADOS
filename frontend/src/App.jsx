@@ -163,7 +163,9 @@ function App() {
 
   const continuarPorWhatsApp = () => {
     const productsMessage = cartItems.map((item) => {
-      const variantLine = item.variant_type ? `  Variante: ${item.variant_type}` : null
+      const variantLine = item.variants?.length > 1 && item.variant_type
+        ? `  Variante: ${item.variant_type}`
+        : null
       return [
         `- Producto: ${item.name}`,
         variantLine,
