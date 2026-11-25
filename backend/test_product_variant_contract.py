@@ -58,3 +58,29 @@ def test_variant_contract_ignores_quantity_override():
     assert product_data["showcase_variant"] == 1
     assert all("quantity_override" not in item for item in product_data["variants"])
     assert all("description" not in item for item in product_data["variants"])
+
+
+def test_color_data_is_kept_only_for_color_variants():
+    color_data = {"example": ["arbitrary", "JSON"]}
+    color_variants = _normalized_variants([
+        {"variant_type": "#ff0000", "color_data": color_data},
+        {"variant_type": "#0000ff"},
+    ], "color")
+    named_variants = _normalized_variants([
+        {"variant_type": "Rojo", "color_data": color_data},
+        {"variant_type": "Azul"},
+    ], "name")
+
+    assert color_variants[0]["color_data"] == color_data
+    assert color_variants[1]["color_data"] is None
+    assert all(variant["color_data"] is None for variant in named_variants)
+
+    variant = ProductVariant(
+        variant_type="#ff0000",
+        quantity=1,
+        photos=[],
+        color_data=color_data,
+        is_showcase=True,
+    )
+    serialized = variant.to_dict(SimpleNamespace(price=1200, materials=[]))
+    assert serialized["color_data"] == color_data

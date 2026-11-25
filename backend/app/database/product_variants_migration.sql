@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS product_variants (
     description_override TEXT,
     price_override NUMERIC(12, 2),
     materials_override TEXT[],
+    color_data JSONB,
     is_showcase BOOLEAN NOT NULL DEFAULT FALSE,
     CONSTRAINT product_variants_price_override_nonnegative
         CHECK (price_override IS NULL OR price_override >= 0)
@@ -17,6 +18,9 @@ CREATE TABLE IF NOT EXISTS product_variants (
 
 ALTER TABLE product_variants
     ADD COLUMN IF NOT EXISTS quantity_override BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE product_variants
+    ADD COLUMN IF NOT EXISTS color_data JSONB;
 
 ALTER TABLE products
     ADD COLUMN IF NOT EXISTS variant_kind TEXT;

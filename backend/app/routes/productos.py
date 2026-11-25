@@ -8,6 +8,7 @@ import os
 import re
 from sqlalchemy.orm import Session, relationship, selectinload
 from sqlalchemy import Column, BigInteger, Integer, String, Boolean, ARRAY, ForeignKey, Numeric
+from sqlalchemy.dialects.postgresql import JSONB
 from app.database.db import read_db, save_to_db,Base, engine
 from .auth import verifyToken
 load_dotenv()  # Load environment variables from .env file
@@ -84,6 +85,7 @@ class ProductVariant(Base):
     description_override = Column(String, nullable=True)
     price_override = Column(Numeric(12, 2), nullable=True)
     materials_override = Column(ARRAY(String), nullable=True)
+    color_data = Column(JSONB, nullable=True)
     is_showcase = Column(Boolean, nullable=False, default=False)
     product = relationship("Product", back_populates="variants")
 
@@ -98,13 +100,14 @@ class ProductVariant(Base):
             "description_override": self.description_override,
             "price_override": float(self.price_override) if self.price_override is not None else None,
             "materials_override": self.materials_override,
+            "color_data": self.color_data,
             "price": float(self.price_override if self.price_override is not None else product.price),
             "materials": self.materials_override if self.materials_override is not None else (product.materials or []),
             "is_showcase": self.is_showcase,
         }
 
 
-def _normalized_variants(variants):
+def _normalized_variants(variants, variant_kind=None):
     if not isinstance(variants, list) or not variants:
         raise HTTPException(status_code=400, detail="El producto debe tener al menos una variante.")
     if sum(bool(variant.get("is_showcase")) for variant in variants) > 1:
@@ -124,8 +127,12 @@ def _normalized_variants(variants):
             "description_override": variant.get("description_override"),
             "price_override": variant.get("price_override"),
             "materials_override": variant.get("materials_override"),
+            "color_data": variant.get("color_data"),
             "is_showcase": bool(variant.get("is_showcase")) or (not has_showcase and index == 0),
         })
+    if _normalized_variant_kind(variant_kind, normalized) != "color":
+        for variant in normalized:
+            variant["color_data"] = None
     return normalized
 
 
@@ -154,6 +161,7 @@ def _new_variant(data):
         description_override=data.get("description_override"),
         price_override=data.get("price_override"),
         materials_override=data.get("materials_override"),
+        color_data=data.get("color_data"),
         is_showcase=data["is_showcase"],
     )
 
@@ -198,7 +206,7 @@ def create_producto(body: dict):
             "photos": product_data.get("photos", []),
             "is_showcase": True,
         }]
-    variant_data = _normalized_variants(variant_data)
+    variant_data = _normalized_variants(variant_data, product_data.get("variant_kind"))
     variant_kind = _normalized_variant_kind(product_data.get("variant_kind"), variant_data)
 
     with Session(engine) as session:
@@ -235,7 +243,10 @@ def update_producto(producto_id: int,body:dict):
                 setattr(producto, key, product_data[key])
 
         if "variants" in product_data:
-            variant_data = _normalized_variants(product_data["variants"])
+            variant_data = _normalized_variants(
+                product_data["variants"],
+                product_data.get("variant_kind"),
+            )
             producto.variant_kind = _normalized_variant_kind(product_data.get("variant_kind"), variant_data)
             existing_variants = {variant.id: variant for variant in producto.variants}
             for variant in producto.variants:
@@ -258,6 +269,7 @@ def update_producto(producto_id: int,body:dict):
                     variant.description_override = data.get("description_override")
                     variant.price_override = data.get("price_override")
                     variant.materials_override = data.get("materials_override")
+                    variant.color_data = data.get("color_data")
                 variant.is_showcase = data["is_showcase"]
 
             for variant_id, variant in existing_variants.items():
