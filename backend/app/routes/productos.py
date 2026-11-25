@@ -6,6 +6,10 @@ from cloudinary.utils import cloudinary_url
 from dotenv import load_dotenv
 import os
 import re
+from decimal import Decimal
+import json
+from typing import Any, Literal
+from pydantic import BaseModel, Field, JsonValue, ValidationError, field_validator
 from sqlalchemy.orm import Session, relationship, selectinload
 from sqlalchemy import Column, BigInteger, Integer, String, Boolean, ARRAY, ForeignKey, Numeric
 from sqlalchemy.dialects.postgresql import JSONB
@@ -28,6 +32,61 @@ router = APIRouter(
     prefix="/productos",
     tags=["productos"]
 )
+
+
+class ProductVariantInput(BaseModel):
+    id: int | None = None
+    product_id: int | None = None
+    variant_type: str = Field(default="Unica", min_length=1)
+    quantity: int = Field(default=0, ge=0)
+    photos: list[str] | None = None
+    description_override: str | None = None
+    price_override: Decimal | None = Field(default=None, ge=0, max_digits=12, decimal_places=2)
+    materials_override: list[str] | None = None
+    color_data: JsonValue = None
+    is_showcase: bool = False
+    price: Decimal | None = None
+    materials: list[str] | None = None
+
+    @field_validator("color_data")
+    @classmethod
+    def validate_color_data(cls, value: JsonValue) -> JsonValue:
+        if value is not None:
+            try:
+                json.dumps(value, allow_nan=False)
+            except (TypeError, ValueError) as error:
+                raise ValueError("color_data must contain valid JSON values.") from error
+        return value
+
+
+class ProductInput(BaseModel):
+    name: str = Field(min_length=1)
+    description: str = Field(min_length=1)
+    price: Decimal = Field(gt=0, max_digits=12, decimal_places=2)
+    category: str = Field(min_length=1)
+    variant_kind: Literal["color", "name"] | None = None
+    materials: list[str] | None = Field(default_factory=list)
+    is_hidden: bool = False
+    tags: list[str] = Field(default_factory=list)
+    variants: list[ProductVariantInput] | None = None
+    quantity: int = Field(default=0, ge=0)
+    photos: list[str] | None = None
+
+
+def _validate_product_input(product_data: Any) -> ProductInput:
+    try:
+        return ProductInput.model_validate(product_data)
+    except ValidationError as error:
+        details = [
+            {
+                "loc": ("body", "producto", *item["loc"]),
+                "msg": item["msg"],
+                "type": item["type"],
+            }
+            for item in error.errors(include_input=False, include_context=False)
+        ]
+        raise HTTPException(status_code=422, detail=details) from error
+
 
 class Product(Base):
     __tablename__ = "products"
@@ -197,28 +256,32 @@ def upload_temporary_image(files :list[UploadFile]):
 def create_producto(body: dict):
     if not verifyToken(body.get("token")):
         raise HTTPException(status_code=401, detail="Token inválido o expirado.")
-    product_data = body.get("producto") or {}
-    variant_data = product_data.get("variants")
-    if variant_data is None:
+    product_data = _validate_product_input(body.get("producto"))
+    if product_data.variants is None:
         variant_data = [{
             "variant_type": "Unica",
-            "quantity": product_data.get("quantity", 0),
-            "photos": product_data.get("photos", []),
+            "quantity": product_data.quantity,
+            "photos": product_data.photos or [],
             "is_showcase": True,
         }]
-    variant_data = _normalized_variants(variant_data, product_data.get("variant_kind"))
-    variant_kind = _normalized_variant_kind(product_data.get("variant_kind"), variant_data)
+    else:
+        variant_data = [
+            variant.model_dump(exclude_unset=True)
+            for variant in product_data.variants
+        ]
+    variant_data = _normalized_variants(variant_data, product_data.variant_kind)
+    variant_kind = _normalized_variant_kind(product_data.variant_kind, variant_data)
 
     with Session(engine) as session:
         nuevo_producto = Product(
-            name=product_data["name"],
-            description=product_data["description"],
-            price=product_data["price"],
-            category=product_data["category"],
+            name=product_data.name,
+            description=product_data.description,
+            price=product_data.price,
+            category=product_data.category,
             variant_kind=variant_kind,
-            materials=product_data.get("materials", []),
-            is_hidden=product_data.get("is_hidden", False),
-            tags=product_data.get("tags", []),
+            materials=product_data.materials,
+            is_hidden=product_data.is_hidden,
+            tags=product_data.tags,
         )
         insert_tags(nuevo_producto.tags)
         nuevo_producto.variants = [_new_variant(variant) for variant in variant_data]
